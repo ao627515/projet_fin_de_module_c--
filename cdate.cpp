@@ -18,7 +18,9 @@ CDate::CDate(int day, int month, int year){
     }else if(year == 0 && month != 0 && day != 0){
         time_t t = time(0);
         struct tm *currentTime = localtime(&t);
+
         int currentYear = currentTime->tm_year + 1900;
+
         if(dateIsValid(day, month, currentYear)){
             _day = day;
             _month = month;
@@ -29,8 +31,10 @@ CDate::CDate(int day, int month, int year){
     }else if(year == 0 && month == 0 && day != 0){
         time_t t = time(0);
         struct tm *currentTime = localtime(&t);
+
         int currentYear = currentTime->tm_year + 1900;
         int currentMonth = currentTime->tm_mon + 1;
+
         if(dateIsValid(day, currentMonth, currentYear)){
             _day = day;
             _month = currentMonth;
@@ -41,9 +45,11 @@ CDate::CDate(int day, int month, int year){
     }else if(year == 0 && month == 0 && day == 0){
         time_t t = time(0);
         struct tm *currentTime = localtime(&t);
+
         int currentYear = currentTime->tm_year + 1900;
         int currentMonth = currentTime->tm_mon + 1;
         int currentDay = currentTime->tm_mday;
+
         if(dateIsValid(currentDay, currentMonth, currentYear)){
             _day = currentDay;
             _month = currentMonth;
@@ -53,6 +59,10 @@ CDate::CDate(int day, int month, int year){
         }
     }
 }
+
+CDate::CDate(const CDate &date):_day(date._day), _month(date._month), _year(date._year){}
+
+
 /************************** CONSTRUCTEURS FIN *******************************************/
 
 /************************** METHODE NON STATIC DEBUT*******************************************/

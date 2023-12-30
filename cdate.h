@@ -19,6 +19,7 @@ class CDate
         // Constructeur
         CDate();
         CDate(int day, int month = 0, int year = 0);
+        CDate(const CDate &date);
 
         // Methode non static
         void displayDate();
