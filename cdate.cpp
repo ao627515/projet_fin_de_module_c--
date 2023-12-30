@@ -242,4 +242,17 @@ bool CDate::operator>=(const CDate& date) const{
 }
 
 
+CDate& CDate::operator=(const CDate& date) {
+    // Vérifie si on n'essaie pas de s'affecter à soi-même
+    if (this != &date) {
+        // Copie les membres de l'autre objet
+        _day = date._day;
+        _month = date._month;
+        _year = date._year;
+    }
+    // Retourne l'objet modifié par référence
+    return *this;
+}
+
+
 /************************** Surcharge D'OPERATEUR FIN *******************************************/

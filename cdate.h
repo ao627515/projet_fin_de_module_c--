@@ -44,6 +44,7 @@ class CDate
         bool operator>(const CDate& date) const;
         bool operator<=(const CDate& date) const;
         bool operator>=(const CDate& date) const;
+        CDate& operator=(const  CDate& date);
 
 };
 
