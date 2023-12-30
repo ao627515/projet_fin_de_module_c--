@@ -34,9 +34,15 @@ int main()
     CDate d9(26, 11, 2003);
     cout << d9 << endl; // -> 26/11/2003 v
 
-    CDate d10;
-    cout << "Entrer une date : ";
-    cin >> d10;
-    cout << d10 << endl;
+    // CDate d10;
+    // cout << "Entrer une date : ";
+    // cin >> d10;
+    // cout << d10 << endl;
+
+    cout << (d1 == d7) << endl;
+    cout << (d1 == d2) << endl;
+
+
+
     return 0;
 }

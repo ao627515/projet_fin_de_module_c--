@@ -193,5 +193,30 @@ std::istream& operator>>(std::istream& is, CDate& date){
     return is;
 }
 
+bool CDate::operator==(const CDate& date) const{
+    return _year == date._year && _month == date._month && _day == date._day;
+}
+
+// bool res = false;
+
+// if(_year > date._year){
+//     res =
+// }else if(_year > date._year){
+
+// }else{
+//     if(_month > date._month){
+
+//     }else if(_month > date._month){
+
+//     }else{
+//         if(_day > date._day){
+
+//         }else if(_day > date._day){
+
+//         }else{
+
+//         }
+//     }
+// }
 
 /************************** Surcharge D'OPERATEUR FIN *******************************************/
