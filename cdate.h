@@ -1,6 +1,7 @@
 #ifndef CDATE_H
 #define CDATE_H
 
+#include "iostream"
 
 class CDate
 {
@@ -27,11 +28,16 @@ class CDate
 
         // Methode normal
         void displayDate();
+
         // Methode static
         static const bool yearIsValid(int year);
         static const bool isLeapYear(int year);
         static const bool monthIsValid(int month);
         static const bool dateIsValid(int day, int month, int year);
+
+        // Surcharge des operateur
+        friend std::ostream& operator<<(std::ostream& os, const CDate& date);
+
 
 };
 

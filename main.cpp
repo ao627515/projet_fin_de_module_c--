@@ -28,9 +28,11 @@ int main()
     d7.displayDate();  // -> 1/1/1970 v
 
     CDate d8(12, 11, 2012);
-    cout << d8.lireJour() << endl; //renvoie 12
-    cout << d8.lireMois() << endl; //renvoie 11
-    cout << d8.lireAnnee() << endl; //renvoie 2012
+    cout << d8.lireJour() << endl; //renvoie 12 v
+    cout << d8.lireMois() << endl; //renvoie 11 v
+    cout << d8.lireAnnee() << endl; //renvoie 2012 v
 
+    CDate d9(26, 11, 2003);
+    cout << d9 << endl; // -> 26/11/2003 v
     return 0;
 }

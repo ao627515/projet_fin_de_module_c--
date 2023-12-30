@@ -1,6 +1,6 @@
 #include "cdate.h"
 #include "time.h"
-#include "iostream"
+
 
 
 /************************** CONSTRUCTEURS DEBUT *******************************************/
@@ -136,3 +136,10 @@ const bool CDate::dateIsValid(int day, int month, int year){
 }
 
 /************************** METHODE STATIC FIN *******************************************/
+
+/************************** Surcharge D'OPERATEUR DEBUT*******************************************/
+std::ostream& operator<<(std::ostream& os, const CDate& date){
+    os  << date._day << '/' << date._month << '/' << date._year;
+    return os;
+}
+/************************** Surcharge D'OPERATEUR FIN *******************************************/
