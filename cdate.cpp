@@ -197,6 +197,10 @@ bool CDate::operator==(const CDate& date) const{
     return _year == date._year && _month == date._month && _day == date._day;
 }
 
+bool CDate::operator!=(const CDate& date) const{
+    return _year != date._year || _month != date._month || _day != date._day;
+}
+
 // bool res = false;
 
 // if(_year > date._year){
