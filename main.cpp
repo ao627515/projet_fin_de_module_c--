@@ -1,7 +1,8 @@
 // #include <iostream>
 #include "cdate.h"
+#include "iostream"
 
-// using namespace std;
+using namespace std;
 
 int main()
 {
@@ -21,10 +22,15 @@ int main()
     d5.displayDate(); // -> 30/12/2023 v
 
     CDate d6(d2);
-    d6.displayDate();
+    d6.displayDate(); // -> 14/7/2003 v
 
     CDate d7 = d1;
-    d7.displayDate();
+    d7.displayDate();  // -> 1/1/1970 v
+
+    CDate d8(12, 11, 2012);
+    cout << d8.lireJour() << endl; //renvoie 12
+    cout << d8.lireMois() << endl; //renvoie 11
+    cout << d8.lireAnnee() << endl; //renvoie 2012
 
     return 0;
 }

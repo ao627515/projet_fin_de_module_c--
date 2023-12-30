@@ -62,10 +62,9 @@ CDate::CDate(int day, int month, int year){
 
 CDate::CDate(const CDate &date):_day(date._day), _month(date._month), _year(date._year){}
 
-
 /************************** CONSTRUCTEURS FIN *******************************************/
 
-/************************** METHODE NON STATIC DEBUT*******************************************/
+/************************** METHODE NORMAL DEBUT*******************************************/
 
 void CDate::defaultDate(){
     _day = 1;
@@ -77,7 +76,22 @@ void CDate::displayDate(){
     std::cout << _day << '/' << _month << '/' << _year << std::endl;
 }
 
-/************************** METHODE NON STATIC FIN *******************************************/
+/************************** METHODE NORMAL FIN *******************************************/
+
+/************************** METHODE CONSTANT DEBUT*******************************************/
+int CDate::lireJour() const{
+    return _day;
+}
+
+int CDate::lireMois() const{
+    return _month;
+}
+
+int CDate::lireAnnee() const{
+    return _year;
+}
+
+/************************** METHODE CONSTANT FIN *******************************************/
 
 /************************** METHODE STATIC DEBUT *******************************************/
 
