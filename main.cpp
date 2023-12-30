@@ -48,10 +48,17 @@ int main()
     // cout << (d1 < d7) << endl; // false
     // cout << (d1 < d2) << endl; // true
 
-    cout << (d1 > d7) << endl; // false
-    cout << (d1 > d2) << endl; // false
-    cout << (d2 > d1) << endl; // true
+    // cout << (d1 > d7) << endl; // false
+    // cout << (d1 > d2) << endl; // false
+    // cout << (d2 > d1) << endl; // true
 
+    // cout << (d1 >= d7) << endl; // true
+    // cout << (d1 >= d2) << endl; // false
+    // cout << (d2 >= d1) << endl; // true
+
+    cout << (d1 <= d7) << endl; // true
+    cout << (d1 <= d2) << endl; // true
+    cout << (d2 <= d1) << endl; // false
 
 
     return 0;

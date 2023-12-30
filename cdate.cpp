@@ -233,5 +233,13 @@ bool CDate::operator>(const CDate& date) const{
     return _day > date._day;
 }
 
+bool CDate::operator<=(const CDate& date) const{
+    return operator<(date) || operator==(date);
+}
+
+bool CDate::operator>=(const CDate& date) const{
+    return operator>(date) || operator==(date);
+}
+
 
 /************************** Surcharge D'OPERATEUR FIN *******************************************/
