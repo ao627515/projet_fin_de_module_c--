@@ -1,5 +1,7 @@
 #include "cdate.h"
 #include "time.h"
+#include "string"
+#include "sstream"
 
 
 
@@ -142,4 +144,54 @@ std::ostream& operator<<(std::ostream& os, const CDate& date){
     os  << date._day << '/' << date._month << '/' << date._year;
     return os;
 }
+
+std::istream& operator>>(std::istream& is, CDate& date){
+    std::string dateString;
+    int d = 0, m = 0, y = 0;
+    char sep = '\0';
+
+    //  Lit la date entré et la stock dans dateString
+    if(std::getline (is, dateString)){
+
+        // Crée une variable de type istringstream nommé iss
+        // Elle sera utilisé pour extraire le jours, mois, année et le séparateur
+        std::istringstream iss(dateString);
+
+        // On essaie d'extraire a la suite le jours, mois et année contenu dans iss
+        /*
+         * On extrait d'abord le jours et on l'affecte a d tout en verifiant si l'opération a reussie
+         *
+         * Ensuite on extrait le séparateur et l'affecte a sep
+         * Dans le cas ou le sépararteur est un caractère d'espacement >> le saute
+         * Donc on utilise iss.get() pour lire a le prochain caratère quelquel soit
+         *
+         * Enfin si on extrait le separateur on continue avec le mois puis extrait le dernier separateur, puis l'année
+         *
+         * Si la date ne corespond pas au format : jj|sep|mm|sep|aaaa, la date par defaut est pris 1/1/1970
+         *
+         */
+
+        if(iss >> d){
+            if( iss.get(sep)){
+                iss >> m;
+
+                if( iss.get(sep)){
+                    iss >> y;
+                }
+            }
+        }
+    }
+
+    if(CDate::dateIsValid(d, m, y)){
+        date._day = d;
+        date._month = m;
+        date._year = y;
+    }else{
+        date.defaultDate();
+    }
+
+    return is;
+}
+
+
 /************************** Surcharge D'OPERATEUR FIN *******************************************/

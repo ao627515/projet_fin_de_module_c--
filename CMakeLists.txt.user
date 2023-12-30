@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 12.0.1, 2023-12-29T19:13:50. -->
+<!-- Written by QtCreator 12.0.1, 2023-12-30T11:21:22. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -395,10 +395,11 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">projet_fin_de_module</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.projet_fin_de_module</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">projet_fin_de_module</value>
-    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseTerminal">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/cours_2023_2024/C++/Projet/build-projet_fin_de_module-Desktop_Qt_6_6_1_MinGW_64_bit-Debug</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>

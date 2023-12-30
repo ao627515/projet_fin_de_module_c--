@@ -37,7 +37,7 @@ class CDate
 
         // Surcharge des operateur
         friend std::ostream& operator<<(std::ostream& os, const CDate& date);
-
+        friend std::istream& operator>>(std::istream& is, CDate& date);
 
 };
 
