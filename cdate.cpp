@@ -201,26 +201,37 @@ bool CDate::operator!=(const CDate& date) const{
     return _year != date._year || _month != date._month || _day != date._day;
 }
 
-// bool res = false;
+bool CDate::operator<(const CDate& date) const {
+    if (_year < date._year) {
+        return true;
+    } else if (_year > date._year) {
+        return false;
+    }
 
-// if(_year > date._year){
-//     res =
-// }else if(_year > date._year){
+    if (_month < date._month) {
+        return true;
+    } else if (_month > date._month) {
+        return false;
+    }
 
-// }else{
-//     if(_month > date._month){
+    return _day < date._day;
+}
 
-//     }else if(_month > date._month){
+bool CDate::operator>(const CDate& date) const{
+    if (_year < date._year) {
+        return false;
+    } else if (_year > date._year) {
+        return true;
+    }
 
-//     }else{
-//         if(_day > date._day){
+    if (_month < date._month) {
+        return false;
+    } else if (_month > date._month) {
+        return false;
+    }
 
-//         }else if(_day > date._day){
+    return _day > date._day;
+}
 
-//         }else{
-
-//         }
-//     }
-// }
 
 /************************** Surcharge D'OPERATEUR FIN *******************************************/

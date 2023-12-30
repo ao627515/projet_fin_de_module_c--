@@ -39,11 +39,18 @@ int main()
     // cin >> d10;
     // cout << d10 << endl;
 
-    cout << (d1 == d7) << endl; // true
-    cout << (d1 == d2) << endl; // false
+    // cout << (d1 == d7) << endl; // true
+    // cout << (d1 == d2) << endl; // false
 
-    cout << (d1 != d7) << endl; // false
-    cout << (d1 != d2) << endl; // true
+    // cout << (d1 != d7) << endl; // false
+    // cout << (d1 != d2) << endl; // true
+
+    // cout << (d1 < d7) << endl; // false
+    // cout << (d1 < d2) << endl; // true
+
+    cout << (d1 > d7) << endl; // false
+    cout << (d1 > d2) << endl; // false
+    cout << (d2 > d1) << endl; // true
 
 
 
