@@ -268,6 +268,33 @@ std::string CDate::formater(std::string& str, FORMAT format) const {
     return str;
 }
 
+std::string CDate::trouverNomJour(std::string& str, FORMAT format) const {
+
+    struct tm timeinfo = {};
+    timeinfo.tm_mday = _day;
+    timeinfo.tm_mon = _month - 1;
+    timeinfo.tm_year = _year - 1900;
+
+    time_t timeInSeconds = mktime(&timeinfo);
+
+    struct tm* date = localtime(&timeInSeconds);
+
+    switch (format) {
+    case MINIMAL:
+        str = "Erreur";
+        break;
+    case COMPLET:
+        str = _DAYS[date->tm_wday];
+        break;
+    case ABREGE:
+        str = _DAYS[date->tm_wday].substr(0, 3);
+        break;
+    default:
+        break;
+    }
+
+    return str;
+}
 
 /************************** METHODE CONSTANT FIN *******************************************/
 

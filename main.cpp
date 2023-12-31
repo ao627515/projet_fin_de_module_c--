@@ -119,8 +119,15 @@ int main()
     // cout << s << endl;
     // cout << d.formater(s, CDate ::ABREGE) << endl; //renvoie et place dans s, Lun 12 Nov 2012
     // cout << s << endl;
-    cout << d.formater(s, CDate ::COMPLET) << endl;//renvoie et place dans s,Lundi 12 Novembre 2012
-    cout << s << endl;
+    // cout << d.formater(s, CDate ::COMPLET) << endl;//renvoie et place dans s,Lundi 12 Novembre 2012
+    // cout << s << endl;
+
+    cout << d.trouverNomJour(j, CDate ::MINIMAL) << endl; //renvoie et place dans j, Erreur
+    cout << j << endl;
+    cout << d.trouverNomJour(j, CDate ::ABREGE) << endl; //renvoie et place dans j,Lun
+    cout << j << endl;
+    cout << d.trouverNomJour(j, CDate ::COMPLET) << endl; //renvoie et place dans j, Lundi
+    cout << j << endl;
 
     return 0;
 }
