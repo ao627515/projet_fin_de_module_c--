@@ -1,6 +1,5 @@
 #include "cdate.h"
 #include "time.h"
-#include "string"
 #include "sstream"
 
 
@@ -340,6 +339,33 @@ CDate& CDate::operator=(const CDate& date) {
     return *this;
 }
 
+CDate& CDate::operator=(const std::string date){
+    int d = 0, m = 0, y = 0;
+    char sep = '\0';
+
+    std::istringstream iss(date);
+
+    if(iss >> d){
+        if( iss.get(sep)){
+            iss >> m;
+
+            if( iss.get(sep)){
+                iss >> y;
+            }
+        }
+    }
+
+    if(CDate::dateIsValid(d, m, y)){
+        _day = d;
+        _month = m;
+        _year = y;
+    }else{
+        defaultDate();
+    }
+
+    return *this;
+}
+
 CDate CDate::operator+(const int days) const{
     CDate result = *this;
 
@@ -358,6 +384,23 @@ CDate CDate::operator-(const int days) const{
     result.normalize();
 
     return result;
+}
+
+int  CDate::operator-(const CDate& date) const{
+    struct tm thisDate = {};
+    thisDate.tm_mday = _day;
+    thisDate.tm_mon = _month - 1;
+    thisDate.tm_year = _year - 1900;
+
+    struct tm otherDate = {};
+    otherDate.tm_mday = date._day;
+    otherDate.tm_mon = date._month - 1;
+    otherDate.tm_year = date._year - 1900;
+
+    double diffDayInSeconds = difftime(mktime(&thisDate), mktime(&otherDate));
+
+
+    return static_cast<int>(diffDayInSeconds / (60 * 60 * 24));
 }
 
 CDate& CDate::operator+=(const int days){
@@ -391,5 +434,6 @@ CDate CDate::operator--(int){
     --(*this);
     return tmp;
 }
+
 
 /************************** Surcharge D'OPERATEUR FIN *******************************************/

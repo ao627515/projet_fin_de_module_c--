@@ -2,7 +2,7 @@
 #define CDATE_H
 
 #include "iostream"
-
+#include "string"
 class CDate
 {
     private:
@@ -49,8 +49,10 @@ class CDate
         bool operator<=(const CDate& date) const;
         bool operator>=(const CDate& date) const;
         CDate& operator=(const  CDate& date);
+        CDate& operator=(const  std::string date);
         CDate operator+(const int days) const;
         CDate operator-(const int days) const;
+        int  operator-(const CDate& date) const;
         CDate& operator+=(const int days);
         CDate& operator-=(const int days);
         CDate& operator++();

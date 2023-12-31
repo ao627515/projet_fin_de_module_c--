@@ -81,17 +81,24 @@ int main()
     // d2 -= 13;
     // cout << d2 << endl;
 
-    cout << d7 << endl;
-    ++d7;
-    cout << d7 << endl;
-    --d7;
-    cout << d7 << endl;
-    d2 = d7++;
-    cout << d2 << endl;
-    cout << d7 << endl;
-    d2 = d7--;
-    cout << d2 << endl;
-    cout << d7 << endl;
+    // cout << d7 << endl;
+    // ++d7;
+    // cout << d7 << endl;
+    // --d7;
+    // cout << d7 << endl;
+    // d2 = d7++;
+    // cout << d2 << endl;
+    // cout << d7 << endl;
+    // d2 = d7--;
+    // cout << d2 << endl;
+    // cout << d7 << endl;
+
+    // d2 = "30/1/2023";
+    // d1 = "1/1/2023";
+    // cout << d2 << endl;
+    // cout << d1 << endl;
+    // int a = d2 - d1;
+    // cout << a << endl;
 
     return 0;
 }
