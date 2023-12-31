@@ -79,7 +79,7 @@ void CDate::displayDate(){
 }
 
 void CDate::normalize() {
-    while (!CDate::dateIsValid(_day, _month, _year)) {
+    if (!CDate::dateIsValid(_day, _month, _year)) {
         int daysInMonth = CDate::daysInMonth(_month, _year);
 
         // Si _day est négatif
@@ -107,6 +107,8 @@ void CDate::normalize() {
 
             daysInMonth = CDate::daysInMonth(_month, _year);
         }
+
+        if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
     }
 }
 
@@ -124,6 +126,22 @@ void CDate::addDays(int days) {
     _day = newTimeinfo->tm_mday;
     _month = newTimeinfo->tm_mon + 1; // Les mois commencent à 0
     _year = newTimeinfo->tm_year + 1900; // Année depuis 1900
+}
+
+void CDate::subtractDays(int days) {
+    struct tm timeinfo = {};
+    timeinfo.tm_mday = _day;
+    timeinfo.tm_mon = _month - 1;
+    timeinfo.tm_year = _year - 1900;
+
+    // Soustrait le nombre de jours
+    time_t timeInSeconds = mktime(&timeinfo) - days * 24 * 60 * 60;
+
+    // Met à jour la date
+    struct tm* newTimeinfo = localtime(&timeInSeconds);
+    _day = newTimeinfo->tm_mday;
+    _month = newTimeinfo->tm_mon + 1;
+    _year = newTimeinfo->tm_year + 1900;
 }
 
 /************************** METHODE NORMAL FIN *******************************************/
@@ -326,6 +344,16 @@ CDate CDate::operator+(const int days) const{
     CDate result = *this;
 
     result._day += days;
+
+    result.normalize();
+
+    return result;
+}
+
+CDate CDate::operator-(const int days) const{
+    CDate result = *this;
+
+    result._day -= days;
 
     result.normalize();
 

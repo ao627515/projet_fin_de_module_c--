@@ -30,6 +30,7 @@ class CDate
         // Methode normal
         void displayDate();
         void addDays(int days);
+        void subtractDays(int days);
 
         // Methode static
         static const bool yearIsValid(int year);
@@ -49,7 +50,9 @@ class CDate
         bool operator>=(const CDate& date) const;
         CDate& operator=(const  CDate& date);
         CDate operator+(const int days) const;
-        CDate operator-(const CDate& date) const;
+        CDate operator-(const int days) const;
+        CDate& operator+=(const int days) const;
+        CDate& operator-=(const int days) const;
 };
 
 #endif // CDATE_H

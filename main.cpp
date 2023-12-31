@@ -65,12 +65,17 @@ int main()
     // d2 = d1;
     // cout << d3 << endl;
 
-    cout << d1 << endl;
-    d1 = d1 + 1000;
-    cout << d1 << endl;
+    // cout << d1 << endl;
+    // d1 = d1 + 1000;
+    // cout << d1 << endl;
 
-    cout << d7 << endl;
-    d7.addDays(1000);
-    cout << d7 << endl;
+    // cout << d7 << endl;
+    // d7.addDays(1000);
+    // cout << d7 << endl;
+
+    cout << d2 << endl;
+    d2 = d2 - 360;
+    cout << d2 << endl;
+
     return 0;
 }
