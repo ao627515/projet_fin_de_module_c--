@@ -260,6 +260,7 @@ std::string CDate::formater(std::string& str, FORMAT format) const {
         oss << _DAYS[date->tm_wday].substr(0, 3) << ' ' << _day << ' ' << _MONTHS[date->tm_mon].substr(0, 3) << ' ' << _year;
         break;
     default:
+        oss << "Erreur";
         break;
     }
 
@@ -290,10 +291,41 @@ std::string CDate::trouverNomJour(std::string& str, FORMAT format) const {
         str = _DAYS[date->tm_wday].substr(0, 3);
         break;
     default:
+        str = "Erreur";
         break;
     }
 
     return str;
+}
+
+std::string CDate::trouverNomMois(std::string& str, FORMAT format) const {
+
+    struct tm timeinfo = {};
+    timeinfo.tm_mday = _day;
+    timeinfo.tm_mon = _month - 1;
+    timeinfo.tm_year = _year - 1900;
+
+    time_t timeInSeconds = mktime(&timeinfo);
+
+    struct tm* date = localtime(&timeInSeconds);
+    std::ostringstream oss;
+
+    switch (format) {
+    case MINIMAL:
+        oss << _month;
+        break;
+    case COMPLET:
+        oss << _MONTHS[date->tm_mon];
+        break;
+    case ABREGE:
+        oss << _MONTHS[date->tm_mon].substr(0, 3);
+        break;
+    default:
+        oss << "Erreur";
+        break;
+    }
+
+    return str = oss.str();
 }
 
 /************************** METHODE CONSTANT FIN *******************************************/

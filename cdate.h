@@ -37,6 +37,7 @@ class CDate
         CDate ajouterPeriode(int nb, const TYPE_PERIODE periode) const;
         std::string formater(std::string& str, FORMAT format) const;
         std::string trouverNomJour(std::string& str, FORMAT format) const;
+        std::string trouverNomMois(std::string& str, FORMAT format) const;
 
         // Methode normal
         void displayDate();

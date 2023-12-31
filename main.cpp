@@ -5,10 +5,10 @@ using namespace std;
 
 int main()
 {
-    CDate d1;
+    // CDate d1;
     // d1.displayDate(); // -> 1/1/1970 v
 
-    CDate d2(14,7,2003);
+    // CDate d2(14,7,2003);
     // d2.displayDate(); // -> 14/7/2003 v
 
     // CDate d3(14,7) ;
@@ -23,7 +23,7 @@ int main()
     // CDate d6(d2);
     // d6.displayDate(); // -> 14/7/2003 v
 
-    CDate d7 = d1;
+    // CDate d7 = d1;
     // d7.displayDate();  // -> 1/1/1970 v
 
     // CDate d8(12, 11, 2012);
@@ -113,8 +113,8 @@ int main()
     // cout << d.ajouterPeriode(-3, CDate ::ANNEE) << endl; // renvoie la date 28/2/1997
     // cout << d.ajouterPeriode(3, CDate ::ANNEE) << endl; // renvoie la date 28/2/2003
 
-    CDate d(12, 11, 2012);
-    string s, j, m;
+    // CDate d(12, 11, 2012);
+    // string s, j, m;
     // cout << d.formater(s, CDate ::MINIMAL) << endl; //renvoie et place dans s, 12/11/2012
     // cout << s << endl;
     // cout << d.formater(s, CDate ::ABREGE) << endl; //renvoie et place dans s, Lun 12 Nov 2012
@@ -122,12 +122,20 @@ int main()
     // cout << d.formater(s, CDate ::COMPLET) << endl;//renvoie et place dans s,Lundi 12 Novembre 2012
     // cout << s << endl;
 
-    cout << d.trouverNomJour(j, CDate ::MINIMAL) << endl; //renvoie et place dans j, Erreur
-    cout << j << endl;
-    cout << d.trouverNomJour(j, CDate ::ABREGE) << endl; //renvoie et place dans j,Lun
-    cout << j << endl;
-    cout << d.trouverNomJour(j, CDate ::COMPLET) << endl; //renvoie et place dans j, Lundi
-    cout << j << endl;
+    // cout << d.trouverNomJour(j, CDate ::MINIMAL) << endl; //renvoie et place dans j, Erreur
+    // cout << j << endl;
+    // cout << d.trouverNomJour(j, CDate ::ABREGE) << endl; //renvoie et place dans j,Lun
+    // cout << j << endl;
+    // cout << d.trouverNomJour(j, CDate ::COMPLET) << endl; //renvoie et place dans j, Lundi
+    // cout << j << endl;
+
+    // cout << d.trouverNomMois(m, CDate ::MINIMAL) << endl; //renvoie et place dans m, 11
+    // cout << m << endl;
+    // cout << d.trouverNomMois(m, CDate :: ABREGE) << endl; //renvoie et place dans m, Nov
+    // cout << m << endl;
+    // cout <<  d.trouverNomMois(m, CDate :: COMPLET) << endl; //renvoie et place dans m, Novembre
+    // cout << m << endl;
+
 
     return 0;
 }
