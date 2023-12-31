@@ -17,7 +17,7 @@ class CDate
         void normalize();
 
     public:
-        enum TYPE_PERIODE { JOUR, MOIS, SEMAINE, ANNEE };
+        enum TYPE_PERIODE { JOUR, SEMAINE, MOIS, ANNEE };
 
         // Constructeur
         CDate();
@@ -29,11 +29,15 @@ class CDate
         int lireJour() const;
         int lireMois() const;
         int lireAnnee() const;
+        CDate ajouterPeriode(int nb, const TYPE_PERIODE periode) const;
+
 
         // Methode normal
         void displayDate();
         void addDays(int days);
         void subtractDays(int days);
+        void addMonth(int nb);
+        void addYear(int nb);
 
         // Methode static
         static const bool yearIsValid(int year);

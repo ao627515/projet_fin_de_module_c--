@@ -100,5 +100,18 @@ int main()
     // int a = d2 - d1;
     // cout << a << endl;
 
+    CDate d(12, 11, 2012);
+    cout << d.ajouterPeriode(10, CDate ::JOUR) << endl; // renvoie la date 22/11/2012
+    cout << d.ajouterPeriode(2, CDate ::SEMAINE) << endl; // //renvoie la date 26/11/2012
+    cout << d.ajouterPeriode(10, CDate ::MOIS) << endl; // renvoie la date 12/9/2013
+    cout << d.ajouterPeriode(-10, CDate ::ANNEE) << endl; // //renvoie la date 12/11/2002
+    cout << d << endl;
+    // CDate d(31, 5, 2012);
+    // cout << d.ajouterPeriode(1, CDate ::MOIS) << endl; //renvoie la date 30/6/2012
+
+    // CDate d(29, 2, 2000);
+    // cout << d.ajouterPeriode(-3, CDate ::ANNEE) << endl; // renvoie la date 28/2/1997
+    // cout << d.ajouterPeriode(3, CDate ::ANNEE) << endl; // renvoie la date 28/2/2003
+
     return 0;
 }

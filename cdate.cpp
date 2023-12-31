@@ -64,7 +64,28 @@ CDate::CDate(int day, int month, int year){
 CDate::CDate(const CDate &date):_day(date._day), _month(date._month), _year(date._year){}
 
 CDate::CDate(const std::string date){
+    int d = 0, m = 0, y = 0;
+    char sep = '\0';
 
+    std::istringstream iss(date);
+
+    if(iss >> d){
+        if( iss.get(sep)){
+            iss >> m;
+
+            if( iss.get(sep)){
+                iss >> y;
+            }
+        }
+    }
+
+    if(CDate::dateIsValid(d, m, y)){
+        _day = d;
+        _month = m;
+        _year = y;
+    }else{
+        defaultDate();
+    }
 }
 /************************** CONSTRUCTEURS FIN *******************************************/
 
@@ -79,6 +100,45 @@ void CDate::defaultDate(){
 void CDate::displayDate(){
     std::cout << _day << '/' << _month << '/' << _year << std::endl;
 }
+
+// void CDate::normalize() {
+//     if (!CDate::dateIsValid(_day, _month, _year)) {
+//         int daysInMonth = CDate::daysInMonth(_month, _year);
+
+//         // Si _day est négatif
+//         while (_day <= 0) {
+//             _month--;
+
+//             if (_month < 1) {
+//                 _month = 12;
+//                 _year--;
+//             }
+
+//             daysInMonth = CDate::daysInMonth(_month, _year);
+//             _day += daysInMonth;
+//         }
+
+//         // Si _day est supérieur au nombre de jours dans le mois
+//         while (_day > daysInMonth) {
+
+//             if (_month == 2 && _day == 29 && !CDate::isLeapYear(_year)) {
+//                 --_day;
+//             }else{
+//                 _day -= daysInMonth;
+//                 _month++;
+//             }
+
+//             if (_month > 12) {
+//                 _month = 1;
+//                 _year++;
+//             }
+
+//             daysInMonth = CDate::daysInMonth(_month, _year);
+//         }
+
+//         if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
+//     }
+// }
 
 void CDate::normalize() {
     if (!CDate::dateIsValid(_day, _month, _year)) {
@@ -99,8 +159,16 @@ void CDate::normalize() {
 
         // Si _day est supérieur au nombre de jours dans le mois
         while (_day > daysInMonth) {
-            _day -= daysInMonth;
-            _month++;
+            int m = _month - 1;
+            if(m < 0) m = 12;
+            if (_month == 2 && _day == 29 && !CDate::isLeapYear(_year)) {
+                --_day;
+            }else if(_day == CDate::daysInMonth(m, _year)){
+                _day = CDate::daysInMonth(_month, _year);
+            } else{
+                _day -= daysInMonth;
+                _month++;
+            }
 
             if (_month > 12) {
                 _month = 1;
@@ -146,6 +214,26 @@ void CDate::subtractDays(int days) {
     _year = newTimeinfo->tm_year + 1900;
 }
 
+void CDate::addMonth(int nb) {
+    _month += nb;
+
+    while (_month > 12) {
+        _month -= 12;
+        ++_year;
+    }
+
+    while (_month < 1) {
+        _month += 12;
+        --_year;
+        normalize();
+    }
+}
+
+
+void CDate::addYear(int nb){
+    _year += nb;
+    normalize();
+}
 /************************** METHODE NORMAL FIN *******************************************/
 
 /************************** METHODE CONSTANT DEBUT*******************************************/
@@ -161,6 +249,29 @@ int CDate::lireAnnee() const{
     return _year;
 }
 
+CDate CDate::ajouterPeriode(int nb, const TYPE_PERIODE periode) const{
+    CDate newDate = *this;
+    if(nb != 0){
+        switch(periode){
+        case CDate::JOUR:
+            newDate._day += nb;
+            break;
+        case CDate::SEMAINE:
+            newDate._day += (nb * 7);
+            break;
+        case CDate::MOIS:
+            newDate.addMonth(nb);
+            break;
+        case CDate::ANNEE:
+            newDate.addYear(nb);
+            break;
+        }
+
+        newDate.normalize();
+    }
+
+    return newDate;
+}
 /************************** METHODE CONSTANT FIN *******************************************/
 
 /************************** METHODE STATIC DEBUT *******************************************/
