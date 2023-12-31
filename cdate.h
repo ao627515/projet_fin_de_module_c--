@@ -17,10 +17,13 @@ class CDate
         void normalize();
 
     public:
+        enum TYPE_PERIODE { JOUR, MOIS, SEMAINE, ANNEE };
+
         // Constructeur
         CDate();
         CDate(int day, int month = 0, int year = 0);
         CDate(const CDate &date);
+        CDate(const std::string date);
 
         // Methode constante
         int lireJour() const;

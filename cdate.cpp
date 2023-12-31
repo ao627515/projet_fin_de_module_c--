@@ -63,6 +63,9 @@ CDate::CDate(int day, int month, int year){
 
 CDate::CDate(const CDate &date):_day(date._day), _month(date._month), _year(date._year){}
 
+CDate::CDate(const std::string date){
+
+}
 /************************** CONSTRUCTEURS FIN *******************************************/
 
 /************************** METHODE NORMAL DEBUT*******************************************/
