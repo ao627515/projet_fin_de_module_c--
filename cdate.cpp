@@ -78,6 +78,54 @@ void CDate::displayDate(){
     std::cout << _day << '/' << _month << '/' << _year << std::endl;
 }
 
+void CDate::normalize() {
+    while (!CDate::dateIsValid(_day, _month, _year)) {
+        int daysInMonth = CDate::daysInMonth(_month, _year);
+
+        // Si _day est négatif
+        while (_day <= 0) {
+            _month--;
+
+            if (_month < 1) {
+                _month = 12;
+                _year--;
+            }
+
+            daysInMonth = CDate::daysInMonth(_month, _year);
+            _day += daysInMonth;
+        }
+
+        // Si _day est supérieur au nombre de jours dans le mois
+        while (_day > daysInMonth) {
+            _day -= daysInMonth;
+            _month++;
+
+            if (_month > 12) {
+                _month = 1;
+                _year++;
+            }
+
+            daysInMonth = CDate::daysInMonth(_month, _year);
+        }
+    }
+}
+
+void CDate::addDays(int days) {
+    struct tm timeinfo = {};
+    timeinfo.tm_mday = _day;
+    timeinfo.tm_mon = _month - 1; // Les mois commencent à 0
+    timeinfo.tm_year = _year - 1900; // Année depuis 1900
+
+    // Ajoute le nombre de jours
+    time_t timeInSeconds = mktime(&timeinfo) + (days * 24 * 60 * 60);
+
+    // Met à jour la date
+    struct tm* newTimeinfo = localtime(&timeInSeconds);
+    _day = newTimeinfo->tm_mday;
+    _month = newTimeinfo->tm_mon + 1; // Les mois commencent à 0
+    _year = newTimeinfo->tm_year + 1900; // Année depuis 1900
+}
+
 /************************** METHODE NORMAL FIN *******************************************/
 
 /************************** METHODE CONSTANT DEBUT*******************************************/
@@ -116,10 +164,8 @@ const bool CDate::monthIsValid(int month){
 
 const bool CDate::dateIsValid(int day, int month, int year){
 
-    bool response = true;
-
     // verifier si le mois et l'année sont valide
-    if(!monthIsValid(month) ||  !yearIsValid(year)) response = false;
+    if(!monthIsValid(month) ||  !yearIsValid(year)) return false;
 
     int daysInMonth = 31;
 
@@ -132,11 +178,33 @@ const bool CDate::dateIsValid(int day, int month, int year){
     }
 
     // si le jour n'est compris entre 1 et le nombre de jours maximal du mois passé en parametre
-    if(day < 1 || day > daysInMonth) response = false;
-
-    return response;
+    return day < 1 || day > daysInMonth ? false : true;
 }
 
+const int CDate::daysInMonth(int month, int year){
+    if(month == 0){
+        time_t t = time(0);
+        struct tm *currentTime = localtime(&t);
+
+        month = currentTime->tm_mon + 1;
+    }
+
+    int daysInMonth = 31;
+    // Si ce n'est pas un mois a 31 jours
+    if(month == 4 || month == 6 || month == 9 || month == 11) {
+        daysInMonth = 30;
+    }else if (month == 2) {
+        if(year == 0){
+            time_t t = time(0);
+            struct tm *currentTime = localtime(&t);
+            year = currentTime->tm_year + 1900;
+        }
+        // si l'anné est bissextil et si on est en fevrier
+        daysInMonth = CDate::isLeapYear(year) ? 29 : 28;
+    }
+
+    return daysInMonth;
+}
 /************************** METHODE STATIC FIN *******************************************/
 
 /************************** Surcharge D'OPERATEUR DEBUT*******************************************/
@@ -252,6 +320,16 @@ CDate& CDate::operator=(const CDate& date) {
     }
     // Retourne l'objet modifié par référence
     return *this;
+}
+
+CDate CDate::operator+(const int days) const{
+    CDate result = *this;
+
+    result._day += days;
+
+    result.normalize();
+
+    return result;
 }
 
 

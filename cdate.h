@@ -14,6 +14,7 @@ class CDate
 
         // Methode non static
         void defaultDate();
+        void normalize();
 
     public:
         // Constructeur
@@ -28,12 +29,14 @@ class CDate
 
         // Methode normal
         void displayDate();
+        void addDays(int days);
 
         // Methode static
         static const bool yearIsValid(int year);
         static const bool isLeapYear(int year);
         static const bool monthIsValid(int month);
         static const bool dateIsValid(int day, int month, int year);
+        static const int daysInMonth(int month = 0, int year = 0);
 
         // Surcharge des operateur
         friend std::ostream& operator<<(std::ostream& os, const CDate& date);
@@ -45,7 +48,8 @@ class CDate
         bool operator<=(const CDate& date) const;
         bool operator>=(const CDate& date) const;
         CDate& operator=(const  CDate& date);
-
+        CDate operator+(const int days) const;
+        CDate operator-(const CDate& date) const;
 };
 
 #endif // CDATE_H
