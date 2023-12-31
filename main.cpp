@@ -73,8 +73,24 @@ int main()
     // d7.addDays(1000);
     // cout << d7 << endl;
 
+    // cout << d7 << endl;
+    // d7 += 31;
+    // cout << d7 << endl;
+
+    // cout << d2 << endl;
+    // d2 -= 13;
+    // cout << d2 << endl;
+
     cout << d7 << endl;
-    d7 += 31;
+    ++d7;
+    cout << d7 << endl;
+    --d7;
+    cout << d7 << endl;
+    d2 = d7++;
+    cout << d2 << endl;
+    cout << d7 << endl;
+    d2 = d7--;
+    cout << d2 << endl;
     cout << d7 << endl;
 
     return 0;

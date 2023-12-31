@@ -367,4 +367,29 @@ CDate& CDate::operator+=(const int days){
 CDate& CDate::operator-=(const int days){
     return *this = *this - days;
 }
+
+// Operateur préIncrémentation
+CDate& CDate::operator++(){
+    return *this = *this + 1;
+}
+
+// Opérateur préDrécrémentation
+CDate& CDate::operator--(){
+    return *this = *this - 1;
+}
+
+// Opérateur posIncrémentation
+CDate CDate::operator++(int){
+    CDate tmp = *this;
+    ++(*this);
+    return tmp;
+}
+
+// Opérateur posDécrémentation
+CDate CDate::operator--(int){
+    CDate tmp = *this;
+    --(*this);
+    return tmp;
+}
+
 /************************** Surcharge D'OPERATEUR FIN *******************************************/

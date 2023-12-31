@@ -53,6 +53,10 @@ class CDate
         CDate operator-(const int days) const;
         CDate& operator+=(const int days);
         CDate& operator-=(const int days);
+        CDate& operator++();
+        CDate& operator--();
+        CDate operator++(int);
+        CDate operator--(int);
 };
 
 #endif // CDATE_H
