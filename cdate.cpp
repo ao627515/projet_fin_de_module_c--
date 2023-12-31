@@ -360,5 +360,11 @@ CDate CDate::operator-(const int days) const{
     return result;
 }
 
+CDate& CDate::operator+=(const int days){
+    return *this = *this + days;
+}
 
+CDate& CDate::operator-=(const int days){
+    return *this = *this - days;
+}
 /************************** Surcharge D'OPERATEUR FIN *******************************************/
