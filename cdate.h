@@ -3,12 +3,16 @@
 
 #include "iostream"
 #include "string"
+#include "array"
 class CDate
 {
     private:
         int _day;
         int _month;
         int _year;
+
+        static const std::array<std::string, 7> _DAYS ;
+        static const std::array<std::string, 12> _MONTHS;
 
             // Methodes
 
@@ -18,6 +22,7 @@ class CDate
 
     public:
         enum TYPE_PERIODE { JOUR, SEMAINE, MOIS, ANNEE };
+        enum FORMAT {MINIMAL, COMPLET, ABREGE};
 
         // Constructeur
         CDate();
@@ -30,7 +35,7 @@ class CDate
         int lireMois() const;
         int lireAnnee() const;
         CDate ajouterPeriode(int nb, const TYPE_PERIODE periode) const;
-
+        std::string formater(std::string& date, FORMAT format) const;
 
         // Methode normal
         void displayDate();
@@ -38,6 +43,7 @@ class CDate
         void subtractDays(int days);
         void addMonth(int nb);
         void addYear(int nb);
+
 
         // Methode static
         static const bool yearIsValid(int year);

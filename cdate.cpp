@@ -2,8 +2,11 @@
 #include "time.h"
 #include "sstream"
 
-
-
+const std::array<std::string, 7> CDate::_DAYS = {"Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"};
+const std::array<std::string, 12> CDate::_MONTHS = {
+    "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+    "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+};
 /************************** CONSTRUCTEURS DEBUT *******************************************/
 CDate::CDate():_day(1), _month(1), _year(1970) {}
 
@@ -101,45 +104,6 @@ void CDate::displayDate(){
     std::cout << _day << '/' << _month << '/' << _year << std::endl;
 }
 
-// void CDate::normalize() {
-//     if (!CDate::dateIsValid(_day, _month, _year)) {
-//         int daysInMonth = CDate::daysInMonth(_month, _year);
-
-//         // Si _day est négatif
-//         while (_day <= 0) {
-//             _month--;
-
-//             if (_month < 1) {
-//                 _month = 12;
-//                 _year--;
-//             }
-
-//             daysInMonth = CDate::daysInMonth(_month, _year);
-//             _day += daysInMonth;
-//         }
-
-//         // Si _day est supérieur au nombre de jours dans le mois
-//         while (_day > daysInMonth) {
-
-//             if (_month == 2 && _day == 29 && !CDate::isLeapYear(_year)) {
-//                 --_day;
-//             }else{
-//                 _day -= daysInMonth;
-//                 _month++;
-//             }
-
-//             if (_month > 12) {
-//                 _month = 1;
-//                 _year++;
-//             }
-
-//             daysInMonth = CDate::daysInMonth(_month, _year);
-//         }
-
-//         if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
-//     }
-// }
-
 void CDate::normalize() {
     if (!CDate::dateIsValid(_day, _month, _year)) {
         int daysInMonth = CDate::daysInMonth(_month, _year);
@@ -229,11 +193,11 @@ void CDate::addMonth(int nb) {
     }
 }
 
-
 void CDate::addYear(int nb){
     _year += nb;
     normalize();
 }
+
 /************************** METHODE NORMAL FIN *******************************************/
 
 /************************** METHODE CONSTANT DEBUT*******************************************/
@@ -272,6 +236,39 @@ CDate CDate::ajouterPeriode(int nb, const TYPE_PERIODE periode) const{
 
     return newDate;
 }
+
+std::string CDate::formater(std::string& str, FORMAT format) const {
+    std::ostringstream oss;
+
+    struct tm timeinfo = {};
+    timeinfo.tm_mday = _day;
+    timeinfo.tm_mon = _month - 1;
+    timeinfo.tm_year = _year - 1900;
+
+    time_t timeInSeconds = mktime(&timeinfo);
+
+    struct tm* date = localtime(&timeInSeconds);
+
+    switch (format) {
+    case MINIMAL:
+        oss << *this;
+        break;
+    case COMPLET:
+        oss << _DAYS[date->tm_wday] << ' ' << _day  << ' ' << _MONTHS[date->tm_mon] << ' ' << _year;
+        break;
+    case ABREGE:
+        oss << _DAYS[date->tm_wday].substr(0, 3) << ' ' << _day << ' ' << _MONTHS[date->tm_mon].substr(0, 3) << ' ' << _year;
+        break;
+    default:
+        break;
+    }
+
+    str = oss.str();  // Assignez la chaîne résultante à str
+
+    return str;
+}
+
+
 /************************** METHODE CONSTANT FIN *******************************************/
 
 /************************** METHODE STATIC DEBUT *******************************************/
@@ -440,7 +437,6 @@ bool CDate::operator>=(const CDate& date) const{
     return operator>(date) || operator==(date);
 }
 
-
 CDate& CDate::operator=(const CDate& date) {
     // Vérifie si on n'essaie pas de s'affecter à soi-même
     if (this != &date) {
@@ -548,6 +544,5 @@ CDate CDate::operator--(int){
     --(*this);
     return tmp;
 }
-
 
 /************************** Surcharge D'OPERATEUR FIN *******************************************/
