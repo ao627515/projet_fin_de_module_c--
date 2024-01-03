@@ -10,57 +10,82 @@ const std::array<std::string, 12> CDate::_MONTHS = {
 /************************** CONSTRUCTEURS DEBUT *******************************************/
 CDate::CDate():_day(1), _month(1), _year(1970) {}
 
+/*
+ * Parametre day, month, year
+ * Renvoie une date initialisé avec les paramètre
+ * Sauf exception :
+ * 1- Si year == 0, on renvoie l'anné courant
+ * 2- Si le mois et l'année sont egal a 0, on renvoie leur valeur courante
+ * 3-
+ */
+// CDate::CDate(int day, int month, int year){
+//     if(year != 0 && month != 0 && day != 0){
+//         if(dateIsValid(day, month, year)){
+//             _day = day;
+//             _month = month;
+//             _year = year;
+//         }else{
+//             defaultDate();
+//         }
+//     }else if(year == 0 && month != 0 && day != 0){
+//         time_t t = time(0);
+//         struct tm *currentTime = localtime(&t);
+
+//         int currentYear = currentTime->tm_year + 1900;
+
+//         if(dateIsValid(day, month, currentYear)){
+//             _day = day;
+//             _month = month;
+//             _year = currentYear;
+//         }else{
+//             defaultDate();
+//         }
+//     }else if(year == 0 && month == 0 && day != 0){
+//         time_t t = time(0);
+//         struct tm *currentTime = localtime(&t);
+
+//         int currentYear = currentTime->tm_year + 1900;
+//         int currentMonth = currentTime->tm_mon + 1;
+
+//         if(dateIsValid(day, currentMonth, currentYear)){
+//             _day = day;
+//             _month = currentMonth;
+//             _year = currentYear;
+//         }else{
+//             defaultDate();
+//         }
+//     }else if(year == 0 && month == 0 && day == 0){
+//         time_t t = time(0);
+//         struct tm *currentTime = localtime(&t);
+
+//         int currentYear = currentTime->tm_year + 1900;
+//         int currentMonth = currentTime->tm_mon + 1;
+//         int currentDay = currentTime->tm_mday;
+
+//         if(dateIsValid(currentDay, currentMonth, currentYear)){
+//             _day = currentDay;
+//             _month = currentMonth;
+//             _year = currentYear;
+//         }else{
+//             defaultDate();
+//         }
+//     }
+// }
+
 CDate::CDate(int day, int month, int year){
-    if(year != 0 && month != 0 && day != 0){
-        if(dateIsValid(day, month, year)){
-            _day = day;
-            _month = month;
-            _year = year;
-        }else{
-            defaultDate();
-        }
-    }else if(year == 0 && month != 0 && day != 0){
-        time_t t = time(0);
-        struct tm *currentTime = localtime(&t);
 
-        int currentYear = currentTime->tm_year + 1900;
+    if(day == 0) day = currentDay();
 
-        if(dateIsValid(day, month, currentYear)){
-            _day = day;
-            _month = month;
-            _year = currentYear;
-        }else{
-            defaultDate();
-        }
-    }else if(year == 0 && month == 0 && day != 0){
-        time_t t = time(0);
-        struct tm *currentTime = localtime(&t);
+    if(month == 0) month = currentMonth();
 
-        int currentYear = currentTime->tm_year + 1900;
-        int currentMonth = currentTime->tm_mon + 1;
+    if(year == 0) year = currentYear();
 
-        if(dateIsValid(day, currentMonth, currentYear)){
-            _day = day;
-            _month = currentMonth;
-            _year = currentYear;
-        }else{
-            defaultDate();
-        }
-    }else if(year == 0 && month == 0 && day == 0){
-        time_t t = time(0);
-        struct tm *currentTime = localtime(&t);
-
-        int currentYear = currentTime->tm_year + 1900;
-        int currentMonth = currentTime->tm_mon + 1;
-        int currentDay = currentTime->tm_mday;
-
-        if(dateIsValid(currentDay, currentMonth, currentYear)){
-            _day = currentDay;
-            _month = currentMonth;
-            _year = currentYear;
-        }else{
-            defaultDate();
-        }
+    if(dateIsValid(day, month, year)){
+        _day = day;
+        _month = month;
+        _year = year;
+    }else{
+        defaultDate();
     }
 }
 
@@ -392,6 +417,22 @@ const int CDate::daysInMonth(int month, int year){
 
     return daysInMonth;
 }
+
+const int CDate::currentDay(){
+    time_t t = time(0);
+    return localtime(&t)->tm_mday;
+}
+
+const int CDate::currentMonth(){
+    time_t t = time(0);
+    return localtime(&t)->tm_mon + 1;
+}
+
+const int CDate::currentYear(){
+    time_t t = time(0);
+    return localtime(&t)->tm_year + 1900;
+}
+
 /************************** METHODE STATIC FIN *******************************************/
 
 /************************** Surcharge D'OPERATEUR DEBUT*******************************************/

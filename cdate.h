@@ -4,6 +4,8 @@
 #include "iostream"
 #include "string"
 #include "array"
+#include "vector"
+
 class CDate
 {
     private:
@@ -53,6 +55,10 @@ class CDate
         static const bool monthIsValid(int month);
         static const bool dateIsValid(int day, int month, int year);
         static const int daysInMonth(int month = 0, int year = 0);
+        static const int currentDay();
+        static const int currentMonth();
+        static const int currentYear();
+
 
         // Surcharge des operateur
         friend std::ostream& operator<<(std::ostream& os, const CDate& date);

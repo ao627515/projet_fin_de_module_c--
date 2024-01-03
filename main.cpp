@@ -5,20 +5,29 @@ using namespace std;
 
 int main()
 {
-    // CDate d1;
-    // d1.displayDate(); // -> 1/1/1970 v
+    // cout << "================================================="<< endl;
+    // cout << "\t\t CONSTRUCTEURS" << endl << endl;
 
-    // CDate d2(14,7,2003);
-    // d2.displayDate(); // -> 14/7/2003 v
+    // cout << "CONSTRUCTEUR : CDate();" << endl;
+    // CDate d1; // -> 1/1/1970 v
+    // cout << "CDate d1; -> " << d1 << endl << endl;
 
-    // CDate d3(14,7) ;
-    // d3.displayDate(); // -> 14/7/2023 v
+    cout << "CONSTRUCTEUR : CDate(int day, int month = 0, int year = 0);" << endl;
 
-    // CDate d4(14);
-    // d4.displayDate(); // -> 14/12/2023 v
+    CDate d2(14,7,2003); // -> 14/7/2003 v
+    cout << "CDate d2(14,7,2003); -> " << d2 << endl;
 
-    // CDate d5(0);
-    // d5.displayDate(); // -> 30/12/2023 v
+    CDate d3(14,7);
+    cout << "CDate d3(14, 7); -> " << d3 << endl;
+
+    CDate d4(14);
+    cout << "CDate d4(14); -> " << d4 << endl;
+
+    CDate d5(0);
+    cout << "CDate d5(0); -> " << d5 << endl;
+
+    CDate d52(0,12,0);
+    cout << "CDate d52(0,12,0); -> " << d52 << endl;
 
     // CDate d6(d2);
     // d6.displayDate(); // -> 14/7/2003 v
