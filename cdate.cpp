@@ -8,70 +8,16 @@ const std::array<std::string, 12> CDate::_MONTHS = {
     "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
 };
 /************************** CONSTRUCTEURS DEBUT *******************************************/
+
+// Renvoie une CDate initialisé a 1/1/1970 (date par defaut)
 CDate::CDate():_day(1), _month(1), _year(1970) {}
 
 /*
  * Parametre day, month, year
  * Renvoie une date initialisé avec les paramètre
  * Sauf exception :
- * 1- Si year == 0, on renvoie l'anné courant
- * 2- Si le mois et l'année sont egal a 0, on renvoie leur valeur courante
- * 3-
+ * Si un paramètre est égal à 0 on revoie sa valeur courante
  */
-// CDate::CDate(int day, int month, int year){
-//     if(year != 0 && month != 0 && day != 0){
-//         if(dateIsValid(day, month, year)){
-//             _day = day;
-//             _month = month;
-//             _year = year;
-//         }else{
-//             defaultDate();
-//         }
-//     }else if(year == 0 && month != 0 && day != 0){
-//         time_t t = time(0);
-//         struct tm *currentTime = localtime(&t);
-
-//         int currentYear = currentTime->tm_year + 1900;
-
-//         if(dateIsValid(day, month, currentYear)){
-//             _day = day;
-//             _month = month;
-//             _year = currentYear;
-//         }else{
-//             defaultDate();
-//         }
-//     }else if(year == 0 && month == 0 && day != 0){
-//         time_t t = time(0);
-//         struct tm *currentTime = localtime(&t);
-
-//         int currentYear = currentTime->tm_year + 1900;
-//         int currentMonth = currentTime->tm_mon + 1;
-
-//         if(dateIsValid(day, currentMonth, currentYear)){
-//             _day = day;
-//             _month = currentMonth;
-//             _year = currentYear;
-//         }else{
-//             defaultDate();
-//         }
-//     }else if(year == 0 && month == 0 && day == 0){
-//         time_t t = time(0);
-//         struct tm *currentTime = localtime(&t);
-
-//         int currentYear = currentTime->tm_year + 1900;
-//         int currentMonth = currentTime->tm_mon + 1;
-//         int currentDay = currentTime->tm_mday;
-
-//         if(dateIsValid(currentDay, currentMonth, currentYear)){
-//             _day = currentDay;
-//             _month = currentMonth;
-//             _year = currentYear;
-//         }else{
-//             defaultDate();
-//         }
-//     }
-// }
-
 CDate::CDate(int day, int month, int year){
 
     if(day == 0) day = currentDay();
@@ -89,31 +35,29 @@ CDate::CDate(int day, int month, int year){
     }
 }
 
+/*
+ *  Constructeur de copie
+ *  Prend en paramètre une date
+ *  Et initialise la nouvelle avec les menbres de celui en paramètre
+ */
 CDate::CDate(const CDate &date):_day(date._day), _month(date._month), _year(date._year){}
 
+/*
+ * Contructeur a date au formart string
+ * Prend en paramètre une chaine qui represente une date
+ * Règle chaque membre de la date doit être séparé par un séparateur
+ * ex :  "1/1/1970", "1 8 2022", "12-2-2000", ...
+ */
 CDate::CDate(const std::string date){
-    int d = 0, m = 0, y = 0;
-    char sep = '\0';
 
+    char sep = '\0';
     std::istringstream iss(date);
 
-    if(iss >> d){
-        if( iss.get(sep)){
-            iss >> m;
-
-            if( iss.get(sep)){
-                iss >> y;
-            }
-        }
-    }
-
-    if(CDate::dateIsValid(d, m, y)){
-        _day = d;
-        _month = m;
-        _year = y;
-    }else{
+    if (!(iss >> _day >> sep >> _month >> sep >> _year) || !dateIsValid(_day, _month, _year)) {
         defaultDate();
     }
+
+    if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
 }
 /************************** CONSTRUCTEURS FIN *******************************************/
 
