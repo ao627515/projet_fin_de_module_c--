@@ -20,7 +20,7 @@ class CDate
 
         // Methode non static
         void defaultDate();
-        void normalize();
+        // void normalize();
 
     public:
         enum TYPE_PERIODE { JOUR, SEMAINE, MOIS, ANNEE };

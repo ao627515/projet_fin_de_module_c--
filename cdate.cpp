@@ -49,7 +49,6 @@ CDate::CDate(const CDate &date):_day(date._day), _month(date._month), _year(date
  * ex :  "1/1/1970", "1 8 2022", "12-2-2000", ...
  */
 CDate::CDate(const std::string date){
-
     char sep = '\0';
     std::istringstream iss(date);
 
@@ -59,6 +58,7 @@ CDate::CDate(const std::string date){
 
     if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
 }
+
 /************************** CONSTRUCTEURS FIN *******************************************/
 
 /************************** METHODE NORMAL DEBUT*******************************************/
@@ -73,11 +73,12 @@ void CDate::displayDate(){
     std::cout << _day << '/' << _month << '/' << _year << std::endl;
 }
 
-void CDate::normalize() {
-    if (!CDate::dateIsValid(_day, _month, _year)) {
-        int daysInMonth = CDate::daysInMonth(_month, _year);
 
-        // Si _day est négatif
+void CDate::addDays(int days) {
+
+        int daysInMonth = CDate::daysInMonth(_month, _year);
+        _day += days;
+
         while (_day <= 0) {
             _month--;
 
@@ -92,16 +93,8 @@ void CDate::normalize() {
 
         // Si _day est supérieur au nombre de jours dans le mois
         while (_day > daysInMonth) {
-            int m = _month - 1;
-            if(m < 0) m = 12;
-            if (_month == 2 && _day == 29 && !CDate::isLeapYear(_year)) {
-                --_day;
-            }else if(_day == CDate::daysInMonth(m, _year)){
-                _day = CDate::daysInMonth(_month, _year);
-            } else{
-                _day -= daysInMonth;
-                _month++;
-            }
+            _day -= daysInMonth;
+            _month++;
 
             if (_month > 12) {
                 _month = 1;
@@ -112,42 +105,26 @@ void CDate::normalize() {
         }
 
         if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
-    }
 }
 
-void CDate::addDays(int days) {
-    struct tm timeinfo = {};
-    timeinfo.tm_mday = _day;
-    timeinfo.tm_mon = _month - 1; // Les mois commencent à 0
-    timeinfo.tm_year = _year - 1900; // Année depuis 1900
+// void CDate::subtractDays(int days) {
+//     struct tm timeinfo = {};
+//     timeinfo.tm_mday = _day;
+//     timeinfo.tm_mon = _month - 1;
+//     timeinfo.tm_year = _year - 1900;
 
-    // Ajoute le nombre de jours
-    time_t timeInSeconds = mktime(&timeinfo) + (days * 24 * 60 * 60);
+//     // Soustrait le nombre de jours
+//     time_t timeInSeconds = mktime(&timeinfo) - days * 24 * 60 * 60;
 
-    // Met à jour la date
-    struct tm* newTimeinfo = localtime(&timeInSeconds);
-    _day = newTimeinfo->tm_mday;
-    _month = newTimeinfo->tm_mon + 1; // Les mois commencent à 0
-    _year = newTimeinfo->tm_year + 1900; // Année depuis 1900
-}
-
-void CDate::subtractDays(int days) {
-    struct tm timeinfo = {};
-    timeinfo.tm_mday = _day;
-    timeinfo.tm_mon = _month - 1;
-    timeinfo.tm_year = _year - 1900;
-
-    // Soustrait le nombre de jours
-    time_t timeInSeconds = mktime(&timeinfo) - days * 24 * 60 * 60;
-
-    // Met à jour la date
-    struct tm* newTimeinfo = localtime(&timeInSeconds);
-    _day = newTimeinfo->tm_mday;
-    _month = newTimeinfo->tm_mon + 1;
-    _year = newTimeinfo->tm_year + 1900;
-}
+//     // Met à jour la date
+//     struct tm* newTimeinfo = localtime(&timeInSeconds);
+//     _day = newTimeinfo->tm_mday;
+//     _month = newTimeinfo->tm_mon + 1;
+//     _year = newTimeinfo->tm_year + 1900;
+// }
 
 void CDate::addMonth(int nb) {
+    int before = _month;
     _month += nb;
 
     while (_month > 12) {
@@ -158,13 +135,25 @@ void CDate::addMonth(int nb) {
     while (_month < 1) {
         _month += 12;
         --_year;
-        normalize();
+    }
+
+    if(_day == 31
+        || (_day == 29 &&  isLeapYear(_year))
+        || (_day == 28 && !isLeapYear(_year))
+        || (_day == 30 && _month != 2)
+        || (_day == 29 && before == 2)
+        || (_day == 28 && before ==2))
+    {
+        _day = daysInMonth(_month, _year);
     }
 }
 
 void CDate::addYear(int nb){
     _year += nb;
-    normalize();
+
+    if(_month == 2 && (_day == 28 || _day == 29)) {
+        _day = daysInMonth(_month, _year);
+    }
 }
 
 /************************** METHODE NORMAL FIN *******************************************/
@@ -187,10 +176,10 @@ CDate CDate::ajouterPeriode(int nb, const TYPE_PERIODE periode) const{
     if(nb != 0){
         switch(periode){
         case CDate::JOUR:
-            newDate._day += nb;
+            newDate.addDays(nb);
             break;
         case CDate::SEMAINE:
-            newDate._day += (nb * 7);
+            newDate.addDays(nb * 7);
             break;
         case CDate::MOIS:
             newDate.addMonth(nb);
@@ -199,8 +188,6 @@ CDate CDate::ajouterPeriode(int nb, const TYPE_PERIODE periode) const{
             newDate.addYear(nb);
             break;
         }
-
-        newDate.normalize();
     }
 
     return newDate;
@@ -380,9 +367,9 @@ const int CDate::currentYear(){
 /************************** METHODE STATIC FIN *******************************************/
 
 /************************** Surcharge D'OPERATEUR DEBUT*******************************************/
+
 std::ostream& operator<<(std::ostream& os, const CDate& date){
-    os  << date._day << '/' << date._month << '/' << date._year;
-    return os;
+    return  os  << date._day << '/' << date._month << '/' << date._year;
 }
 
 std::istream& operator>>(std::istream& is, CDate& date){
@@ -523,9 +510,7 @@ CDate& CDate::operator=(const std::string date){
 CDate CDate::operator+(const int days) const{
     CDate result = *this;
 
-    result._day += days;
-
-    result.normalize();
+    result.addDays(days);
 
     return result;
 }
@@ -533,9 +518,7 @@ CDate CDate::operator+(const int days) const{
 CDate CDate::operator-(const int days) const{
     CDate result = *this;
 
-    result._day -= days;
-
-    result.normalize();
+    result.addDays(days);
 
     return result;
 }

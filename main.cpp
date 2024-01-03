@@ -9,44 +9,65 @@ int main()
     // cout << "\t\t CONSTRUCTEURS" << endl << endl;
 
     // cout << "CONSTRUCTEUR : CDate();" << endl;
-    // CDate d1; // -> 1/1/1970 v
+    CDate d1; // -> 1/1/1970 v
     // cout << "CDate d1; -> " << d1 << endl << endl;
 
-    cout << "CONSTRUCTEUR : CDate(int day, int month = 0, int year = 0);" << endl;
+    // cout << "CONSTRUCTEUR : CDate(int day, int month = 0, int year = 0);" << endl;
 
-    CDate d2(14,7,2003); // -> 14/7/2003 v
-    cout << "CDate d2(14,7,2003); -> " << d2 << endl;
+    // CDate d2(14,7,2003); // -> 14/7/2003 v
+    // cout << "CDate d2(14,7,2003); -> " << d2 << endl;
 
-    CDate d3(14,7);
-    cout << "CDate d3(14, 7); -> " << d3 << endl;
+    // CDate d3(14,7);
+    // cout << "CDate d3(14, 7); -> " << d3 << endl;
 
-    CDate d4(14);
-    cout << "CDate d4(14); -> " << d4 << endl;
+    // CDate d4(14);
+    // cout << "CDate d4(14); -> " << d4 << endl;
 
-    CDate d5(0);
-    cout << "CDate d5(0); -> " << d5 << endl;
+    // CDate d5(0);
+    // cout << "CDate d5(0); -> " << d5 << endl;
 
-    CDate d52(0,12,0);
-    cout << "CDate d52(0,12,0); -> " << d52 << endl;
+    // CDate d52(0,12,0);
+    // cout << "CDate d52(0,12,0); -> " << d52 << endl << endl;
 
+    // cout << "CONSTRUCTEUR : CDate(const CDate &date);" << endl;
     // CDate d6(d2);
-    // d6.displayDate(); // -> 14/7/2003 v
+    // cout << "CDate d6(d2); -> " << d6 << endl;
 
-    // CDate d7 = d1;
-    // d7.displayDate();  // -> 1/1/1970 v
+    CDate d7 = d1;
+    cout << "CDate d7 = d1; -> " << d7 << endl << endl;
+
+    // cout << "CONSTRUCTEUR : CDate(const std::string date);" << endl;
+    // CDate d72("1/1/1970");
+    // cout << "CDate d72(\"1/1/1970\"); -> " << d72 << endl;
+
+    // CDate d73("1 8 2022");
+    // cout << "CDate d73(\"1 8 2022\"); -> " << d73 << endl;
+
+    // CDate d74("12-2-2000");
+    // cout << "CDate d74(\"12-2-2000\"); -> " << d74 << endl;
+
+    // cout << endl << "================================================="<< endl;
+    // cout << "\t\t GETTEUR DATE" << endl << endl;
 
     // CDate d8(12, 11, 2012);
-    // cout << d8.lireJour() << endl; //renvoie 12 v
-    // cout << d8.lireMois() << endl; //renvoie 11 v
-    // cout << d8.lireAnnee() << endl; //renvoie 2012 v
+    // cout << "CDate d8(12, 11, 2012)" << endl;
+    // cout << "d8.lireJour() -> " << d8.lireJour() << endl; //renvoie 12 v
+    // cout << "d8.lireMois() -> " << d8.lireMois() << endl; //renvoie 11 v
+    // cout << "d8.lireAnnee() -> " << d8.lireAnnee() << endl; //renvoie 2012 v
 
+    // cout << endl << "================================================="<< endl;
+    // cout << "\t\t SURCHARGE D'OPERATEUR" << endl << endl;
+
+    //  cout << "Operateur << :" << endl;
     // CDate d9(26, 11, 2003);
-    // cout << d9 << endl; // -> 26/11/2003 v
+    // cout << "CDate d9(26, 11, 2003);" << endl;
+    // cout << "cout << d9; -> "  << d9 << endl; // -> 26/11/2003 v
 
+    // cout  << endl << "Operateur >> :" << endl;
     // CDate d10;
     // cout << "Entrer une date : ";
     // cin >> d10;
-    // cout << d10 << endl;
+    // cout << "-> " << d10 << endl;
 
     // cout << (d1 == d7) << endl; // true
     // cout << (d1 == d2) << endl; // false
@@ -78,13 +99,9 @@ int main()
     // d1 = d1 + 1000;
     // cout << d1 << endl;
 
-    // cout << d7 << endl;
-    // d7.addDays(1000);
-    // cout << d7 << endl;
-
-    // cout << d7 << endl;
-    // d7 += 31;
-    // cout << d7 << endl;
+    cout << d7 << endl;
+    d7 += 31;
+    cout << d7 << endl;
 
     // cout << d2 << endl;
     // d2 -= 13;
@@ -115,11 +132,13 @@ int main()
     // cout << d.ajouterPeriode(10, CDate ::MOIS) << endl; // renvoie la date 12/9/2013
     // cout << d.ajouterPeriode(-10, CDate ::ANNEE) << endl; // //renvoie la date 12/11/2002
     // cout << d << endl;
-    // CDate d(31, 5, 2012);
-    // cout << d.ajouterPeriode(1, CDate ::MOIS) << endl; //renvoie la date 30/6/2012
+
+    // CDate d(29, 2, 2012);
+    // // cout << d.ajouterPeriode(1, CDate ::MOIS) << endl; //renvoie la date 30/6/2012
+    // cout << d.ajouterPeriode(-2, CDate ::MOIS) << endl; //renvoie la date 30/4/2012
 
     // CDate d(29, 2, 2000);
-    // cout << d.ajouterPeriode(-3, CDate ::ANNEE) << endl; // renvoie la date 28/2/1997
+    // cout << d.ajouterPeriode(-4, CDate ::ANNEE) << endl; // renvoie la date 28/2/1997
     // cout << d.ajouterPeriode(3, CDate ::ANNEE) << endl; // renvoie la date 28/2/2003
 
     // CDate d(12, 11, 2012);
