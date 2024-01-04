@@ -1,4 +1,4 @@
-#include "cdate.h"
+﻿#include "cdate.h"
 #include "time.h"
 #include "sstream"
 
@@ -52,7 +52,7 @@ CDate::CDate(const std::string date){
     char sep = '\0';
     std::istringstream iss(date);
 
-    if (!(iss >> _day >> sep >> _month >> sep >> _year) || !dateIsValid(_day, _month, _year)) {
+    if (!(iss >> _day >> sep >> _month >> sep >> _year) || !dateIsValid(_day, _month, _year) || (iss.get() != EOF)) {
         defaultDate();
     }
 
@@ -73,38 +73,48 @@ void CDate::displayDate(){
     std::cout << _day << '/' << _month << '/' << _year << std::endl;
 }
 
-
 void CDate::addDays(int days) {
 
-        int daysInMonth = CDate::daysInMonth(_month, _year);
-        _day += days;
+    int daysInMonth = CDate::daysInMonth(_month, _year);
+    _day += days;
 
-        while (_day <= 0) {
-            _month--;
+    /*
+         * si le nombre de jours est négatif
+         * on decrmente le mois et si apres cela le mois est < à 1 mon l'affecte 12 et incremente l'anné
+         * On sous trait le nombre de jours ecoulé au nombre dans le mois
+         * Et on recommence tant le mois est <= 0
+         */
+    while (_day <= 0) {
+        _month--;
 
-            if (_month < 1) {
-                _month = 12;
-                _year--;
-            }
-
-            daysInMonth = CDate::daysInMonth(_month, _year);
-            _day += daysInMonth;
+        if (_month < 1) {
+            _month = 12;
+            _year--;
         }
 
-        // Si _day est supérieur au nombre de jours dans le mois
-        while (_day > daysInMonth) {
-            _day -= daysInMonth;
-            _month++;
+        daysInMonth = CDate::daysInMonth(_month, _year);
+        _day += daysInMonth;
+    }
 
-            if (_month > 12) {
-                _month = 1;
-                _year++;
-            }
+    /*
+     *  Si _day est supérieur au nombre de jours dans le mois
+     *  On sous trait le nombre de jours ecoulé au nombre dans le mois
+     *  on incremente le mois et si le mois est stric sup a 12 on l'initialise a 1 et on incremente l'anné
+     *  On recupère le nombre de jours du mois apres son incrémentation
+     */
+    while (_day > daysInMonth) {
+        _day -= daysInMonth;
+        _month++;
 
-            daysInMonth = CDate::daysInMonth(_month, _year);
+        if (_month > 12) {
+            _month = 1;
+            _year++;
         }
 
-        if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
+        daysInMonth = CDate::daysInMonth(_month, _year);
+    }
+
+    if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
 }
 
 // void CDate::subtractDays(int days) {
@@ -137,6 +147,7 @@ void CDate::addMonth(int nb) {
         --_year;
     }
 
+    // Gère les cas ou le mois est incrementé ou décrémenté avec une date en fin de mois
     if(_day == 31
         || (_day == 29 &&  isLeapYear(_year))
         || (_day == 28 && !isLeapYear(_year))
@@ -146,14 +157,19 @@ void CDate::addMonth(int nb) {
     {
         _day = daysInMonth(_month, _year);
     }
+
+    if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
 }
 
 void CDate::addYear(int nb){
     _year += nb;
 
+    // Conserve les regle de bixessetilité en cas d'incrementation ou de decrementation de l'année
     if(_month == 2 && (_day == 28 || _day == 29)) {
         _day = daysInMonth(_month, _year);
     }
+
+    if(!CDate::dateIsValid(_day, _month, _year)) defaultDate();
 }
 
 /************************** METHODE NORMAL FIN *******************************************/
@@ -220,9 +236,7 @@ std::string CDate::formater(std::string& str, FORMAT format) const {
         break;
     }
 
-    str = oss.str();  // Assignez la chaîne résultante à str
-
-    return str;
+    return str = oss.str();
 }
 
 std::string CDate::trouverNomJour(std::string& str, FORMAT format) const {
@@ -325,23 +339,15 @@ const bool CDate::dateIsValid(int day, int month, int year){
 }
 
 const int CDate::daysInMonth(int month, int year){
-    if(month == 0){
-        time_t t = time(0);
-        struct tm *currentTime = localtime(&t);
-
-        month = currentTime->tm_mon + 1;
-    }
+    if(month == 0) month = currentMonth();
 
     int daysInMonth = 31;
     // Si ce n'est pas un mois a 31 jours
     if(month == 4 || month == 6 || month == 9 || month == 11) {
         daysInMonth = 30;
     }else if (month == 2) {
-        if(year == 0){
-            time_t t = time(0);
-            struct tm *currentTime = localtime(&t);
-            year = currentTime->tm_year + 1900;
-        }
+        if(year == 0) year = currentYear();
+
         // si l'anné est bissextil et si on est en fevrier
         daysInMonth = CDate::isLeapYear(year) ? 29 : 28;
     }
@@ -429,35 +435,15 @@ bool CDate::operator!=(const CDate& date) const{
 }
 
 bool CDate::operator<(const CDate& date) const {
-    if (_year < date._year) {
-        return true;
-    } else if (_year > date._year) {
-        return false;
-    }
-
-    if (_month < date._month) {
-        return true;
-    } else if (_month > date._month) {
-        return false;
-    }
-
-    return _day < date._day;
+    return (_year < date._year) ||
+           (_year == date._year && _month < date._month) ||
+           (_year == date._year && _month == date._month && _day < date._day);
 }
 
-bool CDate::operator>(const CDate& date) const{
-    if (_year < date._year) {
-        return false;
-    } else if (_year > date._year) {
-        return true;
-    }
-
-    if (_month < date._month) {
-        return false;
-    } else if (_month > date._month) {
-        return false;
-    }
-
-    return _day > date._day;
+bool CDate::operator>(const CDate& date) const {
+    return (_year > date._year) ||
+           (_year == date._year && _month > date._month) ||
+           (_year == date._year && _month == date._month && _day > date._day);
 }
 
 bool CDate::operator<=(const CDate& date) const{
@@ -509,17 +495,13 @@ CDate& CDate::operator=(const std::string date){
 
 CDate CDate::operator+(const int days) const{
     CDate result = *this;
-
     result.addDays(days);
-
     return result;
 }
 
 CDate CDate::operator-(const int days) const{
     CDate result = *this;
-
     result.addDays(days);
-
     return result;
 }
 
@@ -535,7 +517,6 @@ int  CDate::operator-(const CDate& date) const{
     otherDate.tm_year = date._year - 1900;
 
     double diffDayInSeconds = difftime(mktime(&thisDate), mktime(&otherDate));
-
 
     return static_cast<int>(diffDayInSeconds / (60 * 60 * 24));
 }
