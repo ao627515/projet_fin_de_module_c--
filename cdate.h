@@ -25,7 +25,7 @@ class CDate
         enum TYPE_PERIODE { JOUR, SEMAINE, MOIS, ANNEE };
         enum FORMAT {MINIMAL, COMPLET, ABREGE};
 
-        // Constructeur
+        // Constructeurs
         CDate();
         CDate(int day, int month = 0, int year = 0);
         CDate(const CDate &date);
