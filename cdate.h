@@ -37,6 +37,7 @@ class CDate
         int lireAnnee() const;
         CDate ajouterPeriode(int nb, const TYPE_PERIODE periode) const;
         std::string formater(std::string& str, FORMAT format) const;
+        std::string formater(FORMAT format) const;
         std::string trouverNomJour(std::string& str, FORMAT format) const;
         std::string trouverNomMois(std::string& str, FORMAT format) const;
 
@@ -49,14 +50,16 @@ class CDate
 
 
         // Methode static
-        static const bool yearIsValid(int year);
-        static const bool isLeapYear(int year);
-        static const bool monthIsValid(int month);
-        static const bool dateIsValid(int day, int month, int year);
-        static const int daysInMonth(int month = 0, int year = 0);
-        static const int currentDay();
-        static const int currentMonth();
-        static const int currentYear();
+        static bool yearIsValid(int year);
+        static bool isLeapYear(int year);
+        static bool monthIsValid(int month);
+        static bool dayIsValid(int day, int month, int year);
+        static bool dateIsValid(int day, int month, int year);
+        static int daysInMonth(int month = 0, int year = 0);
+        static int currentDay();
+        static int currentMonth();
+        static int currentYear();
+        static CDate currentTime();
 
 
         // Surcharge des operateur

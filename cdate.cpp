@@ -64,9 +64,9 @@ CDate::CDate(const std::string date){
 /************************** METHODE NORMAL DEBUT*******************************************/
 
 void CDate::defaultDate(){
-    _day = 1;
-    _month = 1;
-    _year = 1970;
+    _day = 0;
+    _month = 0;
+    _year = 0;
 }
 
 void CDate::displayDate(){
@@ -239,6 +239,13 @@ std::string CDate::formater(std::string& str, FORMAT format) const {
     return str = oss.str();
 }
 
+std::string CDate::formater(FORMAT format) const {
+
+    std::string str;
+
+    return formater(str, format);
+}
+
 std::string CDate::trouverNomJour(std::string& str, FORMAT format) const {
 
     struct tm timeinfo = {};
@@ -302,11 +309,11 @@ std::string CDate::trouverNomMois(std::string& str, FORMAT format) const {
 
 /************************** METHODE STATIC DEBUT *******************************************/
 
-const bool CDate::yearIsValid(int year){
+bool CDate::yearIsValid(int year){
     return year >= 1;
 }
 
-const bool CDate::isLeapYear(int year) {
+bool CDate::isLeapYear(int year) {
     // Une année bissextile est divisible par 4
     // Sauf si elle est également divisible par 100
     // Auquel cas, elle doit aussi être divisible par 400 pour être bissextile
@@ -314,15 +321,16 @@ const bool CDate::isLeapYear(int year) {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
-const bool CDate::monthIsValid(int month){
+bool CDate::monthIsValid(int month){
     // renvoie true ou false si le moi est compris entre 1 et 12
     return month >= 0 && month <= 12;
 }
 
-const bool CDate::dateIsValid(int day, int month, int year){
+bool CDate::dateIsValid(int day, int month, int year){
+    return yearIsValid(year) && monthIsValid(month) && dayIsValid(day, month, year);
+}
 
-    // verifier si le mois et l'année sont valide
-    if(!monthIsValid(month) ||  !yearIsValid(year)) return false;
+bool CDate::dayIsValid(int day, int month, int year){
 
     int daysInMonth = 31;
 
@@ -338,7 +346,7 @@ const bool CDate::dateIsValid(int day, int month, int year){
     return day < 1 || day > daysInMonth ? false : true;
 }
 
-const int CDate::daysInMonth(int month, int year){
+int CDate::daysInMonth(int month, int year){
     if(month == 0) month = currentMonth();
 
     int daysInMonth = 31;
@@ -355,19 +363,26 @@ const int CDate::daysInMonth(int month, int year){
     return daysInMonth;
 }
 
-const int CDate::currentDay(){
+int CDate::currentDay(){
     time_t t = time(0);
     return localtime(&t)->tm_mday;
 }
 
-const int CDate::currentMonth(){
+int CDate::currentMonth(){
     time_t t = time(0);
     return localtime(&t)->tm_mon + 1;
 }
 
-const int CDate::currentYear(){
+int CDate::currentYear(){
     time_t t = time(0);
     return localtime(&t)->tm_year + 1900;
+}
+
+CDate CDate::currentTime() {
+    time_t t = time(0);
+    tm* currentDate = localtime(&t);
+
+    return CDate(currentDate->tm_mday, currentDate->tm_mon + 1, currentDate->tm_year + 1900);
 }
 
 /************************** METHODE STATIC FIN *******************************************/
