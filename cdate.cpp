@@ -209,6 +209,11 @@ CDate CDate::ajouterPeriode(int nb, const TYPE_PERIODE periode) const{
     return newDate;
 }
 
+std::string CDate::formater(FORMAT format) {
+    std::string str;
+    return formater(str, format);
+}
+
 std::string CDate::formater(std::string& str, FORMAT format) const {
     std::ostringstream oss;
 
@@ -237,13 +242,6 @@ std::string CDate::formater(std::string& str, FORMAT format) const {
     }
 
     return str = oss.str();
-}
-
-std::string CDate::formater(FORMAT format) const {
-
-    std::string str;
-
-    return formater(str, format);
 }
 
 std::string CDate::trouverNomJour(std::string& str, FORMAT format) const {
@@ -303,6 +301,10 @@ std::string CDate::trouverNomMois(std::string& str, FORMAT format) const {
     }
 
     return str = oss.str();
+}
+
+bool CDate::dateIsValid() const{
+    return CDate::dateIsValid(_day, _month, _year);
 }
 
 /************************** METHODE CONSTANT FIN *******************************************/
@@ -445,6 +447,12 @@ bool CDate::operator==(const CDate& date) const{
     return _year == date._year && _month == date._month && _day == date._day;
 }
 
+bool CDate::operator==(const std::string date) const{
+    CDate d = date;
+
+    return _year == d._year && _month == d._month && _day == d._day;
+}
+
 bool CDate::operator!=(const CDate& date) const{
     return _year != date._year || _month != date._month || _day != date._day;
 }
@@ -453,6 +461,11 @@ bool CDate::operator<(const CDate& date) const {
     return (_year < date._year) ||
            (_year == date._year && _month < date._month) ||
            (_year == date._year && _month == date._month && _day < date._day);
+}
+
+bool CDate::operator<(const std::string date) const {
+    CDate d = date;
+    return *this < d;
 }
 
 bool CDate::operator>(const CDate& date) const {

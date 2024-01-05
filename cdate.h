@@ -37,9 +37,10 @@ class CDate
         int lireAnnee() const;
         CDate ajouterPeriode(int nb, const TYPE_PERIODE periode) const;
         std::string formater(std::string& str, FORMAT format) const;
-        std::string formater(FORMAT format) const;
+        std::string formater(FORMAT format);
         std::string trouverNomJour(std::string& str, FORMAT format) const;
         std::string trouverNomMois(std::string& str, FORMAT format) const;
+        bool dateIsValid() const;
 
         // Methode normal
         void displayDate();
@@ -66,8 +67,10 @@ class CDate
         friend std::ostream& operator<<(std::ostream& os, const CDate& date);
         friend std::istream& operator>>(std::istream& is, CDate& date);
         bool operator==(const CDate& date) const;
+        bool operator==(const std::string date) const;
         bool operator!=(const CDate& date) const;
         bool operator<(const CDate& date) const;
+        bool operator<(const std::string date) const;
         bool operator>(const CDate& date) const;
         bool operator<=(const CDate& date) const;
         bool operator>=(const CDate& date) const;
