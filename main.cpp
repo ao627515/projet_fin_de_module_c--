@@ -382,7 +382,7 @@ void formatDate(){
     bool dateIsBefore1970;
     int option = 0, min = 0, max = 2;
     string ex ="(ex -> 1/1/1970)";
-    string message = "Date formater ->";
+    string message = "Date formater -> ";
 
     do{
         cout << "Formater une date" << endl << endl;
@@ -407,7 +407,7 @@ void formatDate(){
             cout << endl;
             dateFormatChoice('-', false);
             cout << "0- Menu Precedent" << endl;
-            option = choiceAndError(min, max);
+            option = (min, max);
             cout << endl;
         }while(option < min || option > max);
 
@@ -433,17 +433,39 @@ void formatDate(){
     }while(!continuous);
 }
 
+void isLeapYear(){
+    int y;
+    bool continuous = false;
+    bool dateIsBefore1970;
+
+    do{
+       cout << "Verifier si une annee est bissextile" << endl << endl;
+
+        cout << "Enter l'annee : ", cin >> y, cin.ignore();
+
+        cout << endl;
+
+        if(CDate::isLeapYear(y)){
+           cout << y << " est une annee bissextile" << endl ;
+        }else {
+             cout << y << " n'est pas une annee bissextile" << endl;
+        }
+
+        cout << endl;
+
+        continuous = restartOrExist();
+
+    }while(!continuous);
+}
+
 int main()
 {
     bool exit = false;
     int option = 0;
 
-    // cout << "5- Formater une date" << endl;
     // cout << "6- Verifier si une annee est bissextile" << endl;
-    // cout << "7- Afficher le nombre de jours dans un mois donne" << endl;
-    // cout << "8- Verifier si une date est valide" << endl;
     // cout << "0- Quitter" << endl;
-    option = 5;
+    option = 6;
     do{
         // option = mainMenu();
         switch (option) {
@@ -464,6 +486,9 @@ int main()
             break;
         case 5:
             formatDate();
+            break;
+        case 6:
+            isLeapYear();
             break;
         }
     }while(!exit);
