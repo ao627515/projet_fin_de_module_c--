@@ -2,6 +2,7 @@
 #include "cdate.h"
 #include "conio.h"
 #include <cstdlib>
+#include "sstream"
 
 using namespace std;
 
@@ -281,24 +282,112 @@ void diffBetweenTwoDates(){
         cout << endl;
         continuous = restartOrExist();
     }while(continuous);
-
-
 }
+
+void compareTwoDate() {
+    CDate d1;
+    CDate d2;
+    string comp = "";
+    string ex1 = "(ex -> 1/1/1970)";
+    string ex2 = "(ex -> 1/1/2000)";
+    string exOp = ">, <, >=, <=, ==, !=";
+    bool dateIsInvalid;
+    bool continuous;
+    bool opIsValid;
+    string op = "";
+
+    do {
+        cout << "Comparer 2 dates" << endl << endl;
+
+        // Saisie et validation de la première date
+        do {
+            cout << "Saisir la premiere date " << ex1 << " : ";
+            cin >> d1;
+
+            dateIsInvalid = !d1.dateIsValid();
+
+            if (dateIsInvalid) {
+                cout << "=======================================================" << endl;
+                cout << "Date incorrecte. Veuillez entrer une date valide " << ex1 << endl;
+                pressAnyKeyToContinue();
+                cout << endl << endl;
+            }
+        } while (dateIsInvalid);
+
+        cout << endl;
+
+        do{
+            // Saisie de l'operateur de comparaison
+            cout << "Saisir l'operateur de comparaison (" << exOp << ") : ";
+            getline(cin, op);
+            opIsValid = (op == ">" || op == "<" || op == ">=" || op == "<=" || op == "==" || op == "!=");
+            if (!opIsValid) {
+                cout << "=======================================================" << endl;
+                cout << "Date incorrecte. Veuillez entrer une date valide " << ex2 << endl;
+                pressAnyKeyToContinue();
+                cout << endl << endl;
+            }
+        }while(!opIsValid);
+        cout << endl;
+        // Saisie et validation de la deuxième date
+        do {
+            cout << "Saisir la deuxieme date " << ex2 << " : ";
+            cin >> d2;
+
+            dateIsInvalid = !d2.dateIsValid();
+
+            if (dateIsInvalid) {
+                cout << "=======================================================" << endl;
+                cout << "Date incorrecte. Veuillez entrer une date valide " << ex2 << endl;
+                pressAnyKeyToContinue();
+                cout << endl << endl;
+            }
+        } while (dateIsInvalid);
+
+
+        // Comparaison des dates
+        if (op == ">" || op == "<" || op == ">=" || op == "<=" || op == "==" || op == "!=") {
+
+            bool result;
+
+            if (comp == ">") {
+                result = (d1 > d2);
+            } else if (comp == "<") {
+                result = (d1 < d2);
+            } else if (comp == ">=") {
+                result = (d1 >= d2);
+            } else if (comp == "<=") {
+                result = (d1 <= d2);
+            } else if (comp == "==") {
+                result = (d1 == d2);
+            } else if (comp == "!=") {
+                result = (d1 != d2);
+            }
+
+            string res = result ? "Vrai" : "Faux";
+
+
+            cout << endl << "Resultat de la comparaison : " << d1 << " " << op << " " << d2 << " " << res << endl;
+        }
+        cout << endl;
+        continuous = restartOrExist();
+    } while (continuous);
+}
+
 int main()
 {
     bool exit = false;
     int option = 0;
 
-    // cout << "3- La difference de (j, m, a) entre 2 dates" << endl;
     // cout << "4- Comparer 2 dates" << endl;
     // cout << "5- Formater une date" << endl;
     // cout << "6- Verifier si une annee est bissextile" << endl;
     // cout << "7- Afficher le nombre de jours dans un mois donne" << endl;
     // cout << "8- Verifier si une date est valide" << endl;
     // cout << "0- Quitter" << endl;
-    // option = 3;
+    option = 4;
     do{
-        option = mainMenu();
+        // option = mainMenu();
         switch (option) {
         case 0:
             exit = true;
@@ -311,6 +400,9 @@ int main()
             break;
         case 3:
             diffBetweenTwoDates();
+            break;
+        case 4:
+            compareTwoDate();
             break;
         }
     }while(!exit);
