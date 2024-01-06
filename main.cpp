@@ -60,7 +60,7 @@ int mainMenu(){
     do{
         cout << "Date" << endl;
         cout << "1- Afficher la date d'aujourd'hui" << endl;
-        cout << "2- Ajouter une periode à une date" << endl;
+        cout << "2- Ajouter une periode a une date" << endl;
         cout << "3- La difference de (j, m, a) entre 2 dates" << endl;
         cout << "4- Comparer 2 dates" << endl;
         cout << "5- Formater une date" << endl;
@@ -171,22 +171,24 @@ void addPeriode(){
     int nbPeriode;
     CDate::TYPE_PERIODE periode;
     CDate date;
-    bool dateHasError;
-    bool continous;
+    bool continuous;
     string ex ="(ex -> 1/1/1970)";
     int option = 0;
     int min = 1, max = 3;
     string message = "";
+    bool dateIsInvalid;
+    bool dateIsBefore1970 ;
 
     do{
+
         do {
             cout << "\t\tAjouter une periode a une date" << endl << endl;
             cout << "NB : nous ne pouvons formater une date inf a 1/1/1970 " << endl << endl;
             cout << "Entrer une date " << ex << " : ";
             cin >> date;
 
-            bool dateIsInvalid = date.dateIsValid();
-            bool dateIsBefore1970 = date < "1/1/1970";
+            dateIsInvalid = date.dateIsValid();
+            dateIsBefore1970 = date < "1/1/1970";
 
             if (!dateIsInvalid || dateIsBefore1970) {
                 cout << "=======================================================" << endl;
@@ -194,7 +196,7 @@ void addPeriode(){
                 pressAnyKeyToContinue();
                 system("cls");
             }
-        } while (!date.dateIsValid() || date < "1/1/1970");
+        } while (!dateIsInvalid || dateIsBefore1970);
 
 
 
@@ -221,22 +223,72 @@ void addPeriode(){
             break;
         }
         cout << endl << endl;
-        continous = restartOrExist();
-    }while(continous);
+        continuous = restartOrExist();
+    }while(continuous);
 
 
 
 }
 
+
+void diffBetweenTwoDates(){
+    CDate d1;
+    CDate d2;
+    string ex ="(ex -> 1/1/1970)";
+    bool dateIsInvalid;
+    int diff = 0;
+    bool continuous;
+
+    do{
+        cout << "La difference (en j) entre 2 dates" << endl << endl;
+
+        do{
+            cout << "Date 1 : ", cin >> d1;
+
+            dateIsInvalid = d1.dateIsValid();
+
+            if (!dateIsInvalid) {
+                cout << "=======================================================" << endl;
+                cout << "Date incorrecte. Veuillez entrer une date valide " << ex << endl;
+                pressAnyKeyToContinue();
+                cout << endl << endl;
+            }
+        }while(!dateIsInvalid);
+
+        cout << endl;
+        do{
+            cout << "Date 2 : ", cin >> d2;
+
+            dateIsInvalid = d2.dateIsValid();
+
+            if (!dateIsInvalid) {
+                cout << "=======================================================" << endl;
+                cout << "Date incorrecte. Veuillez entrer une date valide " << ex << endl;
+                pressAnyKeyToContinue();
+                cout << endl << endl;
+            }
+        }while(!dateIsInvalid);
+
+        cout << endl ;
+
+        if(d1 > d2){
+            cout << "Il y a " << d1 - d2 << " jours de difference entre " << d2 << " et " << d1  << endl;
+        }else if(d2 > d1){
+            cout << "Il y a " << d2 - d1 << " jours de difference entre " << d1 << " et " << d2  << endl;
+        }else{
+            cout << "Il y a " << d2 - d1 << " jours de difference entre " << d1 << " et " << d2  << endl;
+        }
+        cout << endl;
+        continuous = restartOrExist();
+    }while(continuous);
+
+
+}
 int main()
 {
     bool exit = false;
     int option = 0;
 
-
-    // cout << "Date" << endl;
-    // cout << "1- Afficher la date d'aujourd'hui" << endl;
-    // cout << "2- Ajouter une periode à une date" << endl;
     // cout << "3- La difference de (j, m, a) entre 2 dates" << endl;
     // cout << "4- Comparer 2 dates" << endl;
     // cout << "5- Formater une date" << endl;
@@ -244,7 +296,7 @@ int main()
     // cout << "7- Afficher le nombre de jours dans un mois donne" << endl;
     // cout << "8- Verifier si une date est valide" << endl;
     // cout << "0- Quitter" << endl;
-    // option = 2;
+    // option = 3;
     do{
         option = mainMenu();
         switch (option) {
@@ -256,6 +308,9 @@ int main()
             break;
         case 2:
             addPeriode();
+            break;
+        case 3:
+            diffBetweenTwoDates();
             break;
         }
     }while(!exit);
