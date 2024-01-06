@@ -2,7 +2,6 @@
 #include "cdate.h"
 #include "conio.h"
 #include <cstdlib>
-#include "sstream"
 
 using namespace std;
 
@@ -42,14 +41,14 @@ bool restartOrExist(){
 const void dateFormatChoice(char numSep = '-', bool m = true, bool a = true, bool c = true){
     int x = 1;
 
-    cout << "Sous quelle format souhaitez-vous afficher la date" << endl;
+    cout << "Sous quelle format souhaitez-vous afficher la date" << endl << endl;
     if(m) cout << x << numSep << " Minimal ex : 1/1/1970" << endl, ++x;
     if(a) cout << x << numSep << " Abrege ex : jeu 1 jan 1970" << endl, ++x;
     if(c) cout << x << numSep << " Complet ex : jeudi 1 janvier 1970" << endl, ++x;
 }
 
 const void dateFormatPrint(string message, CDate date, CDate::FORMAT format, bool clear = true){
-    cout << message << date.formater(format) << endl << endl;
+    cout << message << date.formater(format) << endl ;
     pressAnyKeyToContinue();
     if(clear) system("cls");
 }
@@ -117,7 +116,7 @@ CDate::TYPE_PERIODE choicePeriode(){
     CDate::TYPE_PERIODE periode;
 
     do{
-        cout << endl << "Quelle periode voullez-vous ajouter ?" << endl;
+        cout << endl << "Quelle periode voullez-vous ajouter ?" << endl << endl;
         cout << "1- Jour(s)" << endl;
         cout << "2- Semaine(s)" << endl;
         cout << "3- Mois" << endl;
@@ -328,7 +327,9 @@ void compareTwoDate() {
                 cout << endl << endl;
             }
         }while(!opIsValid);
+
         cout << endl;
+
         // Saisie et validation de la deuxième date
         do {
             cout << "Saisir la deuxieme date " << ex2 << " : ";
@@ -374,18 +375,75 @@ void compareTwoDate() {
     } while (continuous);
 }
 
+void formatDate(){
+    CDate d;
+    bool dateIsInvalid;
+    bool continuous = false;
+    bool dateIsBefore1970;
+    int option = 0, min = 0, max = 2;
+    string ex ="(ex -> 1/1/1970)";
+    string message = "Date formater ->";
+
+    do{
+        cout << "Formater une date" << endl << endl;
+        do {
+            cout << "NB : nous ne pouvons formater une date inf a 1/1/1970 " << endl << endl;
+            cout << "Entrer une date " << ex << " : ";
+            cin >> d;
+
+            dateIsInvalid = d.dateIsValid();
+            dateIsBefore1970 = d < "1/1/1970";
+
+            if (!dateIsInvalid || dateIsBefore1970) {
+                cout << "=======================================================" << endl;
+                cout << "Date incorrecte. Veuillez entrer une date valide " << ex << endl;
+                pressAnyKeyToContinue();
+                cout << endl << endl;
+            }
+        } while (!dateIsInvalid || dateIsBefore1970);
+
+
+        do{
+            cout << endl;
+            dateFormatChoice('-', false);
+            cout << "0- Menu Precedent" << endl;
+            option = choiceAndError(min, max);
+            cout << endl;
+        }while(option < min || option > max);
+
+
+        switch (option)
+        {
+        case 0:
+            continuous = true;
+            break;
+        case 1:
+            dateFormatPrint(message, d, CDate::MINIMAL);
+            break;
+        case 2:
+            dateFormatPrint(message, d, CDate::ABREGE);
+            break;
+        case 3:
+            dateFormatPrint(message, d, CDate::COMPLET);
+            break;
+        }
+        if(!continuous){
+            continuous = restartOrExist();
+        }
+    }while(!continuous);
+}
+
 int main()
 {
     bool exit = false;
     int option = 0;
 
-    // cout << "4- Comparer 2 dates" << endl;
     // cout << "5- Formater une date" << endl;
     // cout << "6- Verifier si une annee est bissextile" << endl;
     // cout << "7- Afficher le nombre de jours dans un mois donne" << endl;
     // cout << "8- Verifier si une date est valide" << endl;
     // cout << "0- Quitter" << endl;
-    option = 4;
+    option = 5;
     do{
         // option = mainMenu();
         switch (option) {
@@ -403,6 +461,9 @@ int main()
             break;
         case 4:
             compareTwoDate();
+            break;
+        case 5:
+            formatDate();
             break;
         }
     }while(!exit);
