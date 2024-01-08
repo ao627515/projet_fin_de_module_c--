@@ -546,7 +546,9 @@ int  CDate::operator-(const CDate& date) const{
     otherDate.tm_mon = date._month - 1;
     otherDate.tm_year = date._year - 1900;
 
-    double diffDayInSeconds = difftime(mktime(&thisDate), mktime(&otherDate));
+    time_t thisDateInSecond = mktime(&thisDate);
+    time_t otherDateInSecond = mktime(&otherDate);
+    double diffDayInSeconds = difftime(thisDateInSecond, otherDateInSecond);
 
     return static_cast<int>(diffDayInSeconds / (60 * 60 * 24));
 }
@@ -640,7 +642,7 @@ namespace CDateProgTest
 
     int mainMenu(){
         int option = 0;
-        int min = 0, max = 8;
+        int min = 0, max = 6;
         do{
             cout << "Date" << endl;
             cout << "1- Afficher la date d'aujourd'hui" << endl;
@@ -853,7 +855,7 @@ namespace CDateProgTest
             }while(!dateIsInvalid);
 
             cout << endl ;
-
+            
             if(d1 > d2){
                 cout << "Il y a " << d1 - d2 << " jours de difference entre " << d2 << " et " << d1  << endl;
             }else if(d2 > d1){
