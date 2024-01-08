@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(projet_fin_de_module main.cpp
-    cdate.h cdate.cpp)
+    cdate.h cdate.cpp
+    cemployer.h cemployer.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS projet_fin_de_module
