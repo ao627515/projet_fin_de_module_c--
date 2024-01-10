@@ -75,6 +75,13 @@ void CDate::displayDate(){
     std::cout << _day << '/' << _month << '/' << _year << std::endl;
 }
 
+int CDate::calculateMonthDifference(const CDate& otherDate) const {
+    int monthDifference = (otherDate.lireAnnee() - lireAnnee()) * 12;
+    monthDifference += otherDate.lireMois() - lireMois();
+    return monthDifference;
+}
+
+
 void CDate::addDays(int days) {
 
     int daysInMonth = CDate::daysInMonth(_month, _year);
@@ -389,6 +396,11 @@ CDate CDate::currentTime() {
     return CDate(currentDate->tm_mday, currentDate->tm_mon + 1, currentDate->tm_year + 1900);
 }
 
+int CDate::calculateMonthDifference(const CDate& start, const CDate& end){
+    int monthDifference = (end.lireAnnee() - start.lireAnnee()) * 12;
+    monthDifference += end.lireMois() - start.lireMois();
+    return monthDifference;
+}
 /************************** METHODE STATIC FIN *******************************************/
 
 /************************** Surcharge D'OPERATEUR DEBUT*******************************************/
