@@ -3,6 +3,7 @@
 
 #include "string"
 #include "cdate.h"
+#include "set"
 
 static void throwInvalidArgumentIf(bool condition, std::string msg){
     if (condition) {
@@ -18,6 +19,7 @@ class ParametresEntreprise {
         static double tauxHoraireMajore;
         static int ageRetraite;
         static int heureMajore;
+
     public:
         //
         static void setPlafondProtectionSociale(double plafond);
@@ -39,7 +41,7 @@ class CEmployer {
         enum Statut {fonctionnaire, auxiliaire};
 
     private:
-        std::string _numeroMatricule;
+        const std::string _matricule;
         std::string _nom;
         std::string _prenom;
         std::string _fonction;
@@ -48,9 +50,11 @@ class CEmployer {
         CDate _dateNaissance;
         CDate _dateEmbauche;
         double _salaireBase;
-        ParametresEntreprise _parametresEntreprise;
+        // static std::set<std::string> usedMatricules;
+
 
     public:
+        static std::set<std::string> usedMatricules;
         CEmployer() = delete;
         CEmployer(std::string matricule, std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
                  CDate naissance, CDate embauche);
@@ -64,6 +68,7 @@ class CEmployer {
         int nbJoursDeConge(bool cadre = false) const;
         double cotisationRetraite() const;
         double cotisationProtectionSociale(double plafond) const;
+        static std::string generateMatricule();
 
         // Accesseurs
         std::string getNumeroMatricule() const;
@@ -78,7 +83,6 @@ class CEmployer {
         ParametresEntreprise getParametresEntreprise() const;
 
         // Modificateurs
-        void setNumeroMatricule(std::string matricule);
         void setNom(std::string nom);
         void setPrenom(std::string prenom);
         void setFonction(std::string fonction);
