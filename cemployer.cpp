@@ -123,6 +123,10 @@ CDate CEmployer::dateRetraite() const{
     return _dateEmbauche.ajouterPeriode(yearToWork, CDate::ANNEE);
 }
 
+bool CEmployer::estAnneeRetraite(int annee) const{
+    return annee == dateRetraite().lireAnnee();
+}
+
 void CEmployer::augmenter(float pourcentage) {
     if (pourcentage < 0) {
         throw std::invalid_argument("Le pourcentage d'augmentation ne peut être négatif");
