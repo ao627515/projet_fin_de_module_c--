@@ -48,6 +48,7 @@ class CDate
         void subtractDays(int days);
         void addMonth(int nb);
         void addYear(int nb);
+        int calculateMonthDifference(const CDate& otherDate) const;
 
 
         // Methode static
@@ -61,6 +62,7 @@ class CDate
         static int currentMonth();
         static int currentYear();
         static CDate currentTime();
+        static int calculateMonthDifference(const CDate& start, const CDate& end);
 
 
         // Surcharge des operateur
