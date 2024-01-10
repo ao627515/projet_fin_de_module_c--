@@ -50,6 +50,7 @@ class CEmployer {
         CDate _dateNaissance;
         CDate _dateEmbauche;
         float _salaireBase;
+        // ne pas oublier
         // static std::set<std::string> usedMatricules;
 
 

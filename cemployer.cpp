@@ -93,7 +93,24 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
 
 // methode constante
 bool CEmployer::estAuxiliaire() const{ return _statut == CEmployer::auxiliaire; }
+
 bool CEmployer::estFonctionnaire() const {return _statut == CEmployer::fonctionnaire; }
+
+float CEmployer::calculerSalaire(int nbHeureSupp) const {
+    if (nbHeureSupp < 0) {
+        throw std::invalid_argument("Le nombre d'heures supplémentaires ne peut être inférieur à 0");
+    }
+
+    float salaire = _salaireBase;  // Initialisez avec le salaire de base
+
+    if (nbHeureSupp > ParametresEntreprise::getHeureMajore()) {
+        salaire += nbHeureSupp * ParametresEntreprise::getTauxHoraireMajore();
+    } else {
+        salaire += nbHeureSupp * ParametresEntreprise::getTauxHoraire();
+    }
+
+    return salaire;
+}
 
 // methode static
 // methode constante
@@ -152,28 +169,16 @@ std::string CEmployer::generateMatricule() {
 }
 
 
-
-
 // setteur
-void CEmployer::setNom(std::string nom){
-    _nom = nom;
-}
+void CEmployer::setNom(std::string nom){ _nom = nom; }
 
-void CEmployer::setPrenom(std::string prenom){
-    _prenom = prenom;
-}
+void CEmployer::setPrenom(std::string prenom){ _prenom = prenom; }
 
-void CEmployer::setFonction(std::string fonction){
-    _fonction = fonction;
-}
+void CEmployer::setFonction(std::string fonction){ _fonction = fonction; }
 
-void CEmployer::setStatut(Statut statut){
-    _statut = statut;
-}
+void CEmployer::setStatut(Statut statut){ _statut = statut; }
 
-void CEmployer::setAdresse(std::string adresse){
-    _adresse = adresse;
-}
+void CEmployer::setAdresse(std::string adresse){ _adresse = adresse; }
 
 void CEmployer::setDateNaissance(CDate date_naiss){
     throwInvalidArgumentIf(date_naiss == "0/0/0000", "date Incorecte !");
