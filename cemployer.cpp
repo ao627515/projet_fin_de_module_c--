@@ -8,7 +8,7 @@ float ParametresEntreprise::tauxHoraireMajore = 0.025;
 int ParametresEntreprise::ageRetraite = 65;
 int ParametresEntreprise::heureMajore = 100;
 
-// setteur
+// ->>>>>>>>> setteur
 void ParametresEntreprise::setPlafondProtectionSociale(float plafond){
     ParametresEntreprise::plafondProtectionSociale = plafond;
 }
@@ -34,7 +34,7 @@ void ParametresEntreprise::setHeureMajore(int h){
     ParametresEntreprise::heureMajore = h;
 }
 
-// getteur
+// ->>>>>>>>> getteur
 float ParametresEntreprise::getPlafondProtectionSociale(){
     return ParametresEntreprise::plafondProtectionSociale;
 }
@@ -59,10 +59,10 @@ int ParametresEntreprise::getHeureMajore(){
 
 /*********************************** CEmployer ***********************************/
 
-// atributs
+// ->>>>>>>>> atributs
 std::set<std::string> CEmployer::usedMatricules;
 
-// Constructeur
+// ->>>>>>>>> Constructeur
 CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
                      CDate naissance, CDate embauche, float salaireBase)
     : _matricule{generateMatricule()}
@@ -91,7 +91,7 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
     setStatut(statut);
 }
 
-// methode constante
+// ->>>>>>>>> methode constante
 bool CEmployer::estAuxiliaire() const{ return _statut == CEmployer::auxiliaire; }
 
 bool CEmployer::estFonctionnaire() const {return _statut == CEmployer::fonctionnaire; }
@@ -139,6 +139,57 @@ void CEmployer::afficher() const {
     std::cout << "Salaire de base: " << getSalaireBase() << std::endl;
 }
 
+int CEmployer::getAge() const {
+    return CDate::currentTime().lireAnnee() - _dateNaissance.lireAnnee();
+}
+
+int CEmployer::ancienneté() const {
+    return CDate::currentTime().lireAnnee() - _dateEmbauche.lireAnnee();
+}
+
+int CEmployer::nbJoursDeConge(bool cadre) const{
+
+    /*
+        Déterminer le nombre de jours de congé d'un employé.
+        le calcul des jours de congés payés s’effectue de la manière suivante :
+            si une personne est entrée dans l’entreprise depuis moins d’un an, elle a droit à deux jours
+            de congés par mois de présence (au minimum 1 mois), sinon à 28 jours au moins.
+
+            Si cette personne est un cadre et si elle est âgée d’au moins 35 ans et si son ancienneté est supérieure à 3 ans, il lui est accordé 2jours supplémentaires.
+
+            Si elle est cadre et si elle est âgée d’au moins 45 ans et si son ancienneté est supérieure à 5 ans, il lui est accordé 4 jours supplémentaires,
+                en plus des 2 accordés pour plus de 35 ans. .
+     */
+    // number of days off
+    int nbDoff = 0;
+
+    // si une personne est entrée dans l’entreprise depuis moins d’un an, elle a droit à deux jours
+    // de congés par mois de présence (au minimum 1 mois), sinon à 28 jours au moins.
+
+    int nbDaysElpased = CDate::currentTime() - _dateEmbauche;
+    if( nbDaysElpased <= 0) {
+        int j = 0;
+        int m = 0, a = 0;
+        m = _dateEmbauche.lireMois();
+        a = _dateEmbauche.lireAnnee();
+        int dayInMonth = CDate::daysInMonth(m, a);
+        while(nbDaysElpased > dayInMonth){
+            nbDaysElpased -= dayInMonth;
+            m++;
+            if(m > 12) a++;
+            dayInMonth = CDate::daysInMonth(m, a);
+        }
+    }
+
+    // Si cette personne est un cadre et si elle est âgée d’au moins 35 ans et si son ancienneté est supérieure à 3 ans,
+    if(cadre && getAge() >= 35 && ancienneté() > 3) nbDoff += 2;
+
+    if(cadre && getAge() >= 45 && ancienneté() > 5) nbDoff += 5;
+
+
+}
+
+// ->>>>>>>>> methode normal
 void CEmployer::augmenter(float pourcentage) {
     if (pourcentage < 0) {
         throw std::invalid_argument("Le pourcentage d'augmentation ne peut être négatif");
@@ -148,7 +199,8 @@ void CEmployer::augmenter(float pourcentage) {
 }
 
 
-// methode static
+// ->>>>>>>>> methode static
+
 // methode constante
 // std::string CEmployer::generateMatricule(){
 //     const char charset[] = "0123456789ABCDEFGHIJKLMNLOPQRSTUVWXYZ";
@@ -205,7 +257,7 @@ std::string CEmployer::generateMatricule() {
 }
 
 
-// setteur
+// ->>>>>>>>> setteur
 void CEmployer::setNom(std::string nom){ _nom = nom; }
 
 void CEmployer::setPrenom(std::string prenom){ _prenom = prenom; }
@@ -243,7 +295,12 @@ void CEmployer::setSalaireBase(float salaireBase){
     _salaireBase = salaireBase;
 }
 
-// Getteur
+void CEmployer::setHeureSup(int hSup) {
+    throwInvalidArgumentIf(hSup < 0, "Le nombre d'heure sup doit etre > 0");
+    _heureSup = hSup;
+}
+
+// ->>>>>>>>> Getteur
 std::string CEmployer::getNumeroMatricule() const { return _matricule;}
 std::string CEmployer::getNom() const {return _nom;}
 std::string CEmployer::getPrenom() const { return _prenom;}
@@ -254,6 +311,7 @@ std::string CEmployer::getAdresse() const { return _adresse;}
 CDate CEmployer::getDateNaissance() const {return _dateNaissance;}
 CDate CEmployer::getDateEmbauche() const { return _dateEmbauche;}
 float CEmployer::getSalaireBase() const {return _salaireBase;}
+int CEmployer::getHeureSup() const { return _heureSup; }
 
 /*********************************** CEmployer ***********************************/
 
