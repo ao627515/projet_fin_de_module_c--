@@ -63,6 +63,7 @@ class CEmployer {
 
         void augmenter(float pourcentage = 0.05);
         bool estAuxiliaire() const;
+        bool estFonctionnaire() const;
         float calculerSalaire(int nbHeureSupp = 0) const;
         CDate dateRetraite() const;
         bool estAnneeRetraite(int annee) const;

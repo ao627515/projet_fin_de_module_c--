@@ -92,6 +92,11 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
 }
 
 // methode constante
+bool CEmployer::estAuxiliaire() const{ return _statut == CEmployer::auxiliaire; }
+bool CEmployer::estFonctionnaire() const {return _statut == CEmployer::fonctionnaire; }
+
+// methode static
+// methode constante
 // std::string CEmployer::generateMatricule(){
 //     const char charset[] = "0123456789ABCDEFGHIJKLMNLOPQRSTUVWXYZ";
 //     const int length = 8;
@@ -112,7 +117,6 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
 
 //     return matricule;
 // }
-
 
 std::string CEmployer::generateMatricule() {
     // Utiliser std::random_device pour obtenir une graine aléatoire plus sécurisée
@@ -146,6 +150,8 @@ std::string CEmployer::generateMatricule() {
 
     return matricule;
 }
+
+
 
 
 // setteur
