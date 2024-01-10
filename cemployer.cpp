@@ -112,6 +112,26 @@ float CEmployer::calculerSalaire(int nbHeureSupp) const {
     return salaire;
 }
 
+CDate CEmployer::dateRetraite() const{
+    // age de l'employer
+    int age = CDate::currentTime().lireAnnee() - _dateNaissance.lireAnnee();
+
+    // nombre d'anné qu'il reste avant l'age de retraite
+    int yearToWork = ParametresEntreprise::getAgeRetraite() - age;
+
+    // on joute yearToWork a la date d'embauche pour avoir la date de retraite
+    return _dateEmbauche.ajouterPeriode(yearToWork, CDate::ANNEE);
+}
+
+void CEmployer::augmenter(float pourcentage) {
+    if (pourcentage < 0) {
+        throw std::invalid_argument("Le pourcentage d'augmentation ne peut être négatif");
+    }
+
+    _salaireBase = _salaireBase + (_salaireBase * pourcentage);
+}
+
+
 // methode static
 // methode constante
 // std::string CEmployer::generateMatricule(){
