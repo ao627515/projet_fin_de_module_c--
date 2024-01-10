@@ -4,24 +4,34 @@
 #include "string"
 #include "cdate.h"
 
+static void throwInvalidArgumentIf(bool condition, std::string msg){
+    if (condition) {
+        throw std::invalid_argument(msg);
+    }
+}
+
 class ParametresEntreprise {
-    public:
+    private:
+        ParametresEntreprise() = delete;
         static double plafondProtectionSociale;
         static double tauxHoraire;
         static double tauxHoraireMajore;
         static int ageRetraite;
-
+        static int heureMajore;
+    public:
         //
         static void setPlafondProtectionSociale(double plafond);
         static void setTauxHoraire(double taux);
         static void setTauxHoraireMajore(double tauxMajore);
         static void setAgeRetraite(int age);
+        static void setHeureMajore(int h);
 
         //
         static double getPlafondProtectionSociale();
         static double getTauxHoraire();
         static double getTauxHoraireMajore();
         static int getAgeRetraite();
+        static int getHeureMajore();
 };
 
 class CEmployer {
