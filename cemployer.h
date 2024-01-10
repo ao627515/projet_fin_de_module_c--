@@ -50,7 +50,7 @@ class CEmployer {
         CDate _dateNaissance;
         CDate _dateEmbauche;
         float _salaireBase;
-        int heureSup;
+        int _heureSup;
         // ne pas oublier
         // static std::set<std::string> usedMatricules;
 
@@ -74,8 +74,10 @@ class CEmployer {
         float cotisationRetraite() const;
         float cotisationProtectionSociale(float plafond) const;
         static std::string generateMatricule();
+        int anciennete() const;
 
         // Accesseurs
+        int getAge() const;
         std::string getNumeroMatricule() const;
         std::string getNom() const;
         std::string getPrenom() const;
@@ -87,6 +89,7 @@ class CEmployer {
         CDate getDateEmbauche() const;
         float getSalaireBase() const;
         int getHeureSup() const;
+
 
         // Modificateurs
         void setNom(std::string nom);

@@ -143,50 +143,35 @@ int CEmployer::getAge() const {
     return CDate::currentTime().lireAnnee() - _dateNaissance.lireAnnee();
 }
 
-int CEmployer::ancienneté() const {
+int CEmployer::anciennete() const {
     return CDate::currentTime().lireAnnee() - _dateEmbauche.lireAnnee();
 }
 
-int CEmployer::nbJoursDeConge(bool cadre) const{
+int CEmployer::nbJoursDeConge(bool cadre) const {
+    const int AGE_MINIMUM_CADRE_1 = 35;
+    const int AGE_MINIMUM_CADRE_2 = 45;
+    const int ANCIENNETE_MINIMUM_CADRE_1 = 3;
+    const int ANCIENNETE_MINIMUM_CADRE_2 = 5;
 
-    /*
-        Déterminer le nombre de jours de congé d'un employé.
-        le calcul des jours de congés payés s’effectue de la manière suivante :
-            si une personne est entrée dans l’entreprise depuis moins d’un an, elle a droit à deux jours
-            de congés par mois de présence (au minimum 1 mois), sinon à 28 jours au moins.
-
-            Si cette personne est un cadre et si elle est âgée d’au moins 35 ans et si son ancienneté est supérieure à 3 ans, il lui est accordé 2jours supplémentaires.
-
-            Si elle est cadre et si elle est âgée d’au moins 45 ans et si son ancienneté est supérieure à 5 ans, il lui est accordé 4 jours supplémentaires,
-                en plus des 2 accordés pour plus de 35 ans. .
-     */
-    // number of days off
     int nbDoff = 0;
 
-    // si une personne est entrée dans l’entreprise depuis moins d’un an, elle a droit à deux jours
-    // de congés par mois de présence (au minimum 1 mois), sinon à 28 jours au moins.
+    int moisAnciennete = _dateEmbauche.calculateMonthDifference(CDate::currentTime());
 
-    int nbDaysElpased = CDate::currentTime() - _dateEmbauche;
-    if( nbDaysElpased <= 0) {
-        int j = 0;
-        int m = 0, a = 0;
-        m = _dateEmbauche.lireMois();
-        a = _dateEmbauche.lireAnnee();
-        int dayInMonth = CDate::daysInMonth(m, a);
-        while(nbDaysElpased > dayInMonth){
-            nbDaysElpased -= dayInMonth;
-            m++;
-            if(m > 12) a++;
-            dayInMonth = CDate::daysInMonth(m, a);
-        }
+    if (moisAnciennete < 12) {
+        nbDoff = 2;
+    } else {
+        nbDoff = 28;
     }
 
-    // Si cette personne est un cadre et si elle est âgée d’au moins 35 ans et si son ancienneté est supérieure à 3 ans,
-    if(cadre && getAge() >= 35 && ancienneté() > 3) nbDoff += 2;
+    if (cadre && getAge() >= AGE_MINIMUM_CADRE_1 && anciennete() > ANCIENNETE_MINIMUM_CADRE_1) {
+        nbDoff += 2;
+    }
 
-    if(cadre && getAge() >= 45 && ancienneté() > 5) nbDoff += 5;
+    if (cadre && getAge() >= AGE_MINIMUM_CADRE_2 && anciennete() > ANCIENNETE_MINIMUM_CADRE_2) {
+        nbDoff += 4;
+    }
 
-
+    return nbDoff;
 }
 
 // ->>>>>>>>> methode normal
