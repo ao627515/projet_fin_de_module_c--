@@ -1,23 +1,24 @@
 #include "cemployer.h"
 #include <random>
+#include "iostream"
 /*********************************** ParametresEntreprise ***********************************/
-double ParametresEntreprise::plafondProtectionSociale = 5000.0;
-double ParametresEntreprise::tauxHoraire = 0.02;
-double ParametresEntreprise::tauxHoraireMajore = 0.025;
+float ParametresEntreprise::plafondProtectionSociale = 5000.0;
+float ParametresEntreprise::tauxHoraire = 0.02;
+float ParametresEntreprise::tauxHoraireMajore = 0.025;
 int ParametresEntreprise::ageRetraite = 65;
 int ParametresEntreprise::heureMajore = 100;
 
 // setteur
-void ParametresEntreprise::setPlafondProtectionSociale(double plafond){
+void ParametresEntreprise::setPlafondProtectionSociale(float plafond){
     ParametresEntreprise::plafondProtectionSociale = plafond;
 }
 
-void ParametresEntreprise::setTauxHoraire(double taux){
+void ParametresEntreprise::setTauxHoraire(float taux){
     throwInvalidArgumentIf(taux < 0, "Le taux horaire doit etre sup a 0");
     ParametresEntreprise::tauxHoraire = taux;
 }
 
-void ParametresEntreprise::setTauxHoraireMajore(double tauxMajore){
+void ParametresEntreprise::setTauxHoraireMajore(float tauxMajore){
     throwInvalidArgumentIf(tauxMajore  < ParametresEntreprise::tauxHoraire,
                            "Le taux horaire majorer doit ere sup aux taux horaire : " + std::to_string(ParametresEntreprise::tauxHoraire));
     ParametresEntreprise::tauxHoraireMajore = tauxMajore;
@@ -34,15 +35,15 @@ void ParametresEntreprise::setHeureMajore(int h){
 }
 
 // getteur
-double ParametresEntreprise::getPlafondProtectionSociale(){
+float ParametresEntreprise::getPlafondProtectionSociale(){
     return ParametresEntreprise::plafondProtectionSociale;
 }
 
-double ParametresEntreprise::getTauxHoraire(){
+float ParametresEntreprise::getTauxHoraire(){
     return ParametresEntreprise::tauxHoraire;
 }
 
-double ParametresEntreprise::getTauxHoraireMajore(){
+float ParametresEntreprise::getTauxHoraireMajore(){
     return ParametresEntreprise::tauxHoraireMajore;
 }
 
@@ -57,12 +58,37 @@ int ParametresEntreprise::getHeureMajore(){
 /*********************************** ParametresEntreprise ***********************************/
 
 /*********************************** CEmployer ***********************************/
-//
-std::set<std::string> CEmployer::usedMatricules;
-// Constructeur
-CEmployer::CEmployer(std::string matricule, std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
-                     CDate naissance, CDate embauche){
 
+// atributs
+std::set<std::string> CEmployer::usedMatricules;
+
+// Constructeur
+CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
+                     CDate naissance, CDate embauche, float salaireBase)
+    : _matricule{generateMatricule()}
+{
+    setNom(nom);
+    setPrenom(prenom);
+    setFonction(fonction);
+    setAdresse(adresse);
+    setSalaireBase(salaireBase);
+    setDateNaissance(naissance);
+    setDateEmbauche(embauche);
+    setStatut(statut);
+}
+
+CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
+                     std::string naissance, std::string embauche, float salaireBase)
+    : _matricule{generateMatricule()}
+{
+    setNom(nom);
+    setPrenom(prenom);
+    setFonction(fonction);
+    setAdresse(adresse);
+    setSalaireBase(salaireBase);
+    setDateNaissance(CDate(naissance));
+    setDateEmbauche(CDate(embauche));
+    setStatut(statut);
 }
 
 // methode constante
@@ -123,16 +149,102 @@ std::string CEmployer::generateMatricule() {
 
 
 // setteur
+void CEmployer::setNom(std::string nom){
+    _nom = nom;
+}
 
-// void CEmployer::setNom(std::string nom);
-// void CEmployer::setPrenom(std::string prenom);
-// void CEmployer::setFonction(std::string fonction);
-// void CEmployer::setStatut(Statut statut);
-// void CEmployer::setAdresse(std::string adresse);
-// void CEmployer::setDateNaissance(CDate date_naiss);
-// void CEmployer::setDateEmbauche(CDate date_embauche);
-// void CEmployer::setSalaireBase(double salaireBase);
-// void CEmployer::setParametresEntreprise(ParametresEntreprise params);
+void CEmployer::setPrenom(std::string prenom){
+    _prenom = prenom;
+}
 
+void CEmployer::setFonction(std::string fonction){
+    _fonction = fonction;
+}
+
+void CEmployer::setStatut(Statut statut){
+    _statut = statut;
+}
+
+void CEmployer::setAdresse(std::string adresse){
+    _adresse = adresse;
+}
+
+void CEmployer::setDateNaissance(CDate date_naiss){
+    throwInvalidArgumentIf(date_naiss == "0/0/0000", "date Incorecte !");
+    _dateNaissance = date_naiss;
+}
+
+void CEmployer::setDateNaissance(std::string date_naiss){
+    CDate d(date_naiss);
+    throwInvalidArgumentIf(d == "0/0/0000", "date Incorecte !");
+    _dateNaissance = d;
+}
+
+void CEmployer::setDateEmbauche(CDate date_embauche){
+    throwInvalidArgumentIf(date_embauche == "0/0/0000", "date Incorecte !");
+    _dateEmbauche = date_embauche;
+}
+
+void CEmployer::setDateEmbauche(std::string date_embauche){
+    CDate d(date_embauche);
+    throwInvalidArgumentIf(d == "0/0/0000", "date Incorecte !");
+    _dateEmbauche = d;
+}
+
+void CEmployer::setSalaireBase(float salaireBase){
+    throwInvalidArgumentIf(salaireBase <= 0, "Salaire de base inf a 0 !");
+    _salaireBase = salaireBase;
+}
+
+// Getteur
+std::string CEmployer::getNumeroMatricule() const { return _matricule;}
+std::string CEmployer::getNom() const {return _nom;}
+std::string CEmployer::getPrenom() const { return _prenom;}
+std::string CEmployer::getFonction() const { return _fonction;}
+// CEmployer::Statut CEmployer::getStatut() const { return _statut == fonctionnaire ? "Fonctionnaire" : "Auxiliaire"; }
+CEmployer::Statut CEmployer::getStatut() const { return _statut;}
+std::string CEmployer::getAdresse() const { return _adresse;}
+CDate CEmployer::getDateNaissance() const {return _dateNaissance;}
+CDate CEmployer::getDateEmbauche() const { return _dateEmbauche;}
+float CEmployer::getSalaireBase() const {return _salaireBase;}
 
 /*********************************** CEmployer ***********************************/
+
+/*********************************** ProgTest ***********************************/
+void CEmployerProgTest::test_setteur_getteur_construct(){
+
+    CEmployer emp("Ouedraogo", "Abdoul", "PDF", CEmployer::fonctionnaire, "Ouagadougou", "26/11/2000", "10/1/2024", 50000.0);
+
+    // Utilisation des getters
+    std::cout << "Matricule: " << emp.getNumeroMatricule() << std::endl;
+    std::cout << "Nom: " << emp.getNom() << std::endl;
+    std::cout << "Prenom: " << emp.getPrenom() << std::endl;
+    std::cout << "Fonction: " << emp.getFonction() << std::endl;
+    std::cout << "Statut: " << (emp.getStatut() == CEmployer::fonctionnaire ? "Fonctionnaire" : "Auxiliaire") << std::endl;
+    std::cout << "Adresse: " << emp.getAdresse() << std::endl;
+    std::cout << "Date de Naissance: " << emp.getDateNaissance() << std::endl;
+    std::cout << "Date d'embauche: " << emp.getDateEmbauche() << std::endl;
+    std::cout << "Salaire de base: " << emp.getSalaireBase() << std::endl;
+
+    // Utilisation des setters
+    emp.setNom("NouveauNom");
+    emp.setPrenom("NouveauPrenom");
+    emp.setFonction("NouvelleFonction");
+    emp.setStatut(CEmployer::auxiliaire);
+    emp.setAdresse("NouvelleAdresse");
+    emp.setDateNaissance("01/01/1990");
+    emp.setDateEmbauche("01/01/2022");
+    emp.setSalaireBase(60000.0);
+
+    // Affichage après modification
+    std::cout << "\nAprès modification :\n";
+    std::cout << "Nom: " << emp.getNom() << std::endl;
+    std::cout << "Prenom: " << emp.getPrenom() << std::endl;
+    std::cout << "Fonction: " << emp.getFonction() << std::endl;
+    std::cout << "Statut: " << (emp.getStatut() == CEmployer::fonctionnaire ? "Fonctionnaire" : "Auxiliaire") << std::endl;
+    std::cout << "Adresse: " << emp.getAdresse() << std::endl;
+    std::cout << "Date de Naissance: " << emp.getDateNaissance() << std::endl;
+    std::cout << "Date d'embauche: " << emp.getDateEmbauche() << std::endl;
+    std::cout << "Salaire de base: " << emp.getSalaireBase() << std::endl;
+}
+/*********************************** ProgTest ***********************************/

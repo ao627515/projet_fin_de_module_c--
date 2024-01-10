@@ -14,24 +14,24 @@ static void throwInvalidArgumentIf(bool condition, std::string msg){
 class ParametresEntreprise {
     private:
         ParametresEntreprise() = delete;
-        static double plafondProtectionSociale;
-        static double tauxHoraire;
-        static double tauxHoraireMajore;
+        static float plafondProtectionSociale;
+        static float tauxHoraire;
+        static float tauxHoraireMajore;
         static int ageRetraite;
         static int heureMajore;
 
     public:
         //
-        static void setPlafondProtectionSociale(double plafond);
-        static void setTauxHoraire(double taux);
-        static void setTauxHoraireMajore(double tauxMajore);
+        static void setPlafondProtectionSociale(float plafond);
+        static void setTauxHoraire(float taux);
+        static void setTauxHoraireMajore(float tauxMajore);
         static void setAgeRetraite(int age);
         static void setHeureMajore(int h);
 
         //
-        static double getPlafondProtectionSociale();
-        static double getTauxHoraire();
-        static double getTauxHoraireMajore();
+        static float getPlafondProtectionSociale();
+        static float getTauxHoraire();
+        static float getTauxHoraireMajore();
         static int getAgeRetraite();
         static int getHeureMajore();
 };
@@ -45,29 +45,31 @@ class CEmployer {
         std::string _nom;
         std::string _prenom;
         std::string _fonction;
-        Statut statut;
+        Statut _statut;
         std::string _adresse;
         CDate _dateNaissance;
         CDate _dateEmbauche;
-        double _salaireBase;
+        float _salaireBase;
         // static std::set<std::string> usedMatricules;
 
 
     public:
         static std::set<std::string> usedMatricules;
         CEmployer() = delete;
-        CEmployer(std::string matricule, std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
-                 CDate naissance, CDate embauche);
+        CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
+                 CDate naissance, CDate embauche, float salaireBase);
+        CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
+                  std::string naissance, std::string embauche, float salaireBase);
 
         void augmenter(float pourcentage = 0.05);
         bool estAuxiliaire() const;
-        double calculerSalaire(int nbHeureSupp = 0) const;
+        float calculerSalaire(int nbHeureSupp = 0) const;
         CDate dateRetraite() const;
         bool estAnneeRetraite(int annee) const;
         void afficher() const;
         int nbJoursDeConge(bool cadre = false) const;
-        double cotisationRetraite() const;
-        double cotisationProtectionSociale(double plafond) const;
+        float cotisationRetraite() const;
+        float cotisationProtectionSociale(float plafond) const;
         static std::string generateMatricule();
 
         // Accesseurs
@@ -75,12 +77,12 @@ class CEmployer {
         std::string getNom() const;
         std::string getPrenom() const;
         std::string getFonction() const;
-        Statut getStatut() const;
+        // std::string getStatut() const;
+        CEmployer::Statut getStatut() const;
         std::string getAdresse() const;
         CDate getDateNaissance() const;
         CDate getDateEmbauche() const;
-        double getSalaireBase() const;
-        ParametresEntreprise getParametresEntreprise() const;
+        float getSalaireBase() const;
 
         // Modificateurs
         void setNom(std::string nom);
@@ -90,7 +92,14 @@ class CEmployer {
         void setAdresse(std::string adresse);
         void setDateNaissance(CDate date_naiss);
         void setDateEmbauche(CDate date_embauche);
-        void setSalaireBase(double salaireBase);
-        void setParametresEntreprise(ParametresEntreprise params);
+        void setDateNaissance(std::string date_naiss);
+        void setDateEmbauche(std::string date_embauche);
+        void setSalaireBase(float salaireBase);
+
+        // test
 };
+
+namespace CEmployerProgTest {
+void test_setteur_getteur_construct();
+}
 #endif // CEMPLOYER_H
