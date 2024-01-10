@@ -50,6 +50,7 @@ class CEmployer {
         CDate _dateNaissance;
         CDate _dateEmbauche;
         float _salaireBase;
+        int heureSup;
         // ne pas oublier
         // static std::set<std::string> usedMatricules;
 
@@ -85,6 +86,7 @@ class CEmployer {
         CDate getDateNaissance() const;
         CDate getDateEmbauche() const;
         float getSalaireBase() const;
+        int getHeureSup() const;
 
         // Modificateurs
         void setNom(std::string nom);
@@ -97,6 +99,7 @@ class CEmployer {
         void setDateNaissance(std::string date_naiss);
         void setDateEmbauche(std::string date_embauche);
         void setSalaireBase(float salaireBase);
+        void setHeureSup(int nbHeureSup);
 
         // test
 };

@@ -127,6 +127,18 @@ bool CEmployer::estAnneeRetraite(int annee) const{
     return annee == dateRetraite().lireAnnee();
 }
 
+void CEmployer::afficher() const {
+    std::cout << "Matricule: " << getNumeroMatricule() << std::endl;
+    std::cout << "Nom: " << getNom() << std::endl;
+    std::cout << "Prenom: " << getPrenom() << std::endl;
+    std::cout << "Fonction: " << getFonction() << std::endl;
+    std::cout << "Statut: " << (getStatut() == CEmployer::fonctionnaire ? "Fonctionnaire" : "Auxiliaire") << std::endl;
+    std::cout << "Adresse: " << getAdresse() << std::endl;
+    std::cout << "Date de Naissance: " << getDateNaissance() << std::endl;
+    std::cout << "Date d'embauche: " << getDateEmbauche() << std::endl;
+    std::cout << "Salaire de base: " << getSalaireBase() << std::endl;
+}
+
 void CEmployer::augmenter(float pourcentage) {
     if (pourcentage < 0) {
         throw std::invalid_argument("Le pourcentage d'augmentation ne peut être négatif");
