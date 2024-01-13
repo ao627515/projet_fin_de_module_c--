@@ -5,6 +5,9 @@
 
 class CTechnicien : public CEmployer
 {
+private:
+    int _nb_unite_produite;
+    static const float _GAIN_UNITE;
 public:
     CTechnicien();
 };

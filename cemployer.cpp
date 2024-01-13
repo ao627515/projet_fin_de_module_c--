@@ -2,67 +2,14 @@
 #include <random>
 #include "iostream"
 #include "centreprise.h"
-/*********************************** ParametresEntreprise ***********************************/
-float ParametresEntreprise::plafondProtectionSociale = 5000.0;
-float ParametresEntreprise::tauxHoraire = 0.02;
-float ParametresEntreprise::tauxHoraireMajore = 0.025;
-int ParametresEntreprise::ageRetraite = 65;
-int ParametresEntreprise::heureMajore = 100;
 
-// ->>>>>>>>> setteur
-void ParametresEntreprise::setPlafondProtectionSociale(float plafond){
-    ParametresEntreprise::plafondProtectionSociale = plafond;
-}
-
-void ParametresEntreprise::setTauxHoraire(float taux){
-    throwInvalidArgumentIf(taux < 0, "Le taux horaire doit etre sup a 0");
-    ParametresEntreprise::tauxHoraire = taux;
-}
-
-void ParametresEntreprise::setTauxHoraireMajore(float tauxMajore){
-    throwInvalidArgumentIf(tauxMajore  < ParametresEntreprise::tauxHoraire,
-                           "Le taux horaire majorer doit ere sup aux taux horaire : " + std::to_string(ParametresEntreprise::tauxHoraire));
-    ParametresEntreprise::tauxHoraireMajore = tauxMajore;
-}
-
-void ParametresEntreprise::setAgeRetraite(int age){
-    throwInvalidArgumentIf(age <= 0, "Le l'age de retraite doit etre sup a 0");
-    ParametresEntreprise::ageRetraite = age;
-}
-
-void ParametresEntreprise::setHeureMajore(int h){
-    throwInvalidArgumentIf(h <= 0, "le nombre d'heure suppl majoré doit etre sup a 0");
-    ParametresEntreprise::heureMajore = h;
-}
-
-// ->>>>>>>>> getteur
-float ParametresEntreprise::getPlafondProtectionSociale(){
-    return ParametresEntreprise::plafondProtectionSociale;
-}
-
-float ParametresEntreprise::getTauxHoraire(){
-    return ParametresEntreprise::tauxHoraire;
-}
-
-float ParametresEntreprise::getTauxHoraireMajore(){
-    return ParametresEntreprise::tauxHoraireMajore;
-}
-
-int ParametresEntreprise::getAgeRetraite(){
-    return ParametresEntreprise::ageRetraite;
-}
-
-int ParametresEntreprise::getHeureMajore(){
-    return ParametresEntreprise::heureMajore;
-}
-
-/*********************************** ParametresEntreprise ***********************************/
 
 /*********************************** CEmployer ***********************************/
 
 // ->>>>>>>>> atributs
 
-
+const float CEmployer::_BASE = 1000.0;  // Partie fixe du salaire de base
+const float CEmployer::_PART = 0.1;  // Partie variable du salaire de base
 
 std::set<std::string> CEmployer::usedMatricules = {};
 
@@ -77,6 +24,34 @@ CEmployer::CEmployer(){
     setDateNaissance(CDate());
     setDateEmbauche(CDate());
     setStatut(Statut::fonctionnaire);
+}
+
+CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
+                     CDate naissance, CDate embauche)
+    : _matricule{generateMatricule()}
+{
+    setNom(nom);
+    setPrenom(prenom);
+    setFonction(fonction);
+    setAdresse(adresse);
+    setSalaireBase(0);
+    setDateNaissance(naissance);
+    setDateEmbauche(embauche);
+    setStatut(statut);
+}
+
+CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
+                     std::string naissance, std::string embauche)
+    : _matricule{generateMatricule()}
+{
+    setNom(nom);
+    setPrenom(prenom);
+    setFonction(fonction);
+    setAdresse(adresse);
+    setSalaireBase(0);
+    setDateNaissance(CDate(naissance));
+    setDateEmbauche(CDate(embauche));
+    setStatut(statut);
 }
 
 CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
@@ -107,6 +82,7 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
     setStatut(statut);
 }
 
+
 // ->>>>>>>>>>>>
 
 size_t CEmployer::hashValue() const {
@@ -129,7 +105,7 @@ bool CEmployer::estAuxiliaire() const{ return _statut == CEmployer::auxiliaire; 
 
 bool CEmployer::estFonctionnaire() const {return _statut == CEmployer::fonctionnaire; }
 
-float CEmployer::calculerSalaire(int nbHeureSupp) const {
+float CEmployer::calculerSalaire(int nbHeureSupp) {
     if (nbHeureSupp < 0) {
         throw std::invalid_argument("Le nombre d'heures supplémentaires ne peut être inférieur à 0");
     }

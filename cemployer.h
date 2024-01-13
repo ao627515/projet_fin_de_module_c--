@@ -36,20 +36,29 @@ class CEmployer {
         static std::set<std::string> usedMatricules;
         size_t hashValue() const ;
 
+    protected:
+        static const float _BASE;
+        static const float _PART;
+
     public:
         // static std::set<std::string> usedMatricules;
         friend struct CEmployerHash;
         CEmployer();
         CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
-                 CDate naissance, CDate embauche, float salaireBase);
+                 CDate naissance, CDate embauche);
+        CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
+                  std::string naissance, std::string embauche);
+        CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
+                  CDate naissance, CDate embauche, float salaireBase);
         CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
                   std::string naissance, std::string embauche, float salaireBase);
 
+        // virtual float calculerSalaireBase();
         void augmenter(float pourcentage = 0.05);
         void supprimerDansListe() const;
         bool estAuxiliaire() const;
         bool estFonctionnaire() const;
-        float calculerSalaire(int nbHeureSupp = 0) const;
+        virtual float calculerSalaire(int nbHeureSupp = 0);
         CDate dateRetraite() const;
         bool estAnneeRetraite(int annee) const;
         bool estRetraite() const;
