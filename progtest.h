@@ -1,8 +1,6 @@
 #ifndef PROGTEST_H
 #define PROGTEST_H
-
 #include "cdate.h"
-
 namespace ProgTest {
     namespace Menu {
         const void pressAnyKeyToContinue();
@@ -24,6 +22,19 @@ namespace ProgTest {
         void isLeapYear();
         int progTest();
     }
+
+        namespace CEmployerTest{
+            void afficherMenu();
+            void ajouterEmploye();
+            void rechercherEmploye();
+            void supprimerEmploye();
+            void listerPersonnel();
+            void listerRetraites();
+            void masseSalarialeMensuelle();
+            void miseEnConges();
+            void test_setteur_getteur_construct();
+            void progTest();
+        }
 }
 
 #endif // PROGTEST_H

@@ -18,31 +18,6 @@ static void throwInvalidArgumentIf(bool condition, std::string msg){
 
 enum class AttCEmployerResearch {MATRICULE, NOM, PRENOM, FONCTION, ADRESSE, DATE_NAISSANCE, DATE_EMBAUCHE, SALAIRE_BASE, HEURE_SUP};
 
-class ParametresEntreprise {
-    private:
-        ParametresEntreprise() = delete;
-        static float plafondProtectionSociale;
-        static float tauxHoraire;
-        static float tauxHoraireMajore;
-        static int ageRetraite;
-        static int heureMajore;
-
-    public:
-        //
-        static void setPlafondProtectionSociale(float plafond);
-        static void setTauxHoraire(float taux);
-        static void setTauxHoraireMajore(float tauxMajore);
-        static void setAgeRetraite(int age);
-        static void setHeureMajore(int h);
-
-        //
-        static float getPlafondProtectionSociale();
-        static float getTauxHoraire();
-        static float getTauxHoraireMajore();
-        static int getAgeRetraite();
-        static int getHeureMajore();
-};
-
 class CEmployer {
     public:
         enum Statut {fonctionnaire, auxiliaire};
@@ -119,9 +94,5 @@ struct CEmployerHash {
         return emp.hashValue();
     }
 };
-
-namespace CEmployerProgTest {
-void test_setteur_getteur_construct();
-}
 
 #endif // CEMPLOYER_H

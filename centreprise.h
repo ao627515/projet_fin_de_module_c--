@@ -8,6 +8,31 @@
 
 class CEmployer;
 
+class ParametresEntreprise {
+private:
+    ParametresEntreprise() = delete;
+    static float plafondProtectionSociale;
+    static float tauxHoraire;
+    static float tauxHoraireMajore;
+    static int ageRetraite;
+    static int heureMajore;
+
+public:
+    //
+    static void setPlafondProtectionSociale(float plafond);
+    static void setTauxHoraire(float taux);
+    static void setTauxHoraireMajore(float tauxMajore);
+    static void setAgeRetraite(int age);
+    static void setHeureMajore(int h);
+
+    //
+    static float getPlafondProtectionSociale();
+    static float getTauxHoraire();
+    static float getTauxHoraireMajore();
+    static int getAgeRetraite();
+    static int getHeureMajore();
+};
+
 class CEntreprise
 {
 private:
