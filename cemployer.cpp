@@ -38,6 +38,7 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
     setDateNaissance(naissance);
     setDateEmbauche(embauche);
     setStatut(statut);
+    setHeureSup(0);
 }
 
 CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
@@ -52,6 +53,7 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
     setDateNaissance(CDate(naissance));
     setDateEmbauche(CDate(embauche));
     setStatut(statut);
+    setHeureSup(0);
 }
 
 CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
@@ -66,6 +68,7 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
     setDateNaissance(naissance);
     setDateEmbauche(embauche);
     setStatut(statut);
+    setHeureSup(0);
 }
 
 CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
@@ -80,6 +83,7 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
     setDateNaissance(CDate(naissance));
     setDateEmbauche(CDate(embauche));
     setStatut(statut);
+    setHeureSup(0);
 }
 
 
