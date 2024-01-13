@@ -32,11 +32,11 @@ class CEmployer {
         CDate _dateNaissance;
         CDate _dateEmbauche;
         float _salaireBase;
+        int _heureSup;
         static std::set<std::string> usedMatricules;
         size_t hashValue() const ;
 
     protected:
-        int _heureSup;
         static const float _BASE;
         static const float _PART;
 

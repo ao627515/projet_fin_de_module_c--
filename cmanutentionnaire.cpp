@@ -20,7 +20,7 @@ CManutentionnaire::CManutentionnaire(std::string nom, std::string prenom, Statut
 
 
 float CManutentionnaire::calculerSalaireBase(){
-     return _BASE_SALAIRE_HORAIRE * (_nb_heures + _heureSup);
+     return _BASE_SALAIRE_HORAIRE * _nb_heures;
 }
 
 float CManutentionnaire::calculerSalaire(int nbHeureSupp)  {
