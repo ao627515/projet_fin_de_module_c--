@@ -1,4 +1,5 @@
 #include "centreprise.h"
+#include "utils.h"
 
 /*********************************** ParametresEntreprise ***********************************/
 float ParametresEntreprise::plafondProtectionSociale = 5000.0;
@@ -95,6 +96,11 @@ std::vector<std::shared_ptr<CEmployer>> CEntreprise::LIST_EMPLOYER = {};
 std::vector<std::shared_ptr<CEmployer>> CEntreprise::getLIST_EMPLOYER(){
     return LIST_EMPLOYER;
 }
+
 void CEntreprise::setLIST_EMPLOYER(const CEmployer& emp){
     LIST_EMPLOYER.push_back(std::make_shared<CEmployer>(emp));
+}
+
+void CEntreprise::setLIST_EMPLOYER(const std::shared_ptr<CEmployer>& emp){
+    LIST_EMPLOYER.push_back(emp);
 }

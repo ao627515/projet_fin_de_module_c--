@@ -11,12 +11,14 @@ private:
 public:
     CManutentionnaire();
     CManutentionnaire(std::string nom, std::string prenom, Statut statut, std::string adresse,
-                      CDate naissance, CDate embauche, int nb_heures);
+                      CDate naissance, CDate embauche, int nb_heures = 0);
     CManutentionnaire(std::string nom, std::string prenom, Statut statut, std::string adresse,
-                      std::string naissance, std::string embauche, int nb_heures);
+                      std::string naissance, std::string embauche, int nb_heures = 0);
 
-    float calculerSalaireBase();
+    float getSalaireBase() const override;
     float calculerSalaire(int nbHeureSupp) override;
+    void setNbHeure(int h);
+    int getNbHeure();
 };
 
 #endif // CMANUTENTIONNAIRE_H

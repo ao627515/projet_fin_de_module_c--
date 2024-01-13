@@ -1,5 +1,6 @@
 #include "ccommercial.h"
 #include "centreprise.h"
+#include "utils.h"
 
 CCommercial::CCommercial(): CEmployer(), _CA(0) {}
 
@@ -16,7 +17,7 @@ CCommercial::CCommercial(std::string nom, std::string prenom, Statut statut, std
 }
 
 
-float CCommercial::calculerSalaireBase(){
+float CCommercial::getSalaireBase() const{
     return _BASE + _CA * _PART;
 }
 
@@ -25,7 +26,7 @@ float CCommercial::calculerSalaire(int nbHeureSupp)  {
         throw std::invalid_argument("Le nombre d'heures supplémentaires ne peut être inférieur à 0");
     }
 
-    float salaire = calculerSalaireBase();  // Initialisez avec le salaire de base
+    float salaire = getSalaireBase();  // Initialisez avec le salaire de base
 
     if (nbHeureSupp > ParametresEntreprise::getHeureMajore()) {
         salaire += nbHeureSupp * ParametresEntreprise::getTauxHoraireMajore();
@@ -34,4 +35,12 @@ float CCommercial::calculerSalaire(int nbHeureSupp)  {
     }
 
     return salaire;
+}
+
+float CCommercial::getCA(){
+    return _CA;
+}
+void CCommercial::setCA(float CA){
+    throwInvalidArgumentIf(CA < 0, "Argument invalid");
+    _CA = CA;
 }

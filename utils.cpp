@@ -2,12 +2,17 @@
 #include <algorithm>
 #include <random>
 
+
+
 namespace utils {
 
     void insererEmploye (const CEmployer& emp){
         CEntreprise::setLIST_EMPLOYER(emp);
     }
 
+    void insererEmploye (const std::shared_ptr<CEmployer>& emp){
+        CEntreprise::setLIST_EMPLOYER(emp);
+    }
     // std::vector<std::shared_ptr<CEmployer>> rechercherEmployeAtt(const std::string& query, const std::string& nomAtt) {
     //     // query est l'element a rechercher
     //     // nomAtt = nomAttributMembre , nom de l'element membre de CEmployer sur la quelle on fait la recherche
@@ -357,14 +362,60 @@ namespace utils {
         }
     }
 
-    int generateRandomIndex(int maxIndex) {
+    int generateRandomIndex(int maxIndex, int min) {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, maxIndex - 1);
+        std::uniform_int_distribution<> dis(min, maxIndex - 1);
         return dis(gen);
     }
 
     CEmployer generateRandomEmployer() {
+        std::string nom;
+        std::string prenom;
+        std::string adresse;
+        CDate dateNaissance;
+        CDate dateEmbauche;
+        CEmployer::Statut statut;
+        int heureSup;
+
+        employerRandomInit(nom, prenom, adresse,dateNaissance, dateEmbauche, statut, heureSup);
+
+        std::string fonction = randomFonction(false);
+
+        float salaireBase = 30000.0 + static_cast<float>(generateRandomIndex(20000, 1));
+
+        // Creation de l'employe
+        CEmployer employe(nom, prenom, fonction, statut, adresse, dateNaissance, dateEmbauche, salaireBase);
+        employe.setHeureSup(heureSup);
+        // Retour de l'employe genere
+        return employe;
+    }
+
+    std::string randomFonction(bool std){
+        std::vector<std::string> fonctions = {};
+        if(std) {
+            fonctions = {"commercial", "technicien", "manutentionnaire"};
+        }else{
+            fonctions = {
+                "Ingenieur logiciel", "Developpeur web", "Architecte systeme", "Analyste financier",
+                "Infirmier/infirmiere", "Enseignant/enseignante", "Chef de projet", "Designer graphique",
+                "Analyste de donnees", "Conseiller/conseillere financier", "Medecin generaliste", "Pharmacien/pharmacienne",
+                "Chef cuisinier/chef cuisiniere", "Journaliste", "Avocat/avocate", "Assistant/assistante administratif",
+                "Technicien/technicienne de laboratoire", "electricien/electricienne", "Plombier/plombiere", "Agent immobilier/agent immobiliere",
+                "Analyste de marche", "Agent de voyage", "Psychologue clinicien/psychologue clinicienne", "Traducteur/traductrice",
+                "Ingenieur en genie civil", "Decorateur/decoratrice d'interieur", "Geologue", "Agent de police",
+                "Pilote de ligne", "Artiste musical/artiste musicale", "Coach sportif/coach sportive", "economiste",
+                "Physiotherapeute", "Veterinaire", "Responsable des ressources humaines", "Conseiller/conseillere en communication",
+                "Responsable marketing", "Technicien/technicienne de maintenance", "Chef de chantier", "Analyste en securite informatique",
+                "Animateur/animatrice radio", "Agriculteur/agricultrice", "Sapeur-pompier/sapeuse-pompiere", "Agent de securite",
+                "Expert comptable", "Juge", "Entrepreneur/entrepreneuse", "Responsable qualite", "Conseiller/conseillere en voyage"
+            };
+        }
+
+        return fonctions[generateRandomIndex(fonctions.size())];
+    }
+
+    void employerRandomInit(std::string& nom, std::string& prenom, std::string& adresse, CDate& dateNaissance, CDate& dateEmbauche, CEmployer::Statut& statut, int& heureSup){
         std::vector<std::string> noms = {
             "Smith", "Johnson", "Williams", "Jones", "Brown",
             "Davis", "Miller", "Wilson", "Moore", "Taylor",
@@ -391,20 +442,6 @@ namespace utils {
             "Grace", "Ella", "Chloe", "Charlotte", "Sofia"
         };
 
-        std::vector<std::string> fonctions = {
-            "Ingenieur logiciel", "Developpeur web", "Architecte systeme", "Analyste financier",
-            "Infirmier/infirmiere", "Enseignant/enseignante", "Chef de projet", "Designer graphique",
-            "Analyste de donnees", "Conseiller/conseillere financier", "Medecin generaliste", "Pharmacien/pharmacienne",
-            "Chef cuisinier/chef cuisiniere", "Journaliste", "Avocat/avocate", "Assistant/assistante administratif",
-            "Technicien/technicienne de laboratoire", "electricien/electricienne", "Plombier/plombiere", "Agent immobilier/agent immobiliere",
-            "Analyste de marche", "Agent de voyage", "Psychologue clinicien/psychologue clinicienne", "Traducteur/traductrice",
-            "Ingenieur en genie civil", "Decorateur/decoratrice d'interieur", "Geologue", "Agent de police",
-            "Pilote de ligne", "Artiste musical/artiste musicale", "Coach sportif/coach sportive", "economiste",
-            "Physiotherapeute", "Veterinaire", "Responsable des ressources humaines", "Conseiller/conseillere en communication",
-            "Responsable marketing", "Technicien/technicienne de maintenance", "Chef de chantier", "Analyste en securite informatique",
-            "Animateur/animatrice radio", "Agriculteur/agricultrice", "Sapeur-pompier/sapeuse-pompiere", "Agent de securite",
-            "Expert comptable", "Juge", "Entrepreneur/entrepreneuse", "Responsable qualite", "Conseiller/conseillere en voyage"
-        };
 
         std::vector<std::string> adresses = {
             "123 Main Street, Cityville, State, 12345",
@@ -458,10 +495,9 @@ namespace utils {
         };
 
         // Utilisation des listes prealablement definies
-        std::string nom = noms[generateRandomIndex(noms.size())];
-        std::string prenom = prenoms[generateRandomIndex(prenoms.size())];
-        std::string fonction = fonctions[generateRandomIndex(fonctions.size())];
-        std::string adresse = adresses[generateRandomIndex(adresses.size())];
+        nom = noms[generateRandomIndex(noms.size())];
+        prenom = prenoms[generateRandomIndex(prenoms.size())];
+        adresse = adresses[generateRandomIndex(adresses.size())];
 
         // Generation d'autres attributs aleatoires (à adapter selon votre classe CEmployer)
         // CDate dateNaissance(1990 + generateRandomIndex(30), 1 + generateRandomIndex(12), 1 + generateRandomIndex(28));
@@ -470,33 +506,104 @@ namespace utils {
         int anneeNaissance = 1990 + generateRandomIndex(30);
         int moisNaissance = 1 + generateRandomIndex(12);
         int jourNaissance = 1 + generateRandomIndex(28);
-        CDate dateNaissance(jourNaissance, moisNaissance, anneeNaissance);
+        dateNaissance = CDate(jourNaissance, moisNaissance, anneeNaissance);
 
         int anneeEmbauche = anneeNaissance + generateRandomIndex(10);
         int moisEmbauche = 1 + generateRandomIndex(12);
         int jourEmbauche = 1 + generateRandomIndex(28);
-        CDate dateEmbauche(jourEmbauche, moisEmbauche, anneeEmbauche);
-        CEmployer::Statut statut = generateRandomIndex(2) ?  CEmployer::fonctionnaire :  CEmployer::auxiliaire;
+        dateEmbauche = CDate(jourEmbauche, moisEmbauche, anneeEmbauche);
+        statut = generateRandomIndex(2) ?  CEmployer::fonctionnaire :  CEmployer::auxiliaire;
 
         // Assurez-vous que la date de naissance est antérieure à la date d'embauche
         if (dateNaissance > dateEmbauche) {
             std::swap(dateNaissance, dateEmbauche);
         }
-        float salaireBase = 30000.0f + static_cast<float>(generateRandomIndex(20000));
-        // int heureSup = generateRandomIndex(20);
+
+        heureSup = generateRandomIndex(20);
+    }
+
+    CCommercial generateRandomCommercial(){
+        std::string nom;
+        std::string prenom;
+        std::string adresse;
+        CDate dateNaissance;
+        CDate dateEmbauche;
+        CEmployer::Statut statut;
+        int heureSup;
+
+        employerRandomInit(nom, prenom, adresse,dateNaissance, dateEmbauche, statut, heureSup);
 
         // Creation de l'employe
-        CEmployer employe(nom, prenom, fonction, statut, adresse, dateNaissance, dateEmbauche, salaireBase);
-
+        CCommercial commercial(nom, prenom, statut, adresse, dateNaissance, dateEmbauche);
+        commercial.setHeureSup(heureSup);
         // Retour de l'employe genere
-        return employe;
+        return commercial;
     }
+
+    CTechnicien generateRandomTechnicien(){
+        std::string nom;
+        std::string prenom;
+        std::string adresse;
+        CDate dateNaissance;
+        CDate dateEmbauche;
+        CEmployer::Statut statut;
+        int heureSup;
+
+        employerRandomInit(nom, prenom, adresse,dateNaissance, dateEmbauche, statut, heureSup);
+
+        // Creation de l'employe
+        CTechnicien technicien(nom, prenom, statut, adresse, dateNaissance, dateEmbauche);
+        technicien.setHeureSup(heureSup);
+        // Retour de l'employe genere
+        return technicien;
+    }
+
+    CManutentionnaire generateRandomManutentionnaire(){
+        std::string nom;
+        std::string prenom;
+        std::string adresse;
+        CDate dateNaissance;
+        CDate dateEmbauche;
+        CEmployer::Statut statut;
+        int heureSup;
+
+        employerRandomInit(nom, prenom, adresse,dateNaissance, dateEmbauche, statut, heureSup);
+        // Creation de l'employe
+        CManutentionnaire cmnanu(nom, prenom, statut, adresse, dateNaissance, dateEmbauche);
+        cmnanu.setHeureSup(heureSup);
+        cmnanu.setNbHeure(1);
+        // Retour de l'employe genere
+        return cmnanu;
+    }
+
+    std::shared_ptr<CEmployer> generateRandomStdEmploye() {
+        std::string fonction = randomFonction();
+
+        if (fonction == "commercial") {
+            return std::make_shared<CCommercial>(generateRandomCommercial());
+        } else if (fonction == "technicien") {
+            return std::make_shared<CTechnicien>(generateRandomTechnicien());
+        } else if (fonction == "manutentionnaire") {
+            return std::make_shared<CManutentionnaire>(generateRandomManutentionnaire());
+        }
+
+        // En cas d'erreur ou si la fonction n'est pas reconnue, retourne nullptr
+        return nullptr;
+    }
+
 
     void generateEmpolyer(const int nb){
+
         for(int i = 0; i < nb; i++){
-            CEmployer emp = generateRandomEmployer();
-            insererEmploye(emp);
+            if(generateRandomIndex(2)){
+                CEmployer emp = generateRandomEmployer();
+                insererEmploye(emp);
+            }else{
+                std::shared_ptr<CEmployer> emp = generateRandomStdEmploye();
+                insererEmploye(emp);
+            }
         }
     }
+
 }
 

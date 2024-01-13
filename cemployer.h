@@ -10,12 +10,6 @@
 // Déclaration avancée de CEntreprise
 // class CEntreprise;
 
-static void throwInvalidArgumentIf(bool condition, std::string msg){
-    if (condition) {
-        throw std::invalid_argument(msg);
-    }
-}
-
 enum class AttCEmployerResearch {MATRICULE, NOM, PRENOM, FONCTION, ADRESSE, DATE_NAISSANCE, DATE_EMBAUCHE, SALAIRE_BASE, HEURE_SUP};
 
 class CEmployer {
@@ -58,6 +52,7 @@ class CEmployer {
         void supprimerDansListe() const;
         bool estAuxiliaire() const;
         bool estFonctionnaire() const;
+        // virtual float calculerSalaireBase();
         virtual float calculerSalaire(int nbHeureSupp = 0);
         CDate dateRetraite() const;
         bool estAnneeRetraite(int annee) const;
@@ -80,7 +75,7 @@ class CEmployer {
         std::string getAdresse() const;
         CDate getDateNaissance() const;
         CDate getDateEmbauche() const;
-        float getSalaireBase() const;
+        virtual float getSalaireBase() const;
         int getHeureSup() const;
 
 

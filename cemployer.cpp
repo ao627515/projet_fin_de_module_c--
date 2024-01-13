@@ -2,6 +2,7 @@
 #include <random>
 #include "iostream"
 #include "centreprise.h"
+#include "utils.h"
 
 
 /*********************************** CEmployer ***********************************/
@@ -24,6 +25,7 @@ CEmployer::CEmployer(){
     setDateNaissance(CDate());
     setDateEmbauche(CDate());
     setStatut(Statut::fonctionnaire);
+    setHeureSup(0);
 }
 
 CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
@@ -275,6 +277,10 @@ std::string CEmployer::generateMatricule() {
     return matricule;
 }
 
+// float CEmployer::calculerSalaireBase(){
+//     return _salaireBase;
+// }
+
 
 // ->>>>>>>>> setteur
 void CEmployer::setNom(std::string nom){ _nom = nom; }
@@ -310,7 +316,7 @@ void CEmployer::setDateEmbauche(std::string date_embauche){
 }
 
 void CEmployer::setSalaireBase(float salaireBase){
-    throwInvalidArgumentIf(salaireBase <= 0, "Salaire de base inf a 0 !");
+    throwInvalidArgumentIf(salaireBase < 0, "Salaire de base inf a 0 !");
     _salaireBase = salaireBase;
 }
 

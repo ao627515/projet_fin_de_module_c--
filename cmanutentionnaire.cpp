@@ -1,5 +1,6 @@
 #include "cmanutentionnaire.h"
 #include "centreprise.h"
+#include "utils.h"
 
 
 const float CManutentionnaire::_BASE_SALAIRE_HORAIRE = ParametresEntreprise::getBASE_SALAIRE_HORAIRE();
@@ -19,7 +20,7 @@ CManutentionnaire::CManutentionnaire(std::string nom, std::string prenom, Statut
 }
 
 
-float CManutentionnaire::calculerSalaireBase(){
+float CManutentionnaire::getSalaireBase() const{
      return _BASE_SALAIRE_HORAIRE * _nb_heures;
 }
 
@@ -28,7 +29,7 @@ float CManutentionnaire::calculerSalaire(int nbHeureSupp)  {
         throw std::invalid_argument("Le nombre d'heures supplémentaires ne peut être inférieur à 0");
     }
 
-    float salaire = calculerSalaireBase();  // Initialisez avec le salaire de base
+    float salaire = getSalaireBase();  // Initialisez avec le salaire de base
 
     if (nbHeureSupp > ParametresEntreprise::getHeureMajore()) {
         salaire += nbHeureSupp * ParametresEntreprise::getTauxHoraireMajore();
@@ -38,3 +39,10 @@ float CManutentionnaire::calculerSalaire(int nbHeureSupp)  {
 
     return salaire;
 }
+
+void CManutentionnaire::setNbHeure(int h){
+    throwInvalidArgumentIf(h < 0, "Argument invalid");
+    _nb_heures = h;
+}
+
+int CManutentionnaire::getNbHeure() { return _nb_heures; }

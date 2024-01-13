@@ -54,6 +54,7 @@ public:
     CEntreprise();
     static std::vector<std::shared_ptr<CEmployer>> getLIST_EMPLOYER();
     static void setLIST_EMPLOYER(const CEmployer& emp);
+    static void setLIST_EMPLOYER(const std::shared_ptr<CEmployer>& emp);
     friend struct CEmployerHash;
     friend class CEmployer;
 };

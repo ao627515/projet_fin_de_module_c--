@@ -15,8 +15,10 @@ public:
                 std::string naissance, std::string embauche, float CA = 0);
     float getCA();
     void setCA(float CA);
-    float calculerSalaireBase();
+    float getSalaireBase() const override;
     float calculerSalaire(int nbHeureSupp) override;
+
+
 };
 
 #endif // CCOMMERCIAL_H

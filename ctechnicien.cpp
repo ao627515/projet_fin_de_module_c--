@@ -1,5 +1,6 @@
 #include "ctechnicien.h"
 #include "centreprise.h"
+#include "utils.h"
 
 
 const float CTechnicien::_GAIN_UNITE = ParametresEntreprise::getGAIN_UNITE();
@@ -20,7 +21,11 @@ CTechnicien::CTechnicien(std::string nom, std::string prenom, Statut statut, std
 }
 
 
-float CTechnicien::calculerSalaireBase(){
+// float CTechnicien::calculerSalaireBase(){
+//     return _BASE + _nb_unite_produite * _PART *  _GAIN_UNITE;
+// }
+
+float CTechnicien::getSalaireBase() const{
     return _BASE + _nb_unite_produite * _PART *  _GAIN_UNITE;
 }
 
@@ -29,7 +34,7 @@ float CTechnicien::calculerSalaire(int nbHeureSupp)  {
         throw std::invalid_argument("Le nombre d'heures supplémentaires ne peut être inférieur à 0");
     }
 
-    float salaire = calculerSalaireBase();  // Initialisez avec le salaire de base
+    float salaire = getSalaireBase();  // Initialisez avec le salaire de base
 
     if (nbHeureSupp > ParametresEntreprise::getHeureMajore()) {
         salaire += nbHeureSupp * ParametresEntreprise::getTauxHoraireMajore();
@@ -38,4 +43,15 @@ float CTechnicien::calculerSalaire(int nbHeureSupp)  {
     }
 
     return salaire;
+}
+
+
+
+int CTechnicien::getNbUniteProd() const{
+    return _nb_unite_produite;
+}
+void CTechnicien::setNbUniteProd(int nbUnite){
+    throwInvalidArgumentIf(nbUnite < 0, "Argumanet invalid");
+
+    _nb_unite_produite = nbUnite;
 }
