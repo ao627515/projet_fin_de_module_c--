@@ -2,7 +2,7 @@
 #include "centreprise.h"
 
 
-const float CTechnicien::_GAIN_UNITE = 50.0;
+const float CTechnicien::_GAIN_UNITE = ParametresEntreprise::getGAIN_UNITE();
 
 
 CTechnicien::CTechnicien() : CEmployer(), _nb_unite_produite(0) {}

@@ -8,8 +8,8 @@
 
 // ->>>>>>>>> atributs
 
-const float CEmployer::_BASE = 1000.0;  // Partie fixe du salaire de base
-const float CEmployer::_PART = 0.1;  // Partie variable du salaire de base
+const float CEmployer::_BASE = ParametresEntreprise::getBASE_SALAIRE();  // Partie fixe du salaire de base
+const float CEmployer::_PART = ParametresEntreprise::getPART_SALAIRE();  // Partie variable du salaire de base
 
 std::set<std::string> CEmployer::usedMatricules = {};
 

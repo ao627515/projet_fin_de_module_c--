@@ -16,6 +16,10 @@ private:
     static float tauxHoraireMajore;
     static int ageRetraite;
     static int heureMajore;
+    static float GAIN_UNITE;
+    static float BASE_SALAIRE_HORAIRE;
+    static float BASE_SALAIRE;
+    static float PART_SALAIRE;
 
 public:
     //
@@ -24,6 +28,10 @@ public:
     static void setTauxHoraireMajore(float tauxMajore);
     static void setAgeRetraite(int age);
     static void setHeureMajore(int h);
+    static void setGAIN_UNITE(float gain); // 50.0
+    static void setBASE_SALAIRE_HORAIRE(float base); //15.0
+    static void setBASE_SALAIRE(float base); // 1000.0
+    static void setPART_SALAIRE(float part); // 0.1
 
     //
     static float getPlafondProtectionSociale();
@@ -31,6 +39,10 @@ public:
     static float getTauxHoraireMajore();
     static int getAgeRetraite();
     static int getHeureMajore();
+    static float getGAIN_UNITE();
+    static float getBASE_SALAIRE_HORAIRE();
+    static float getBASE_SALAIRE();
+    static float getPART_SALAIRE();
 };
 
 class CEntreprise

@@ -6,9 +6,14 @@ float ParametresEntreprise::tauxHoraire = 0.02;
 float ParametresEntreprise::tauxHoraireMajore = 0.025;
 int ParametresEntreprise::ageRetraite = 65;
 int ParametresEntreprise::heureMajore = 100;
+float ParametresEntreprise::GAIN_UNITE = 50.0;
+float ParametresEntreprise::BASE_SALAIRE_HORAIRE = 15.0;
+float ParametresEntreprise::BASE_SALAIRE = 1000.0;
+float ParametresEntreprise::PART_SALAIRE = 0.1;
 
 // ->>>>>>>>> setteur
 void ParametresEntreprise::setPlafondProtectionSociale(float plafond){
+    throwInvalidArgumentIf(plafond < 0, "Argument invalid");
     ParametresEntreprise::plafondProtectionSociale = plafond;
 }
 
@@ -33,6 +38,23 @@ void ParametresEntreprise::setHeureMajore(int h){
     ParametresEntreprise::heureMajore = h;
 }
 
+void ParametresEntreprise::setGAIN_UNITE(float gain){
+    throwInvalidArgumentIf(gain < 0, "Argument invalid");
+    ParametresEntreprise::GAIN_UNITE = gain;
+}
+void ParametresEntreprise::setBASE_SALAIRE_HORAIRE(float base){
+    throwInvalidArgumentIf(base < 0, "Argument invalid");
+    ParametresEntreprise::BASE_SALAIRE_HORAIRE = base;
+}
+void ParametresEntreprise::setBASE_SALAIRE(float base){
+    throwInvalidArgumentIf(base < 0, "Argument invalid");
+    ParametresEntreprise::BASE_SALAIRE = base;
+}
+void ParametresEntreprise::setPART_SALAIRE(float part){
+    throwInvalidArgumentIf(part < 0, "Argument invalid");
+    ParametresEntreprise::BASE_SALAIRE = part;
+}
+
 // ->>>>>>>>> getteur
 float ParametresEntreprise::getPlafondProtectionSociale(){
     return ParametresEntreprise::plafondProtectionSociale;
@@ -53,6 +75,11 @@ int ParametresEntreprise::getAgeRetraite(){
 int ParametresEntreprise::getHeureMajore(){
     return ParametresEntreprise::heureMajore;
 }
+
+float ParametresEntreprise::getGAIN_UNITE() { return ParametresEntreprise::GAIN_UNITE; }
+float ParametresEntreprise::getBASE_SALAIRE_HORAIRE() { return ParametresEntreprise::BASE_SALAIRE_HORAIRE; }
+float ParametresEntreprise::getBASE_SALAIRE() { return ParametresEntreprise::BASE_SALAIRE; }
+float ParametresEntreprise::getPART_SALAIRE() { return ParametresEntreprise::PART_SALAIRE; }
 
 /*********************************** ParametresEntreprise ***********************************/
 

@@ -2,7 +2,7 @@
 #include "centreprise.h"
 
 
-const float CManutentionnaire::_BASE_SALAIRE_HORAIRE = 15.0;
+const float CManutentionnaire::_BASE_SALAIRE_HORAIRE = ParametresEntreprise::getBASE_SALAIRE_HORAIRE();
 
 CManutentionnaire::CManutentionnaire() : CEmployer(), _nb_heures(0) {}
 
