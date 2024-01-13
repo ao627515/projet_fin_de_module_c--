@@ -2,6 +2,8 @@
 #define UTILS_H
 
 #include "cemployer.h"
+#include "centreprise.h"
+
 
 namespace utils {
     void insererEmploye (const CEmployer& emp);

@@ -53,7 +53,7 @@ void ajouterEmploye(){
 
         std::cout << "Salaire de base de l'employe: ";
         std::cin >> salaireBase;
-        cout << endl;
+
         // Création de l'objet CEmployer
         CEmployer nouvelEmploye(nom, prenom, fonction, statut, adresse, dateNaissance, dateEmbauche, salaireBase);
         utils::insererEmploye(nouvelEmploye);
@@ -74,7 +74,7 @@ void rechercherEmploye() {
         std::cin >> nom;
 
 
-        auto res = utils::rechercherEmploye(nom, AttCEmployerResearch::NOM);
+        auto res = utils::rechercherEmploye(nom, AttCEmployerResearch::NOM, false);
 
         if(!res.empty()) employeTrouve =  true;
 
@@ -119,21 +119,59 @@ void supprimerEmploye(){
 
         if (!employeTrouve) {
             std::cout << "Aucun employe trouve avec le matricule " << matricule << ".\n";
-             std::cout << std::endl;
             ProgTest::Menu::pressAnyKeyToContinue();
             std::cout << std::endl;
         }else{
             std::cout << "Voullez-vous vraiment supprimer les donnees de cette employe ? : 0 -> Non | 1 - Oui : ";
             cin >> confirm, cin.ignore();
             utils::supprimerEmploye(matricule);
-            std::cout << std::endl << "supression reussi  "  << std::endl;
+            std::cout << std::endl;
+            if(confirm){
+                std::cout << "Supression reussi  !"  << std::endl << std::endl;
+            }
         }
 
     }while(ProgTest::Menu::restartOrExist());
 }
 
+void listerPersonnel(){
+    cout << endl << "Liste du personnel" << endl << endl;
 
+    for(const auto& emp : CEntreprise::getLIST_EMPLOYER()){
+        emp->afficher();
+        cout << endl;
+    }
 
+    ProgTest::Menu::pressAnyKeyToContinue();
+}
+
+void listerRetraites(){
+    bool empty = true;
+    cout << endl << "Liste des retraite" << endl << endl;
+
+    for(const auto& emp : CEntreprise::getLIST_EMPLOYER()){
+        if(emp->estRetraite()){
+            empty = false;
+            emp->afficher();
+            cout << endl;
+        }
+    }
+
+    if(empty) cout << "Aucun retraite trouve" << endl;
+
+    ProgTest::Menu::pressAnyKeyToContinue();
+}
+
+void masseSalarialeMensuelle(){
+    cout << endl << "La masse Salariale Mensuelle est de : " << utils::masseSalariale() << endl;
+
+    ProgTest::Menu::pressAnyKeyToContinue();
+}
+
+void  miseEnConges(){
+    utils::conges();
+    ProgTest::Menu::pressAnyKeyToContinue();
+}
 
 int main(int argc, char *argv[])
 {
@@ -142,7 +180,7 @@ int main(int argc, char *argv[])
 
         CEmployer emp("Ouedraogo", "Abdoul", "PDF", CEmployer::fonctionnaire, "Ouagadougou", "26/11/2000", "10/1/2024", 50000);
         utils::insererEmploye(emp);
-        // utils::generateEmpolyer(10);
+        utils::generateEmpolyer(10);
 
         int choix;
         do {
@@ -163,16 +201,16 @@ int main(int argc, char *argv[])
                 supprimerEmploye();
                 break;
             case 4:
-                // listerPersonnel();
+                listerPersonnel();
                 break;
             case 5:
-                // listerRetraites();
+                listerRetraites();
                 break;
             case 6:
-                // masseSalarialeMensuelle();
+                masseSalarialeMensuelle();
                 break;
             case 7:
-                // miseEnConges();
+                miseEnConges();
                 break;
             default:
                 std::cout << "Choix invalide. Veuillez saisir un nombre entre 0 et 7.\n";

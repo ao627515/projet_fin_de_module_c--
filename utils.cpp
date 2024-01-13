@@ -329,17 +329,17 @@ namespace utils {
     }
 
     const void conges() {
-        std::cout << "Liste des employes avec leurs jours de conges :" << std::endl;
+        std::cout << std::endl << "Liste des employes avec leurs jours de conges :" << std::endl << std::endl;
 
         for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
             // Récupérer le nombre de jours de congés de l'employé
             int joursConges = emp->nbJoursDeConge();
 
             // Afficher les détails de l'employé avec le nombre de jours de congés
-            // std::cout << "Matricule : " << emp->getNumeroMatricule() << std::endl;
-            // std::cout << "Nom : " << emp->getNom() << std::endl;
-            // std::cout << "Prenom : " << emp->getPrenom() << std::endl;
-            emp->afficher();
+            std::cout << "Matricule : " << emp->getNumeroMatricule() << std::endl;
+            std::cout << "Nom : " << emp->getNom() << std::endl;
+            std::cout << "Prenom : " << emp->getPrenom() << std::endl;
+            // emp->afficher();
             std::cout << "Nombre de jours de conges : " << joursConges << std::endl;
             std::cout << std::endl;
         }

@@ -2,7 +2,7 @@
 #define CEMPLOYER_H
 
 
-#include "centreprise.h"
+
 #include "string"
 #include "cdate.h"
 #include "set"
@@ -77,6 +77,7 @@ class CEmployer {
         float calculerSalaire(int nbHeureSupp = 0) const;
         CDate dateRetraite() const;
         bool estAnneeRetraite(int annee) const;
+        bool estRetraite() const;
         void afficher() const;
         int nbJoursDeConge(bool cadre = false) const;
         float cotisationRetraite() const;

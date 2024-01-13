@@ -1,6 +1,7 @@
 #include "cemployer.h"
 #include <random>
 #include "iostream"
+#include "centreprise.h"
 /*********************************** ParametresEntreprise ***********************************/
 float ParametresEntreprise::plafondProtectionSociale = 5000.0;
 float ParametresEntreprise::tauxHoraire = 0.02;
@@ -221,6 +222,10 @@ void CEmployer::supprimerDansListe() const{
             ++it;
         }
     }
+}
+
+bool CEmployer::estRetraite() const{
+    return  CDate::currentTime() > dateRetraite();
 }
 
 // ->>>>>>>>> methode normal

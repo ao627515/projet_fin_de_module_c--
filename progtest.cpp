@@ -8,7 +8,7 @@ namespace ProgTest{
         using namespace std;
 
         const void pressAnyKeyToContinue(){
-            cout << "Appuyer sur une touche pour continuer "; getch(), cout << flush, cout << endl;
+            cout << endl << "Appuyer sur une touche pour continuer "; getch(), cout << flush, cout << endl;
         }
 
         const int choiceAndError(int min, int max){
