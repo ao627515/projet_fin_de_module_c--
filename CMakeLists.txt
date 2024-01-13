@@ -10,7 +10,10 @@ add_executable(projet_fin_de_module main.cpp
     cemployer.h cemployer.cpp
     utils.h utils.cpp
     progtest.h progtest.cpp
-    centreprise.h centreprise.cpp)
+    centreprise.h centreprise.cpp
+    ccommercial.h ccommercial.cpp
+    ctechnicien.h ctechnicien.cpp
+    cmanutentionnaire.h cmanutentionnaire.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS projet_fin_de_module
