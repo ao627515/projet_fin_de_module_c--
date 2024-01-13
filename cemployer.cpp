@@ -60,9 +60,24 @@ int ParametresEntreprise::getHeureMajore(){
 /*********************************** CEmployer ***********************************/
 
 // ->>>>>>>>> atributs
-std::set<std::string> CEmployer::usedMatricules;
+
+
+
+std::set<std::string> CEmployer::usedMatricules = {};
+
 
 // ->>>>>>>>> Constructeur
+CEmployer::CEmployer(){
+    setNom("nom");
+    setPrenom("prenom");
+    setFonction("fonction");
+    setAdresse("adresse");
+    setSalaireBase(0);
+    setDateNaissance(CDate());
+    setDateEmbauche(CDate());
+    setStatut(Statut::fonctionnaire);
+}
+
 CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
                      CDate naissance, CDate embauche, float salaireBase)
     : _matricule{generateMatricule()}
@@ -90,6 +105,23 @@ CEmployer::CEmployer(std::string nom, std::string prenom, std::string fonction, 
     setDateEmbauche(CDate(embauche));
     setStatut(statut);
 }
+
+// ->>>>>>>>>>>>
+
+size_t CEmployer::hashValue() const {
+    // Utilisez les valeurs de hachage des membres pertinents pour le calcul du hachage
+    return std::hash<std::string>()(_matricule) ^
+           std::hash<std::string>()(_nom) ^
+           std::hash<std::string>()(_prenom) ^
+           std::hash<std::string>()(_fonction) ^
+           std::hash<int>()(static_cast<int>(_statut)) ^
+           std::hash<std::string>()(_adresse) ^
+           _dateNaissance.hashValue() ^
+           _dateEmbauche.hashValue() ^
+           std::hash<float>()(_salaireBase) ^
+           std::hash<int>()(_heureSup);
+}
+
 
 // ->>>>>>>>> methode constante
 bool CEmployer::estAuxiliaire() const{ return _statut == CEmployer::auxiliaire; }
@@ -134,8 +166,8 @@ void CEmployer::afficher() const {
     std::cout << "Fonction: " << getFonction() << std::endl;
     std::cout << "Statut: " << (getStatut() == CEmployer::fonctionnaire ? "Fonctionnaire" : "Auxiliaire") << std::endl;
     std::cout << "Adresse: " << getAdresse() << std::endl;
-    std::cout << "Date de Naissance: " << getDateNaissance() << std::endl;
-    std::cout << "Date d'embauche: " << getDateEmbauche() << std::endl;
+    std::cout << "Date de Naissance: " << getDateNaissance().formater(CDate::ABREGE) << std::endl;
+    std::cout << "Date d'embauche: " << getDateEmbauche().formater(CDate::ABREGE)  << std::endl;
     std::cout << "Salaire de base: " << getSalaireBase() << std::endl;
 }
 
@@ -172,6 +204,23 @@ int CEmployer::nbJoursDeConge(bool cadre) const {
     }
 
     return nbDoff;
+}
+
+void CEmployer::supprimerDansListe() const{
+    // Utilisation d'un itérateur pour parcourir la liste
+    auto it = CEntreprise::LIST_EMPLOYER.begin();
+
+    // Parcourir la liste
+    while (it != CEntreprise::LIST_EMPLOYER.end()) {
+        // Vérifier si le nom correspond
+        if ((*it)->getNumeroMatricule() == _matricule) {
+            // Supprimer l'employé
+            it = CEntreprise::LIST_EMPLOYER.erase(it);
+        } else {
+            // Passer à l'élément suivant
+            ++it;
+        }
+    }
 }
 
 // ->>>>>>>>> methode normal

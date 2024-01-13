@@ -1,15 +1,22 @@
 #ifndef CEMPLOYER_H
 #define CEMPLOYER_H
 
+
+#include "centreprise.h"
 #include "string"
 #include "cdate.h"
 #include "set"
+
+// Déclaration avancée de CEntreprise
+// class CEntreprise;
 
 static void throwInvalidArgumentIf(bool condition, std::string msg){
     if (condition) {
         throw std::invalid_argument(msg);
     }
 }
+
+enum class AttCEmployerResearch {MATRICULE, NOM, PRENOM, FONCTION, ADRESSE, DATE_NAISSANCE, DATE_EMBAUCHE, SALAIRE_BASE, HEURE_SUP};
 
 class ParametresEntreprise {
     private:
@@ -51,19 +58,20 @@ class CEmployer {
         CDate _dateEmbauche;
         float _salaireBase;
         int _heureSup;
-        // ne pas oublier
-        // static std::set<std::string> usedMatricules;
-
+        static std::set<std::string> usedMatricules;
+        size_t hashValue() const ;
 
     public:
-        static std::set<std::string> usedMatricules;
-        CEmployer() = delete;
+        // static std::set<std::string> usedMatricules;
+        friend struct CEmployerHash;
+        CEmployer();
         CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
                  CDate naissance, CDate embauche, float salaireBase);
         CEmployer(std::string nom, std::string prenom, std::string fonction, Statut statut, std::string adresse,
                   std::string naissance, std::string embauche, float salaireBase);
 
         void augmenter(float pourcentage = 0.05);
+        void supprimerDansListe() const;
         bool estAuxiliaire() const;
         bool estFonctionnaire() const;
         float calculerSalaire(int nbHeureSupp = 0) const;
@@ -103,11 +111,16 @@ class CEmployer {
         void setDateEmbauche(std::string date_embauche);
         void setSalaireBase(float salaireBase);
         void setHeureSup(int nbHeureSup);
+};
 
-        // test
+struct CEmployerHash {
+    size_t operator()(const CEmployer& emp) const {
+        return emp.hashValue();
+    }
 };
 
 namespace CEmployerProgTest {
 void test_setteur_getteur_construct();
 }
+
 #endif // CEMPLOYER_H

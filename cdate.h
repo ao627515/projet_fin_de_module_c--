@@ -22,6 +22,7 @@ class CDate
         // void normalize();
 
     public:
+        size_t hashValue() const;
         enum TYPE_PERIODE { JOUR, SEMAINE, MOIS, ANNEE };
         enum FORMAT {MINIMAL, COMPLET, ABREGE};
 
@@ -41,6 +42,7 @@ class CDate
         std::string trouverNomJour(std::string& str, FORMAT format) const;
         std::string trouverNomMois(std::string& str, FORMAT format) const;
         bool dateIsValid() const;
+        std::string toString() const;
 
         // Methode normal
         void displayDate();
@@ -89,23 +91,4 @@ class CDate
         CDate operator--(int);
 };
 
-namespace CDateProgTest {
-
-    const void pressAnyKeyToContinue();
-    const int choiceAndError(int min, int max);
-    bool restartOrExist();
-    const void dateFormatChoice(char numSep = '-', bool m = true, bool a = true, bool c = true);
-    const void dateFormatPrint(std::string message, CDate date, CDate::FORMAT format, bool clear = true);
-    int mainMenu();
-    void currentTIme();
-    CDate::TYPE_PERIODE choicePeriode();
-    int getNbPeriode(CDate::TYPE_PERIODE periode);
-    void addPeriode();
-    void diffBetweenTwoDates();
-    void compareTwoDate();
-    void formatDate();
-    void isLeapYear();
-    int progTest();
-
-} // namespace CDateProgTest
 #endif // CDATE_H

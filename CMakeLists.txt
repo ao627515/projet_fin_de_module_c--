@@ -8,7 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(projet_fin_de_module main.cpp
     cdate.h cdate.cpp
     cemployer.h cemployer.cpp
-    utils.h utils.cpp)
+    utils.h utils.cpp
+    progtest.h progtest.cpp
+    centreprise.h centreprise.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS projet_fin_de_module

@@ -74,7 +74,7 @@ void rechercherEmploye() {
         std::cin >> nom;
 
 
-        auto res = utils::rechercherEmploye(nom, AttCEmployerResearch::NOM);
+        auto res = utils::rechercherEmploye(nom, AttCEmployerResearch::NOM, false);
 
         if(!res.empty()) employeTrouve =  true;
 
@@ -126,7 +126,11 @@ void supprimerEmploye(){
             std::cout << "Voullez-vous vraiment supprimer les donnees de cette employe ? : 0 -> Non | 1 - Oui : ";
             cin >> confirm, cin.ignore();
             utils::supprimerEmploye(matricule);
-            std::cout << std::endl << "supression reussi  "  << std::endl;
+            std::cout << std::endl;
+            if(confirm){
+                std::cout << "supression reussi  "  << std::endl;
+                
+            }
         }
 
     }while(ProgTest::Menu::restartOrExist());
