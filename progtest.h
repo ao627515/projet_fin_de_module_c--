@@ -1,6 +1,9 @@
 #ifndef PROGTEST_H
 #define PROGTEST_H
+
 #include "cdate.h"
+#include "centreprise.h"
+
 namespace ProgTest {
     namespace Menu {
         const void pressAnyKeyToContinue();
@@ -25,13 +28,13 @@ namespace ProgTest {
 
         namespace CEmployerTest{
             void afficherMenu();
-            void ajouterEmploye();
-            void rechercherEmploye();
-            void supprimerEmploye();
-            void listerPersonnel();
-            void listerRetraites();
-            void masseSalarialeMensuelle();
-            void miseEnConges();
+            void ajouterEmploye(CEntreprise& entreprise);
+            void rechercherEmploye(CEntreprise& entreprise);
+            void supprimerEmploye(CEntreprise& entreprise);
+            void listerPersonnel(CEntreprise& entreprise);
+            void listerRetraites(CEntreprise& entreprise);
+            void masseSalarialeMensuelle(CEntreprise& entreprise);
+            void miseEnConges(CEntreprise& entreprise);
             void test_setteur_getteur_construct();
             void progTest();
         }

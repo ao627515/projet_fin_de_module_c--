@@ -1,11 +1,10 @@
 #ifndef CEMPLOYER_H
 #define CEMPLOYER_H
 
-
-
 #include "string"
 #include "cdate.h"
 #include "set"
+#include "centreprise.h"
 
 // Déclaration avancée de CEntreprise
 // class CEntreprise;
@@ -49,7 +48,7 @@ class CEmployer {
 
         // virtual float calculerSalaireBase();
         void augmenter(float pourcentage = 0.05);
-        void supprimerDansListe() const;
+        void supprimerDansListe(CEntreprise& entreprise) const;
         bool estAuxiliaire() const;
         bool estFonctionnaire() const;
         // virtual float calculerSalaireBase();

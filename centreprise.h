@@ -1,9 +1,10 @@
 #ifndef CENTREPRISE_H
 #define CENTREPRISE_H
 
-#include "cemployer.h"
+// #include "cemployer.h"
 #include "vector"
 #include "memory"
+#include "string"
 // #include "unordered_set"
 
 class CEmployer;
@@ -48,15 +49,22 @@ public:
 class CEntreprise
 {
 private:
-    static std::vector<std::shared_ptr<CEmployer>> LIST_EMPLOYER;
+    std::vector<std::shared_ptr<CEmployer>> LIST_EMPLOYER;
+    std::string _nom;
+    std::string _adresse;
     // static std::unordered_set<CEmployer, CEmployer::CEmployerHash> LISTEMPLOYER;
 public:
     CEntreprise();
-    static std::vector<std::shared_ptr<CEmployer>> getLIST_EMPLOYER();
-    static void setLIST_EMPLOYER(const CEmployer& emp);
-    static void setLIST_EMPLOYER(const std::shared_ptr<CEmployer>& emp);
+    CEntreprise(std::string nom, std::string adr);
+    std::vector<std::shared_ptr<CEmployer>> getLIST_EMPLOYER();
+    void setLIST_EMPLOYER(const CEmployer& emp);
+    void setLIST_EMPLOYER(const std::shared_ptr<CEmployer>& emp);
     friend struct CEmployerHash;
     friend class CEmployer;
+    std::string getNom() const;
+    std::string getAdresse() const;
+    void setNom(std::string nom);
+    void getAdresse(std::string adresse);
 };
 
 

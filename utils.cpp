@@ -6,36 +6,22 @@
 
 namespace utils {
 
-    void insererEmploye (const CEmployer& emp){
-        CEntreprise::setLIST_EMPLOYER(emp);
+    void insererEmploye (const CEmployer& emp,  CEntreprise& entreprise){
+        entreprise.setLIST_EMPLOYER(emp);
     }
 
-    void insererEmploye (const std::shared_ptr<CEmployer>& emp){
-        CEntreprise::setLIST_EMPLOYER(emp);
+    void insererEmploye (const std::shared_ptr<CEmployer>& emp, CEntreprise& entreprise){
+        entreprise.setLIST_EMPLOYER(emp);
     }
-    // std::vector<std::shared_ptr<CEmployer>> rechercherEmployeAtt(const std::string& query, const std::string& nomAtt) {
-    //     // query est l'element a rechercher
-    //     // nomAtt = nomAttributMembre , nom de l'element membre de CEmployer sur la quelle on fait la recherche
-    //     std::vector<std::shared_ptr<CEmployer>> result;
 
-    //     for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
-    //         // Vérifie si le nom de l'employé correspond au nom recherché
-    //         if (emp->getNom() == nom) {
-    //             result.push_back(emp);
-    //         }
-    //     }
-
-    //     return result;
-    // }
-
-    std::vector<std::shared_ptr<CEmployer>> rechercherEmploye(const std::string& query, AttCEmployerResearch nomAtt, bool sensibleCase) {
+    std::vector<std::shared_ptr<CEmployer>> rechercherEmploye(const std::string& query, AttCEmployerResearch nomAtt, CEntreprise& entreprise, bool sensibleCase) {
         std::vector<std::shared_ptr<CEmployer>> result;
 
         // Copier la chaîne query dans une nouvelle chaîne pour la recherche insensible à la casse
         std::string queryLowerCase = query;
         if(!sensibleCase) std::transform(queryLowerCase.begin(), queryLowerCase.end(), queryLowerCase.begin(), ::tolower);
 
-        for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
+        for (const auto& emp : entreprise.getLIST_EMPLOYER()) {
             // Récupérer la valeur de l'attribut spécifié et le convertir en minuscules
             std::string attributValue;
 
@@ -82,14 +68,14 @@ namespace utils {
         return result;
     }
 
-    std::vector<std::shared_ptr<CEmployer>> rechercherEmploye(const std::string& query,  bool sensibleCase) {
+    std::vector<std::shared_ptr<CEmployer>> rechercherEmploye(const std::string& query, CEntreprise& entreprise,  bool sensibleCase) {
         std::vector<std::shared_ptr<CEmployer>> result;
 
         // Copiez la chaîne query dans une nouvelle chaîne avant d'appliquer std::transform
         std::string queryLowerCase = query;
         std::transform(queryLowerCase.begin(), queryLowerCase.end(), queryLowerCase.begin(), ::tolower);
 
-        for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
+        for (const auto& emp : entreprise.getLIST_EMPLOYER()) {
             // Convertir les chaînes en minuscules pour une recherche insensible à la casse
             std::string matricule = emp->getNumeroMatricule();
             std::string nom = emp->getNom();
@@ -178,17 +164,17 @@ namespace utils {
         return result;
     }
 
-    void supprimerEmploye(const std::string& matricule) {
-        std::vector<std::shared_ptr<CEmployer>> vec = rechercherEmploye(matricule, AttCEmployerResearch::MATRICULE);
-        vec[0]->supprimerDansListe();
+    void supprimerEmploye(const std::string& matricule, CEntreprise& entreprise) {
+        std::vector<std::shared_ptr<CEmployer>> vec = rechercherEmploye(matricule, AttCEmployerResearch::MATRICULE, entreprise);
+        vec[0]->supprimerDansListe(entreprise);
     }
 
-    const void listeRetraites() {
+    const void listeRetraites(CEntreprise& entreprise) {
         int currentYear = CDate::currentYear();
         bool foundRetirees = false;
         std::cout << "Liste des employes devant prendre leur retraite en " << currentYear << " :" << std::endl;
 
-        for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
+        for (const auto& emp : entreprise.getLIST_EMPLOYER()) {
             foundRetirees = true;
             // Vérifier si l'employé prend sa retraite cette année
             if (emp->dateRetraite().lireAnnee() == currentYear) {
@@ -223,11 +209,11 @@ namespace utils {
         }
     }
 
-    const float masseSalariale() {
+    const float masseSalariale(CEntreprise& entreprise) {
         float totalSalaire = 0.0;
 
         // Boucle à travers la liste des employés
-        for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
+        for (const auto& emp : entreprise.getLIST_EMPLOYER()) {
             // Ajouter le salaire de chaque employé
             totalSalaire += emp->calculerSalaire();
         }
@@ -247,11 +233,11 @@ namespace utils {
         return totalSalaire;
     }
 
-    const void calculerSalaireEmpl() {
+    const void calculerSalaireEmpl(CEntreprise& entreprise) {
         float masseSalariale = 0.0;
 
         // Boucle à travers la liste des employés
-        for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
+        for (const auto& emp : entreprise.getLIST_EMPLOYER()) {
             // Calculer le salaire de l'employé pour le mois en cours
             float salaireMensuel = emp->calculerSalaire();
 
@@ -289,13 +275,13 @@ namespace utils {
         std::cout << "Masse salariale mensuelle totale : " << masseSalariale << " euros" << std::endl;
     }
 
-    const void fonctionnaires() {
-        int totalEmployes = CEntreprise::getLIST_EMPLOYER().size();
+    const void fonctionnaires(CEntreprise& entreprise) {
+        int totalEmployes = entreprise.getLIST_EMPLOYER().size();
         int fonctionnairesCount = 0;
 
         std::cout << "Liste des fonctionnaires :" << std::endl;
 
-        for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
+        for (const auto& emp : entreprise.getLIST_EMPLOYER()) {
             if (emp->estFonctionnaire()) {
                 // L'employé est un fonctionnaire
                 fonctionnairesCount++;
@@ -311,13 +297,13 @@ namespace utils {
         std::cout << "Proportion de fonctionnaires : " << proportionFonctionnaires << "%" << std::endl;
     }
 
-    const void fonctionnaires(const std::vector<std::shared_ptr<CEmployer>>& CONTAINER) {
+    const void fonctionnaires(const std::vector<std::shared_ptr<CEmployer>>& CONTAINER, CEntreprise& entreprise) {
         int totalEmployes = CONTAINER.size();
         int fonctionnairesCount = 0;
 
         std::cout << "Liste des fonctionnaires :" << std::endl;
 
-        for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
+        for (const auto& emp : entreprise.getLIST_EMPLOYER()) {
             if (emp->estFonctionnaire()) {
                 // L'employé est un fonctionnaire
                 fonctionnairesCount++;
@@ -333,10 +319,10 @@ namespace utils {
         std::cout << "Proportion de fonctionnaires : " << proportionFonctionnaires << "%" << std::endl;
     }
 
-    const void conges() {
+    const void conges(CEntreprise& entreprise) {
         std::cout << std::endl << "Liste des employes avec leurs jours de conges :" << std::endl << std::endl;
 
-        for (const auto& emp : CEntreprise::getLIST_EMPLOYER()) {
+        for (const auto& emp : entreprise.getLIST_EMPLOYER()) {
             // Récupérer le nombre de jours de congés de l'employé
             int joursConges = emp->nbJoursDeConge();
 
@@ -592,15 +578,15 @@ namespace utils {
     }
 
 
-    void generateEmpolyer(const int nb){
+    void generateEmpolyer(const int nb, CEntreprise& entreprise){
 
         for(int i = 0; i < nb; i++){
             if(generateRandomIndex(2)){
                 CEmployer emp = generateRandomEmployer();
-                insererEmploye(emp);
+                insererEmploye(emp, entreprise);
             }else{
                 std::shared_ptr<CEmployer> emp = generateRandomStdEmploye();
-                insererEmploye(emp);
+                insererEmploye(emp, entreprise);
             }
         }
     }

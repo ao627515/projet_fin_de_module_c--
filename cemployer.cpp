@@ -1,7 +1,6 @@
 #include "cemployer.h"
 #include <random>
 #include "iostream"
-#include "centreprise.h"
 #include "utils.h"
 
 
@@ -189,16 +188,16 @@ int CEmployer::nbJoursDeConge(bool cadre) const {
     return nbDoff;
 }
 
-void CEmployer::supprimerDansListe() const{
+void CEmployer::supprimerDansListe(CEntreprise& entreprise) const{
     // Utilisation d'un itérateur pour parcourir la liste
-    auto it = CEntreprise::LIST_EMPLOYER.begin();
+    auto it = entreprise.LIST_EMPLOYER.begin();
 
     // Parcourir la liste
-    while (it != CEntreprise::LIST_EMPLOYER.end()) {
+    while (it != entreprise.LIST_EMPLOYER.end()) {
         // Vérifier si le nom correspond
         if ((*it)->getNumeroMatricule() == _matricule) {
             // Supprimer l'employé
-            it = CEntreprise::LIST_EMPLOYER.erase(it);
+            it = entreprise.LIST_EMPLOYER.erase(it);
         } else {
             // Passer à l'élément suivant
             ++it;

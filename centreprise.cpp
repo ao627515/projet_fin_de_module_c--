@@ -84,11 +84,10 @@ float ParametresEntreprise::getPART_SALAIRE() { return ParametresEntreprise::PAR
 
 /*********************************** ParametresEntreprise ***********************************/
 
-CEntreprise::CEntreprise() {}
+CEntreprise::CEntreprise(): _nom(""), _adresse(""), LIST_EMPLOYER({}) {}
 
+CEntreprise::CEntreprise(std::string nom, std::string adr): _nom(nom), _adresse(adr), LIST_EMPLOYER({}) {}
 
-
-std::vector<std::shared_ptr<CEmployer>> CEntreprise::LIST_EMPLOYER = {};
 
 // std::unordered_set<CEmployer, CEmployer::CEmployerHash> CEntreprise::LISTEMPLOYER;
 
@@ -103,4 +102,20 @@ void CEntreprise::setLIST_EMPLOYER(const CEmployer& emp){
 
 void CEntreprise::setLIST_EMPLOYER(const std::shared_ptr<CEmployer>& emp){
     LIST_EMPLOYER.push_back(emp);
+}
+
+std::string CEntreprise::getNom() const{
+    return _nom;
+}
+
+std::string CEntreprise::getAdresse() const{
+    return _adresse;
+}
+
+void CEntreprise::setNom(std::string nom){
+    _nom = nom;
+}
+
+void CEntreprise::getAdresse(std::string adresse){
+    _adresse = adresse;
 }

@@ -518,7 +518,7 @@ namespace ProgTest{
                       << "7. Mise en conges\n";
         }
 
-        void ajouterEmploye(){
+        void ajouterEmploye(CEntreprise& entreprise){
             std::string nom, prenom, fonction, adresse, dateNaissance, dateEmbauche;
             float salaireBase;
             CEmployer::Statut statut;
@@ -556,7 +556,7 @@ namespace ProgTest{
 
                 // Création de l'objet CEmployer
                 CEmployer nouvelEmploye(nom, prenom, fonction, statut, adresse, dateNaissance, dateEmbauche, salaireBase);
-                utils::insererEmploye(nouvelEmploye);
+                utils::insererEmploye(nouvelEmploye, entreprise);
 
                 ProgTest::Menu::pressAnyKeyToContinue();
                 std::cout << std::endl;
@@ -565,7 +565,7 @@ namespace ProgTest{
 
         }
 
-        void rechercherEmploye() {
+        void rechercherEmploye(CEntreprise& entreprise) {
 
             do{
                 std::string nom;
@@ -574,7 +574,7 @@ namespace ProgTest{
                 std::cin >> nom;
 
 
-                auto res = utils::rechercherEmploye(nom, AttCEmployerResearch::NOM, false);
+                auto res = utils::rechercherEmploye(nom, AttCEmployerResearch::NOM, entreprise, false);
 
                 if(!res.empty()) employeTrouve =  true;
 
@@ -597,7 +597,7 @@ namespace ProgTest{
             }while(ProgTest::Menu::restartOrExist());
         }
 
-        void supprimerEmploye() {
+        void supprimerEmploye(CEntreprise& entreprise) {
 
             do{
                 std::string matricule;
@@ -607,7 +607,7 @@ namespace ProgTest{
                 std::cout << "\nEntrez le matricule de l'employe a rechercher : ";
                 std::cin >> matricule;
 
-                auto res = utils::rechercherEmploye(matricule, AttCEmployerResearch::MATRICULE);
+                auto res = utils::rechercherEmploye(matricule, AttCEmployerResearch::MATRICULE, entreprise);
 
                 if(!res.empty()) employeTrouve =  true;
 
@@ -624,7 +624,7 @@ namespace ProgTest{
                 }else{
                     std::cout << "Voullez-vous vraiment supprimer les donnees de cette employe ? : 0 -> Non | 1 - Oui : ";
                     cin >> confirm, cin.ignore();
-                    utils::supprimerEmploye(matricule);
+                    utils::supprimerEmploye(matricule, entreprise);
                     std::cout << std::endl;
                     if(confirm){
                         std::cout << "Supression reussi  !"  << std::endl << std::endl;
@@ -634,10 +634,10 @@ namespace ProgTest{
             }while(ProgTest::Menu::restartOrExist());
         }
 
-        void listerPersonnel() {
+        void listerPersonnel(CEntreprise& entreprise) {
             cout << endl << "Liste du personnel" << endl << endl;
 
-            for(const auto& emp : CEntreprise::getLIST_EMPLOYER()){
+            for(const auto& emp : entreprise.getLIST_EMPLOYER()){
                 emp->afficher();
                 cout << endl;
             }
@@ -645,11 +645,11 @@ namespace ProgTest{
             ProgTest::Menu::pressAnyKeyToContinue();
         }
 
-        void listerRetraites() {
+        void listerRetraites(CEntreprise& entreprise) {
             bool empty = true;
             cout << endl << "Liste des retraite" << endl << endl;
 
-            for(const auto& emp : CEntreprise::getLIST_EMPLOYER()){
+            for(const auto& emp : entreprise.getLIST_EMPLOYER()){
                 if(emp->estRetraite()){
                     empty = false;
                     emp->afficher();
@@ -662,21 +662,22 @@ namespace ProgTest{
             ProgTest::Menu::pressAnyKeyToContinue();
         }
 
-        void masseSalarialeMensuelle() {
-            cout << endl << "La masse Salariale Mensuelle est de : " << utils::masseSalariale() << endl;
+        void masseSalarialeMensuelle(CEntreprise& entreprise) {
+            cout << endl << "La masse Salariale Mensuelle est de : " << utils::masseSalariale(entreprise) << endl;
 
             ProgTest::Menu::pressAnyKeyToContinue();
         }
 
-        void  miseEnConges() {
-            utils::conges();
+        void  miseEnConges(CEntreprise& entreprise) {
+            utils::conges(entreprise);
             ProgTest::Menu::pressAnyKeyToContinue();
         }
 
         void progTest() {
+            CEntreprise entreprise("ODG-Enterprise", "Sillicon vallet");
             CEmployer emp("Ouedraogo", "Abdoul", "PDF", CEmployer::fonctionnaire, "Ouagadougou", "26/11/2000", "10/1/2024", 50000);
-            utils::insererEmploye(emp);
-            utils::generateEmpolyer(10);
+            utils::insererEmploye(emp, entreprise);
+            utils::generateEmpolyer(10, entreprise);
             int choix;
             do {
                 afficherMenu();
@@ -687,25 +688,25 @@ namespace ProgTest{
                     std::cout << "Au revoir!\n";
                     break;
                 case 1:
-                    ajouterEmploye();
+                    ajouterEmploye(entreprise);
                     break;
                 case 2:
-                    rechercherEmploye();
+                    rechercherEmploye(entreprise);
                     break;
                 case 3:
-                    supprimerEmploye();
+                    supprimerEmploye(entreprise);
                     break;
                 case 4:
-                    listerPersonnel();
+                    listerPersonnel(entreprise);
                     break;
                 case 5:
-                    listerRetraites();
+                    listerRetraites(entreprise);
                     break;
                 case 6:
-                    masseSalarialeMensuelle();
+                    masseSalarialeMensuelle(entreprise);
                     break;
                 case 7:
-                    miseEnConges();
+                    miseEnConges(entreprise);
                     break;
                 default:
                     std::cout << "Choix invalide. Veuillez saisir un nombre entre 0 et 7.\n";
