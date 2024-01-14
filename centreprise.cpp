@@ -92,7 +92,7 @@ CEntreprise::CEntreprise(std::string nom, std::string adr): _nom(nom), _adresse(
 // std::unordered_set<CEmployer, CEmployer::CEmployerHash> CEntreprise::LISTEMPLOYER;
 
 
-std::vector<std::shared_ptr<CEmployer>> CEntreprise::getLIST_EMPLOYER(){
+std::vector<std::shared_ptr<CEmployer>> CEntreprise::getLIST_EMPLOYER() const{
     return LIST_EMPLOYER;
 }
 
@@ -116,6 +116,12 @@ void CEntreprise::setNom(std::string nom){
     _nom = nom;
 }
 
-void CEntreprise::getAdresse(std::string adresse){
+void CEntreprise::setAdresse(std::string adresse){
     _adresse = adresse;
+}
+
+void CEntreprise::afficher() const{
+    std::cout << "Nom :" << getNom() << std::endl;
+    std::cout << "Adresse : " << getAdresse() << std::endl;
+    std::cout << "Nombre d'employes : " << getLIST_EMPLOYER().size() << std::endl;
 }

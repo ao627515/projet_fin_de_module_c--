@@ -56,7 +56,7 @@ private:
 public:
     CEntreprise();
     CEntreprise(std::string nom, std::string adr);
-    std::vector<std::shared_ptr<CEmployer>> getLIST_EMPLOYER();
+    std::vector<std::shared_ptr<CEmployer>> getLIST_EMPLOYER() const;
     void setLIST_EMPLOYER(const CEmployer& emp);
     void setLIST_EMPLOYER(const std::shared_ptr<CEmployer>& emp);
     friend struct CEmployerHash;
@@ -64,7 +64,8 @@ public:
     std::string getNom() const;
     std::string getAdresse() const;
     void setNom(std::string nom);
-    void getAdresse(std::string adresse);
+    void setAdresse(std::string adresse);
+    void afficher() const;
 };
 
 

@@ -22,7 +22,7 @@ namespace ProgTest{
 
             if(option < min || option > max){
                 cout << "=======================================================" << endl;
-                cout << "Veuillez enter un nombre compris entre  "<< min <<" et " << max << endl;
+                cout << "Choix invalide. Veuillez saisir un nombre entre  "<< min <<" et " << max << endl;
                 Menu::pressAnyKeyToContinue();
             }
 
@@ -508,14 +508,14 @@ namespace ProgTest{
     namespace CEmployerTest {
         using namespace std;
         void afficherMenu() {
-            std::cout << "0. Quitter\n"
-                      << "1. Ajout d'un employe\n"
+            std::cout << "1. Ajout d'un employe\n"
                       << "2. Recherche d'un employe\n"
                       << "3. Suppression d'un employe\n"
                       << "4. Liste du personnel\n"
                       << "5. Liste des retraites\n"
                       << "6. Masse salariale mensuelle\n"
-                      << "7. Mise en conges\n";
+                      << "7. Mise en conges\n"
+                      << "0. Quitter\n";
         }
 
         void ajouterEmploye(CEntreprise& entreprise){
@@ -673,11 +673,14 @@ namespace ProgTest{
             ProgTest::Menu::pressAnyKeyToContinue();
         }
 
-        void progTest() {
-            CEntreprise entreprise("ODG-Enterprise", "Sillicon vallet");
-            CEmployer emp("Ouedraogo", "Abdoul", "PDF", CEmployer::fonctionnaire, "Ouagadougou", "26/11/2000", "10/1/2024", 50000);
-            utils::insererEmploye(emp, entreprise);
-            utils::generateEmpolyer(10, entreprise);
+        void progTest(CEntreprise entreprise, bool cemployerProgTest) {
+            if(cemployerProgTest){
+                entreprise = CEntreprise("ODG-Enterprise", "Sillicon vallet, 627 rue du paradie");
+                CEmployer emp("Ouedraogo", "Abdoul", "PDF", CEmployer::fonctionnaire, "Ouagadougou", "26/11/2000", "10/1/2024", 50000);
+                utils::insererEmploye(emp, entreprise);
+                utils::generateEmpolyer(10, entreprise);
+            }
+
             int choix;
             do {
                 afficherMenu();
@@ -752,5 +755,148 @@ namespace ProgTest{
             std::cout << "Date d'embauche: " << emp.getDateEmbauche() << std::endl;
             std::cout << "Salaire de base: " << emp.getSalaireBase() << std::endl;
         }
+    }
+
+    namespace CEntrepriseTest {
+        namespace IT2Entreprise {
+            void afficherMenu() {
+                std::cout << "Bienvenue sur l'application de gestion de -> IT2Entreprise <-\n\n"
+                          << "1. Afficher les information de l'entreprise\n"
+                          << "2. Modifier les information de l'entreprise\n"
+                          << "3. Gestion des employer\n"
+                          << "0. Quitter\n";
+            }
+
+            void progTest(){
+                CEntreprise entreprise("IT2Entreprise", "Sillicon vallet, 627 rue du paradie");
+                int choix;
+                do {
+                    afficherMenu();
+                    choix = ProgTest::Menu::choiceAndError(0, 3);
+
+                    CEntrepriseTest::progTestSwitch(choix, entreprise);
+
+                } while (choix != 0);
+            }
+        }
+
+        namespace ModifierAtt {
+            void finModification(){
+                std::cout << "Modifcation reussie !" << std::endl;
+                ProgTest::Menu::pressAnyKeyToContinue();
+            }
+            void nom(CEntreprise& entreprise){
+                std::string nom;
+                std::cout << std::endl << " Ancien Nom : " << entreprise.getNom() << std::endl;
+                std::cout << " Nouveau Nom : ", std::getline(std::cin, nom), entreprise.setNom(nom), std::cout << std::endl;
+                finModification();
+            }
+            void adresse(CEntreprise& entreprise){
+                std::string adr;
+                std::cout << std::endl << " Ancien Adresse : " << entreprise.getNom() << std::endl;
+                std::cout << " Nouveau Adresse : ", std::getline(std::cin, adr), entreprise.setAdresse(adr), std::cout << std::endl;
+                finModification();
+            }
+        }
+
+        void progTestSwitch(int choix, CEntreprise& entreprise){
+                switch (choix) {
+                case 1:
+                    afficherEntreprise(entreprise);
+                    break;
+                case 2:
+                    modifierEntreprise(entreprise);
+                    break;
+                case 3:
+                    std::cout  << std::endl;
+                    ProgTest::CEmployerTest::progTest(entreprise);
+                    break;
+                }
+            }
+
+        void afficherEntreprise(const CEntreprise& entreprise){
+            std::cout << std::endl << "Information de l'entreprise" << std::endl << std::endl;
+            entreprise.afficher();
+            ProgTest::Menu::pressAnyKeyToContinue();
+        }
+
+        void menuModifier(){
+            std::cout << "\nModification des information de l'entreprise\n\n"
+                      << "1. Nom\n"
+                      << "2. Adresse\n"
+                      << "0. Quitter\n";
+        }
+
+        void modifierEntreprise(CEntreprise& entreprise){
+
+            int choix;
+            do {
+                menuModifier();
+                choix = ProgTest::Menu::choiceAndError(0, 3);
+
+                switch (choix) {
+                case 1:
+                    ModifierAtt::nom(entreprise);
+                    break;
+                case 2:
+                    ModifierAtt::adresse(entreprise);
+                    break;
+                }
+
+            } while (choix != 0);
+            system("cls");
+        }
+        
+        void creerEntreprise(CEntreprise& entreprise){
+            std::string nom, adr;
+            std::cout << "Bienvenue sur notre application de gestion d'Entreprise\n\n";
+            std::cout << "Creer votre entreprise\n\n";
+
+            std::cout << "Nom : ";
+            std::getline(std::cin, nom);
+            entreprise.setNom(nom);
+            std::cout << std::endl;
+
+            std::cout << "Adresse : ";
+            std::getline(std::cin, adr);
+            entreprise.setAdresse(adr);
+            std::cout << std::endl;
+
+            std::cout << "Creation reussie !" << std::endl;
+            ProgTest::Menu::pressAnyKeyToContinue();
+            system("csl");
+        }
+        
+        void afficherMenu(){
+            std::cout << "Bienvenue sur notre application de gestion d'Entreprise\n\n"
+                      << "1. Afficher les information de l'entreprise\n"
+                      << "2. Modifier les information de l'entreprise\n"
+                      << "3. Gestion des employer\n"
+                      << "0. Quitter\n";
+        }
+        
+        void progTest(){
+            int choix;
+            CEntreprise entreprise;
+            std::cout << "Bienvenue sur notre application de gestion d'Entreprise\n"
+                      << "\n->> Veuillez creer votre entreprise pour profiter de nos service\n\n"
+                      << "1. Continuer\n"
+                      << "0. Quitter\n";
+            choix = ProgTest::Menu::choiceAndError(0, 1);
+            if(choix != 0){
+                system("cls");
+                creerEntreprise(entreprise);
+            }
+
+            while (choix != 0){
+                afficherMenu();
+                choix = ProgTest::Menu::choiceAndError(0, 3);
+
+                progTestSwitch(choix, entreprise);
+            }
+
+            std::cout << "\nAu revoir !\n";
+        }
+        
     }
 }

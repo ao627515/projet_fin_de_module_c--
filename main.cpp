@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
 
     try {
-        ProgTest::CEmployerTest::progTest();
+        ProgTest::CEntrepriseTest::progTest();
     } catch (std::invalid_argument e) {
         cout << "Erreur : " << e.what();
     }
